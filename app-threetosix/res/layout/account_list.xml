@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<TextView
+		android:id="@+id/prompt"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:gravity="center"
+		android:text="Please pick a Google account:"
+		android:textSize="20sp"
+		android:textColor="#fff"
+		android:padding="8dp"
+		android:background="@android:drawable/bottom_bar" />
+
+	<ListView
+		android:id="@android:id/list"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+
+		android:layout_weight="1"
+		android:paddingTop="10dp"
+		android:gravity="center" />
+
+	<TextView
+		android:id="@+id/hint"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="If you encounter any sync issues, e.g. empty syncs, and your email address doesn't end in @gmail.com or @googlemail.com, you should use the \'classic\' method."
+		android:textSize="12sp"
+		android:textColor="@color/hint_text_color"
+		android:padding="8dp"
+		android:background="@color/hint_background_color" />
+
+
+
+	<LinearLayout
+		android:layout_below="@+id/buttons"
+		android:textSize="22dp"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:orientation="horizontal"
+		android:background="@android:drawable/bottom_bar"> <!-- @drawable/panel_background -->
+		<Button
+			android:id="@+id/add_account"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:textSize="12sp"
+			android:text="Add Account"
+			android:layout_margin="5dp"
+
+			android:layout_weight="1.0"
+			android:visibility="visible" />
+		<Button
+			android:id="@+id/use_classic"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:layout_margin="5dp"
+			android:layout_weight="1.0"
+			android:textSize="12sp"
+			android:text="Use Classic" />
+	</LinearLayout>
+
+
+	<TextView
+		android:id="@android:id/empty"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:gravity="center"
+		android:text="No Google accounts yet!"
+		android:textSize="20dp" />
+
+
+</LinearLayout>

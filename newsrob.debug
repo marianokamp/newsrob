@@ -1,0 +1,11 @@
+printCurls=1
+debug=1
+apiProtocolAndHost=https://googleplusplus.com
+#traceArticleDetailViewLaunch=1
+enableAds=1
+countBytesTransferred=1
+#databasePath=/sdcard/
+articleDetailViewVerbose=1
+downloadArticlesInParallel=0
+downloadImagesInParallel=1
+filterOutNewsRobIgnore=0

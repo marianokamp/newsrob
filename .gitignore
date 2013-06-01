@@ -1,0 +1,12 @@
+.metadata/*
+gen_*.xml
+gen_*.png
+gen/
+bb_gen/
+amazon_gen/
+android_market_gen/
+bin/
+.DS_Store
+site/.DS_Store
+sd.img.*
+sd.img*

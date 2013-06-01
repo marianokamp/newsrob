@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" 
+              "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35">
+  <defs>
+    <clipPath id = "clip">
+      <rect x="3" y="0" width="32" height="32"/>
+  
+           <!--<path d = "M 5 5 L 550 200 L 1100 0"/>-->
+    </clipPath>
+  </defs>
+  <g style="fill:none; stroke:#777; stroke-width:1px; stroke-linejoin:round; stroke-linecap:round;" clip-path="url(#clip)">
+    <circle cx="0" cy="35" r="6"/>
+    <circle cx="0" cy="35" r="12"/>
+    <circle cx="0" cy="35" r="18"/>
+    <circle cx="0" cy="35" r="24"/>
+    <circle cx="0" cy="35" r="30"/>
+
+  </g>
+</svg>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+
+        android:padding="5dp">
+
+        <TextView
+
+            android:id="@+id/feed_title"
+
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_alignParentTop="true"
+            android:text="What are you looking for?"
+
+            android:textSize="18sp" />
+        <Button
+
+            android:id="@+id/search_button"
+
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/feed_title"
+            android:layout_alignParentRight="true"
+
+            android:text="Search"
+
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/query"
+
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_below="@id/feed_title"
+            android:layout_toLeftOf="@id/search_button"
+            android:layout_alignParentLeft="true"
+
+            android:inputType="textAutoCorrect|textAutoComplete"
+            android:imeOptions="actionSearch"
+            android:hint="Keyword, URL, ..." />
+
+        <RelativeLayout
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:layout_below="@id/query"
+            android:layout_alignParentBottom="true">
+            <!--
+                android:background="@drawable/feed_discovery_results_background"
+            -->
+
+            <LinearLayout
+                android:id="@+id/list_container"
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:text="Results:"
+                    android:textSize="18dp"
+                     />
+
+                <ListView
+                    android:id="@+id/discovered_feeds_list"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_below="@id/query"
+                    android:visibility="gone" />
+
+                <!--
+					android:divider="#777" android:dividerHeight="2dp"
+				-->
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/empty"
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_below="@id/query"
+                android:gravity="center"
+                android:text="Enter search criteria above and hit 'Search'."
+                android:textSize="18sp"
+                android:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_below="@id/query"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>

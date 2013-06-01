@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd>
+    <useProjectRuleSet>false</useProjectRuleSet>
+    <ruleSetFile>.ruleset</ruleSetFile>
+    <rules>
+        <rule>
+            <name>AvoidDecimalLiteralsInBigDecimalConstructor</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>BooleanInstantiation</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>BrokenNullCheck</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>ForLoopShouldBeWhileLoop</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>MisplacedNullCheck</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnnecessaryReturn</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>UnusedNullCheckInEquals</name>
+            <ruleset>Basic Rules</ruleset>
+        </rule>
+        <rule>
+            <name>DoNotCallGarbageCollectionExplicitly</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>DontImportSun</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>NullAssignment</name>
+            <ruleset>Controversial Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AbstractClassWithoutAbstractMethod</name>
+            <ruleset>Design Rules</ruleset>
+        </rule>
+        <rule>
+            <name>EqualsNull</name>
+            <ruleset>Design Rules</ruleset>
+        </rule>
+        <rule>
+            <name>AddEmptyString</name>
+            <ruleset>Optimization Rules</ruleset>
+        </rule>
+    </rules>
+    <includeDerivedFiles>true</includeDerivedFiles>
+    <violationsAsErrors>true</violationsAsErrors>
+</pmd>

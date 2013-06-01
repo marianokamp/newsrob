@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <style name="Theme.NoBackground" parent="@android:style/Theme.Light">
+        <item name="android:windowBackground">@null</item>
+    </style>
+    
+    <style name="Theme.NewsRob_Light_Normal" parent="android:style/Theme.Light">
+      <item name="startColor">#123</item>
+      <item name="endColor">#456</item>
+      <item name="lightTextColor">#fff</item>
+      <item name="articleHeaderTextColor">#333</item>
+      <item name="articleSnippetTextColor">#777</item>
+      <item name="feedTitleTextColor">#777</item>
+      <item name="sharedByTextColor">#777</item>
+      <item name="dividerColor">#bbb</item>
+      <item name="controlPanelDividerColor">#bbb</item>
+      <item name="controlPanelBottomDividerColor">#0f00</item>
+      <item name="webViewBackgroundColorLight">#fff</item>
+      <item name="countBackground">@drawable/count_background</item>
+    </style>
+    
+    <style name="Theme.NewsRob_Dark_Normal" parent="android:style/Theme.Black">
+      <item name="startColor">#789</item>
+      <item name="endColor">#0ab</item>
+      <item name="lightTextColor">#999</item>
+      <item name="articleHeaderTextColor">#999</item>
+      <item name="articleSnippetTextColor">#777</item>
+      <item name="feedTitleTextColor">#777</item>
+      <item name="sharedByTextColor">#777</item>
+      <item name="webViewBackgroundColorLight">#bbb</item>
+      <item name="dividerColor">#333</item>
+      <item name="controlPanelDividerColor">#999</item>
+      <item name="controlPanelBottomDividerColor">#0999</item>
+      <item name="countBackground">@drawable/count_background_dark</item>
+    </style>
+    
+    <style name="TitleBarSeparator">
+      <item name="android:layout_width">1px</item>
+      <item name="android:layout_height">fill_parent</item>
+      <item name="android:background">?controlPanelDividerColor</item> <!--  TODO  -->
+    </style>
+    
+    <style name="ControlPanelSeparator">
+      <item name="android:layout_width">fill_parent</item>
+      <item name="android:layout_height">1px</item>
+      <item name="android:background">?controlPanelBottomDividerColor</item> <!--  TODO  -->
+    </style>
+    
+    <style name="TitleBarText" parent="android:style/TextAppearance.Medium">
+      <item name="android:layout_width">0dp</item>
+      <item name="android:layout_height">fill_parent</item>
+      <item name="android:layout_weight">0</item>
+      <item name="android:gravity">center_vertical</item>
+      <item name="android:paddingLeft">8dp</item>
+      <item name="android:paddingRight">8dp</item>
+      <item name="android:textStyle">bold</item>
+      <item name="android:singleLine">true</item>
+      <item name="android:ellipsize">end</item>
+    </style>
+       
+    <style name="TitleBar">
+      <item name="android:id">@id/title_container</item>
+      <item name="android:layout_width">fill_parent</item>
+      <item name="android:orientation">horizontal</item>
+    </style>
+    
+    <style name="TitleBarAction">
+      <item name="android:paddingTop">2dp</item>
+      <item name="android:paddingBottom">2dp</item>
+      <item name="android:paddingRight">3dp</item>
+      <item name="android:paddingLeft">3dp</item>
+      
+      <item name="android:layout_weight">0</item>
+      <item name="android:background">@drawable/title_button</item>
+    </style>
+    
+</resources>

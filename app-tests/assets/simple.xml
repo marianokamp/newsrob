@@ -1,0 +1,459 @@
+<?xml version="1.0"?>
+<feed xmlns:gr="http://www.google.com/schemas/reader/atom/" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+	<generator uri="http://www.google.com/reader">Google Reader</generator>
+	<id>
+		tag:google.com,2005:reader/user/06392689305963812258/state/com.google/reading-list
+	</id>
+	<title>Mariano's reading list in Google Reader</title>
+	<gr:continuation>CPKH_fyfmpgC</gr:continuation>
+	<link rel="self" href="http://www.google.com/reader/atom/user/-/state/com.google/reading-list?n=20&amp;r=n"/>
+	<author>
+		<name>Mariano</name>
+	</author>
+	<updated>2009-01-19T12:04:39Z</updated>
+	<entry gr:crawl-timestamp-msec="1232366679822">
+		<id gr:original-id="http://www.heise.de/newsticker/meldung/121952">tag:google.com,2005:reader/item/e57aabec36ab415f
+		</id>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/mobile" scheme="http://www.google.com/reader/" label="mobile"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">US-Provider sollen mit Konjunkturprogramm auf
+			Netzneutralit&#xE4;t geeicht werden</title>
+		<published>2009-01-19T12:02:54Z</published>
+		<updated>2009-01-19T12:02:54Z</updated>
+		<link rel="alternate" href="http://www.heise.de/newsticker/US-Provider-sollen-mit-Konjunkturprogramm-auf-Netzneutralitaet-geeicht-werden--/meldung/121952/from/atom10" type="text/html"/>
+		<summary xml:base="http://www.heise.de/newsticker/" type="html">US-Provider sollen mit Konjunkturprogramm auf
+			Netzneutralit&#xE4;t geeicht werden</summary>
+		<author gr:unknown-author="true">
+			<name>(author unknown)</name>
+		</author>
+		<source gr:stream-id="feed/http://www.heise.de/newsticker/heise-atom.xml">
+			<id>
+				tag:google.com,2005:reader/feed/http://www.heise.de/newsticker/heise-atom.xml
+			</id>
+			<title type="html">heise online News</title>
+			<link rel="alternate" href="http://www.heise.de/newsticker/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232366406837">
+		<id gr:original-id="http://www.facebook.com/profile.php?id=668404552&amp;story_fbid=45097579774">tag:google.com,2005:reader/item/843cced0319c084f
+		</id>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">Torsten Curdt #lazytweet is there really no ranking in
+			the #sqlite full text search?</title>
+		<published>2009-01-19T11:56:19Z</published>
+		<updated>2009-01-19T11:56:19Z</updated>
+		<link rel="alternate" href="http://www.facebook.com/profile.php?id=668404552&amp;story_fbid=45097579774" type="text/html"/>
+		<author>
+			<name>Torsten Curdt</name>
+		</author>
+		<source gr:stream-id="feed/http://www.facebook.com/feeds/friends_status.php?id=549560686&amp;key=2a58f4ff97&amp;format=rss20">
+			<id>tag:google.com,2005:reader/feed/http://www.facebook.com/feeds/friends_status.php?id=549560686&amp;key=2a58f4ff97&amp;format=rss20</id>
+			<title type="html">Mariano Kamp&amp;#39;s Friends&amp;#39; Facebook Status Updates</title>
+			<link rel="alternate" href="http://www.facebook.com/friends.php?s&amp;id=549560686" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232366397870">
+		<id gr:original-id="tag:flickr.com,2005:/grouppool/462881@N21/photo/3200005328">tag:google.com,2005:reader/item/eab4c336991d44d1</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/photo" scheme="http://www.google.com/reader/" label="photo"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<category term="portrait" scheme="http://www.flickr.com/photos/tags/"/>
+		<category term="girl" scheme="http://www.flickr.com/photos/tags/"/>
+		<category term="beauty" scheme="http://www.flickr.com/photos/tags/"/>
+		<category term="face" scheme="http://www.flickr.com/photos/tags/"/>
+		<category term="fashion" scheme="http://www.flickr.com/photos/tags/"/>
+		<category term="lady" scheme="http://www.flickr.com/photos/tags/"/>
+		<category term="female" scheme="http://www.flickr.com/photos/tags/"/>
+		<category term="nice" scheme="http://www.flickr.com/photos/tags/"/>
+		<category term="model" scheme="http://www.flickr.com/photos/tags/"/>
+		<category term="glamour" scheme="http://www.flickr.com/photos/tags/"/>
+		<category term="sweet" scheme="http://www.flickr.com/photos/tags/"/>
+		<category term="bbproductionz" scheme="http://www.flickr.com/photos/tags/"/>
+		<title type="html">IMG_8359_Glamour_Finished</title>
+		<published>2009-01-15T20:08:11Z</published>
+		<updated>2009-01-15T20:08:11Z</updated>
+		<link rel="alternate" href="http://www.flickr.com/photos/bb_productionz/3200005328/in/pool-462881@N21" type="text/html"/>
+		<link rel="enclosure" href="http://farm4.static.flickr.com/3340/3200005328_f3b1bed1e6_o.jpg" type="image/jpeg"/>
+		<content xml:base="http://www.flickr.com/groups/rheinmain-portrait/pool/" type="html">&lt;p&gt;&lt;a href="http://www.flickr.com/people/bb_productionz/"&gt;bb_productionz&lt;/a&gt; has added a photo to the pool:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.flickr.com/photos/bb_productionz/3200005328/" title="IMG_8359_Glamour_Finished"&gt;&lt;img src="http://farm4.static.flickr.com/3340/3200005328_e671bc1897_m.jpg" width="240" height="160" alt="IMG_8359_Glamour_Finished"&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Model Lisa&lt;/p&gt;</content>
+		<author>
+			<name>bb_productionz</name>
+		</author>
+		<source gr:stream-id="feed/http://api.flickr.com/services/feeds/groups_pool.gne?id=462881@N21&amp;lang=en-us&amp;format=atom">
+			<id>tag:google.com,2005:reader/feed/http://api.flickr.com/services/feeds/groups_pool.gne?id=462881@N21&amp;lang=en-us&amp;format=atom</id>
+			<title type="html">Portrait Fotografen | Rhein-Main Pool</title>
+			<link rel="alternate" href="http://www.flickr.com/groups/rheinmain-portrait/pool/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232365760908">
+		<id gr:original-id="http://www.heise.de/newsticker/meldung/121939">tag:google.com,2005:reader/item/80c2b96742fd0b1d</id>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/mobile" scheme="http://www.google.com/reader/" label="mobile"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">Asus gibt Details zur Umstrukturierung bekannt</title>
+		<published>2009-01-19T11:53:34Z</published>
+		<updated>2009-01-19T11:53:34Z</updated>
+		<link rel="alternate" href="http://www.heise.de/newsticker/Asus-gibt-Details-zur-Umstrukturierung-bekannt--/meldung/121939/from/atom10" type="text/html"/>
+		<summary xml:base="http://www.heise.de/newsticker/" type="html">Asus gibt Details zur Umstrukturierung bekannt</summary>
+		<author gr:unknown-author="true">
+			<name>(author unknown)</name>
+		</author>
+		<source gr:stream-id="feed/http://www.heise.de/newsticker/heise-atom.xml">
+			<id>tag:google.com,2005:reader/feed/http://www.heise.de/newsticker/heise-atom.xml</id>
+			<title type="html">heise online News</title>
+			<link rel="alternate" href="http://www.heise.de/newsticker/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232365760908">
+		<id gr:original-id="http://www.heise.de/newsticker/meldung/121950">tag:google.com,2005:reader/item/b97fa4e04f061eac</id>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/mobile" scheme="http://www.google.com/reader/" label="mobile"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">EuGH verk&#xFC;ndet am 10. Februar Urteil zu Vorratsspeicherung von TK-Daten</title>
+		<published>2009-01-19T11:40:21Z</published>
+		<updated>2009-01-19T11:40:21Z</updated>
+		<link rel="alternate" href="http://www.heise.de/newsticker/EuGH-verkuendet-am-10-Februar-Urteil-zu-Vorratsspeicherung-von-TK-Daten--/meldung/121950/from/atom10" type="text/html"/>
+		<summary xml:base="http://www.heise.de/newsticker/" type="html">EuGH verk&#xFC;ndet am 10. Februar Urteil zu Vorratsspeicherung von TK-Daten</summary>
+		<author gr:unknown-author="true">
+			<name>(author unknown)</name>
+		</author>
+		<source gr:stream-id="feed/http://www.heise.de/newsticker/heise-atom.xml">
+			<id>tag:google.com,2005:reader/feed/http://www.heise.de/newsticker/heise-atom.xml</id>
+			<title type="html">heise online News</title>
+			<link rel="alternate" href="http://www.heise.de/newsticker/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232364391526">
+		<id gr:original-id="http://www.heise.de/newsticker/meldung/121944">tag:google.com,2005:reader/item/576458f6cb816b14</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/mobile" scheme="http://www.google.com/reader/" label="mobile"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">Online-Werbemarkt wuchs 2008 um 27 Prozent</title>
+		<published>2009-01-19T11:39:50Z</published>
+		<updated>2009-01-19T11:39:50Z</updated>
+		<link rel="alternate" href="http://www.heise.de/newsticker/Online-Werbemarkt-wuchs-2008-um-27-Prozent--/meldung/121944/from/atom10" type="text/html"/>
+		<summary xml:base="http://www.heise.de/newsticker/" type="html">Online-Werbemarkt wuchs 2008 um 27 Prozent</summary>
+		<author gr:unknown-author="true">
+			<name>(author unknown)</name>
+		</author>
+		<source gr:stream-id="feed/http://www.heise.de/newsticker/heise-atom.xml">
+			<id>tag:google.com,2005:reader/feed/http://www.heise.de/newsticker/heise-atom.xml</id>
+			<title type="html">heise online News</title>
+			<link rel="alternate" href="http://www.heise.de/newsticker/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232364364444">
+		<id gr:original-id="http://www.heise.de/newsticker/meldung/121946">tag:google.com,2005:reader/item/617177fc4ba299bd</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/mobile" scheme="http://www.google.com/reader/" label="mobile"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">SE Radio: Interview mit Douglas Purdy und Don Box &#xFC;ber Microsoft Oslo</title>
+		<published>2009-01-19T11:26:05Z</published>
+		<updated>2009-01-19T11:26:05Z</updated>
+		<link rel="alternate" href="http://www.heise.de/newsticker/SE-Radio-Interview-mit-Douglas-Purdy-und-Don-Box-ueber-Microsoft-Oslo--/meldung/121946/from/atom10" type="text/html"/>
+		<summary xml:base="http://www.heise.de/newsticker/" type="html">SE Radio: Interview mit Douglas Purdy und Don Box &#xFC;ber Microsoft Oslo</summary>
+		<author gr:unknown-author="true">
+			<name>(author unknown)</name>
+		</author>
+		<source gr:stream-id="feed/http://www.heise.de/newsticker/heise-atom.xml">
+			<id>tag:google.com,2005:reader/feed/http://www.heise.de/newsticker/heise-atom.xml</id>
+			<title type="html">heise online News</title>
+			<link rel="alternate" href="http://www.heise.de/newsticker/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232364057420">
+		<id gr:original-id="http://www.fscklog.com/2009/01/spielfilmangebot-im-deutschen-itunes-store-vor-dem-start.html">tag:google.com,2005:reader/item/4323eacad1342728</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/label/apple" scheme="http://www.google.com/reader/" label="apple"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<category term="Apple"/>
+		<category term="Film"/>
+		<category term="Television"/>
+		<category term="Web/Tech"/>
+		<title type="html">Spielfilmangebot im deutschen iTunes Store vor dem Start?</title>
+		<published>2009-01-19T11:08:50Z</published>
+		<updated>2009-01-19T11:08:50Z</updated>
+		<link rel="alternate" href="http://www.fscklog.com/2009/01/spielfilmangebot-im-deutschen-itunes-store-vor-dem-start.html" type="text/html"/>
+		<content xml:base="http://www.fscklog.com/" type="html">&lt;p&gt;&lt;img src="http://fscklog.typepad.com/.a/6a00d83451c7b569e2010536e37b06970c-pi" width="206" height="77" alt="omg_filme.jpg" title="omg_filme.jpg" style="margin-top:3px;margin-right:10px;margin-bottom:5px;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;border:1px #3e3e3e solid"&gt;&lt;br&gt;
+Ob zum Kaufen oder Mieten - Spielfilme tauchten im deutschen iTunes Store bisher nicht auf, obwohl diese bereits &lt;a href="http://www.fscklog.com/2008/07/itunes-77-ersch.html"&gt;seit Mitte 2008 in iTunes&lt;/a&gt; selbst provisorisch kindergesichert werden k&#xF6;nnen und die &lt;a href="http://www.fscklog.com/2008/09/wiwo-filmverkau.html"&gt;letzten Ger&#xFC;chte einen Start im (vergangenen) Herbst&lt;/a&gt; bzw. zum Weihnachtsgesch&#xE4;ft 2008 andeuteten. &lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://fscklog.typepad.com/.a/6a00d83451c7b569e2010536da427c970b-pi" width="500" height="355" alt="kategorie_filme.png" title="kategorie_filme.png" style="margin-top:3px;margin-right:10px;margin-bottom:5px;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;border:1px #3e3e3e solid"&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://fscklog.typepad.com/.a/6a00d83451c7b569e2010536da3b58970b-pi" width="500" height="207" alt="film_genre.jpg" title="film_genre.jpg" style="margin-top:3px;margin-right:10px;margin-bottom:5px;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;border:1px #3e3e3e solid"&gt;&lt;/p&gt;
+
+&lt;p&gt;Offenbar ger&#xE4;t aber Bewegung in die z&#xE4;he Angelegenheit, denn inzwischen tauchen erste (noch ungef&#xFC;llte) Film-Genres im (deutschen) iTunes Store auf, ebenso wie eine 'Coming Soon'-Seite (&lt;a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewRoom?fcId=188822088&amp;amp;id=39&amp;amp;v0=WWW-NAUS-ITUWEEKLY-STARTPAGE"&gt;iTunes-Link&lt;/a&gt;) sowie die zwei passenden Reaktionen: OMG (&lt;a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewRoom?fcId=301883367&amp;amp;id=39&amp;amp;v0=WWW-NAUS-ITUWEEKLY-STARTPAGE"&gt;iTunes-Link&lt;/a&gt;) und LOL (&lt;a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewRoom?fcId=301883432&amp;amp;id=39&amp;amp;v0=WWW-NAUS-ITUWEEKLY-STARTPAGE"&gt;iTunes-Link&lt;/a&gt;).&lt;br&gt;
+&lt;img src="http://fscklog.typepad.com/.a/6a00d83451c7b569e2010536da3fad970b-pi" width="202" height="86" alt="lol_itunes.jpg" title="lol_itunes.jpg" style="margin-top:3px;margin-right:10px;margin-bottom:5px;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;border:1px #3e3e3e solid"&gt;&lt;br&gt;
+Ob der Start des Spielfilmangebots sich damit unmittelbar abzeichnet, oder etliche weitere Wochen in der Zukunft liegt, bleibt nat&#xFC;rlich offen. (Danke, Olaf und Phillip!)&lt;/p&gt;</content>
+		<author>
+			<name>Leo</name>
+		</author>
+		<source gr:stream-id="feed/http://www.fscklog.com/index.rdf">
+			<id>tag:google.com,2005:reader/feed/http://www.fscklog.com/index.rdf</id>
+			<title type="html">fscklog</title>
+			<link rel="alternate" href="http://www.fscklog.com/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232363412763">
+		<id gr:original-id="http://www.heise.de/newsticker/meldung/121945">tag:google.com,2005:reader/item/8067b4c8742a4c71</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/mobile" scheme="http://www.google.com/reader/" label="mobile"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">F-Secure: Jetzt neun Millionen Windows-PCs mit Conficker-Wurm befallen</title>
+		<published>2009-01-19T12:03:37Z</published>
+		<updated>2009-01-19T12:03:37Z</updated>
+		<link rel="alternate" href="http://www.heise.de/newsticker/F-Secure-Jetzt-neun-Millionen-Windows-PCs-mit-Conficker-Wurm-befallen--/meldung/121945/from/atom10" type="text/html"/>
+		<summary xml:base="http://www.heise.de/newsticker/" type="html">F-Secure: Jetzt neun Millionen Windows-PCs mit Conficker-Wurm befallen</summary>
+		<author gr:unknown-author="true">
+			<name>(author unknown)</name>
+		</author>
+		<source gr:stream-id="feed/http://www.heise.de/newsticker/heise-atom.xml">
+			<id>tag:google.com,2005:reader/feed/http://www.heise.de/newsticker/heise-atom.xml</id>
+			<title type="html">heise online News</title>
+			<link rel="alternate" href="http://www.heise.de/newsticker/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232359492844">
+		<id gr:original-id="http://www.heise.de/newsticker/meldung/121811">tag:google.com,2005:reader/item/7e01e1b80c75291d</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/mobile" scheme="http://www.google.com/reader/" label="mobile"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">c&amp;#39;t-Gehaltsumfrage: Was verdienen festangestellte IT-Fachkr&#xE4;fte?</title>
+		<published>2009-01-19T10:02:10Z</published>
+		<updated>2009-01-19T10:02:10Z</updated>
+		<link rel="alternate" href="http://www.heise.de/newsticker/c-t-Gehaltsumfrage-Was-verdienen-festangestellte-IT-Fachkraefte--/meldung/121811/from/atom10" type="text/html"/>
+		<summary xml:base="http://www.heise.de/newsticker/" type="html">c&amp;#39;t-Gehaltsumfrage: Was verdienen festangestellte IT-Fachkr&#xE4;fte?</summary>
+		<author gr:unknown-author="true">
+			<name>(author unknown)</name>
+		</author>
+		<source gr:stream-id="feed/http://www.heise.de/newsticker/heise-atom.xml">
+			<id>tag:google.com,2005:reader/feed/http://www.heise.de/newsticker/heise-atom.xml</id>
+			<title type="html">heise online News</title>
+			<link rel="alternate" href="http://www.heise.de/newsticker/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232359492843">
+		<id gr:original-id="http://www.heise.de/newsticker/meldung/121923">tag:google.com,2005:reader/item/b862b1feca341901</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/mobile" scheme="http://www.google.com/reader/" label="mobile"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">Indische Polizei als Wardriver</title>
+		<published>2009-01-19T10:18:03Z</published>
+		<updated>2009-01-19T10:18:03Z</updated>
+		<link rel="alternate" href="http://www.heise.de/newsticker/Indische-Polizei-als-Wardriver--/meldung/121923/from/atom10" type="text/html"/>
+		<summary xml:base="http://www.heise.de/newsticker/" type="html">Indische Polizei als Wardriver</summary>
+		<author gr:unknown-author="true">
+			<name>(author unknown)</name>
+		</author>
+		<source gr:stream-id="feed/http://www.heise.de/newsticker/heise-atom.xml">
+			<id>tag:google.com,2005:reader/feed/http://www.heise.de/newsticker/heise-atom.xml</id>
+			<title type="html">heise online News</title>
+			<link rel="alternate" href="http://www.heise.de/newsticker/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232359492841">
+		<id gr:original-id="http://www.heise.de/newsticker/meldung/121924">tag:google.com,2005:reader/item/5dd652c55a197eaf</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/mobile" scheme="http://www.google.com/reader/" label="mobile"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">Isle of Man will Kulturflatrate erproben</title>
+		<published>2009-01-19T09:49:33Z</published>
+		<updated>2009-01-19T09:49:33Z</updated>
+		<link rel="alternate" href="http://www.heise.de/newsticker/Isle-of-Man-will-Kulturflatrate-erproben--/meldung/121924/from/atom10" type="text/html"/>
+		<summary xml:base="http://www.heise.de/newsticker/" type="html">Isle of Man will Kulturflatrate erproben</summary>
+		<author gr:unknown-author="true">
+			<name>(author unknown)</name>
+		</author>
+		<source gr:stream-id="feed/http://www.heise.de/newsticker/heise-atom.xml">
+			<id>tag:google.com,2005:reader/feed/http://www.heise.de/newsticker/heise-atom.xml</id>
+			<title type="html">heise online News</title>
+			<link rel="alternate" href="http://www.heise.de/newsticker/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232359205306">
+		<id gr:original-id="http://www.facebook.com/profile.php?id=560423006&amp;story_fbid=50328902273">tag:google.com,2005:reader/item/8c944dad8d8ff9de</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">Patrick Lenz Schnodderseuche.</title>
+		<published>2009-01-19T09:48:58Z</published>
+		<updated>2009-01-19T09:48:58Z</updated>
+		<link rel="alternate" href="http://www.facebook.com/profile.php?id=560423006&amp;story_fbid=50328902273" type="text/html"/>
+		<author>
+			<name>Patrick Lenz</name>
+		</author>
+		<source gr:stream-id="feed/http://www.facebook.com/feeds/friends_status.php?id=549560686&amp;key=2a58f4ff97&amp;format=rss20">
+			<id>tag:google.com,2005:reader/feed/http://www.facebook.com/feeds/friends_status.php?id=549560686&amp;key=2a58f4ff97&amp;format=rss20</id>
+			<title type="html">Mariano Kamp&amp;#39;s Friends&amp;#39; Facebook Status Updates</title>
+			<link rel="alternate" href="http://www.facebook.com/friends.php?s&amp;id=549560686" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232356853488">
+		<id gr:original-id="tag:blogs.oreilly.com,2009:/lightroom//33.34906">tag:google.com,2005:reader/item/d120e2ea9d411a1c</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/lightroom" scheme="http://www.google.com/reader/" label="lightroom"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<category term="printing" scheme="http://www.sixapart.com/ns/types#tag" label="printing"/>
+		<category term="template" scheme="http://www.sixapart.com/ns/types#tag" label="template"/>
+		<title type="html">Two Button Printing in Lightroom</title>
+		<published>2009-01-19T09:01:01Z</published>
+		<updated>2009-01-14T22:07:50Z</updated>
+		<link rel="alternate" href="http://blogs.oreilly.com/lightroom/2009/01/two-button-printing-in-lightro.html" type="text/html"/>
+		<content xml:base="http://blogs.oreilly.com/lightroom/" xml:lang="en" type="html">This topic was addressed back in mid 2007, but I want to make sure that newer readers are aware of it, because for me it is one of the coolest capabilities of Lightroom. If you take advantage of templates, which...</content>
+		<author>
+			<name>Laura Shoe</name>
+		</author>
+		<source gr:stream-id="feed/http://blogs.oreilly.com/lightroom/atom.xml">
+			<id>tag:google.com,2005:reader/feed/http://blogs.oreilly.com/lightroom/atom.xml</id>
+			<title type="html">Inside Lightroom</title>
+			<link rel="alternate" href="http://blogs.oreilly.com/lightroom/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232356844518">
+		<id gr:original-id="http://www.fscklog.com/2009/01/ssd-aufpreis-apple-vs-dell.html">tag:google.com,2005:reader/item/21b292b00fb7f39f</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/label/apple" scheme="http://www.google.com/reader/" label="apple"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<category term="Apple"/>
+		<category term="Mac"/>
+		<category term="Web/Tech"/>
+		<title type="html">Aufpreis f&#xFC;r Solid-State-Drive: Apple vs. Dell</title>
+		<published>2009-01-19T08:38:37Z</published>
+		<updated>2009-01-19T08:38:37Z</updated>
+		<link rel="alternate" href="http://www.fscklog.com/2009/01/ssd-aufpreis-apple-vs-dell.html" type="text/html"/>
+		<content xml:base="http://www.fscklog.com/" type="html">&lt;p&gt;Im Laufe des noch frischen Jahres werden sich die Kosten f&#xFC;r ein Solid-State-Drive von haarstr&#xE4;ubend zu nur noch str&#xE4;ubend entwickeln: So halbierte Dell j&#xFC;ngst den Aufpreis f&#xFC;r eine SSD in zwei XPS-Modellen und tauscht die Standard-Festplatte (320GB, 5400rpm) f&#xFC;r $200 gegen eine 128GB SSD oder nach der Zuzahlung von $400 gegen eine 256GB SSD. Apples SSD-Aufpreis &lt;a href="http://clkde.tradedoubler.com/click?p=3469&amp;amp;a=1406376&amp;amp;g=16751642"&gt;liegt bislang weiterhin&lt;/a&gt; (Affiliate-Link) bei $500 (450 Euro) f&#xFC;r 128GB bzw. $900 (810 Euro) f&#xFC;r die 256GB SSD, die derzeit ausschlie&#xDF;lich im 17" MacBook Pro angeboten wird. Ein absurder Preisunterschied (beide Unternehmen bieten wahrscheinlich die gleichen Samsung-SSDs an), der darauf hoffen l&#xE4;sst, dass auch Apple den Aufpreis f&#xFC;r ein Solid-State-Drive bald anpassen wird. (via &lt;a href="http://www.hardmac.com/news/2009-01-19/#9453"&gt;Hardmac&lt;/a&gt;)&lt;/p&gt;</content>
+		<author>
+			<name>Leo</name>
+		</author>
+		<source gr:stream-id="feed/http://www.fscklog.com/index.rdf">
+			<id>tag:google.com,2005:reader/feed/http://www.fscklog.com/index.rdf</id>
+			<title type="html">fscklog</title>
+			<link rel="alternate" href="http://www.fscklog.com/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232356826541">
+		<id gr:original-id="http://www.heise.de/newsticker/meldung/121920">tag:google.com,2005:reader/item/12a9ae91c572f3c3</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/mobile" scheme="http://www.google.com/reader/" label="mobile"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">Guter Jahresauftakt f&#xFC;r Wincor Nixdorf</title>
+		<published>2009-01-19T09:20:07Z</published>
+		<updated>2009-01-19T09:20:07Z</updated>
+		<link rel="alternate" href="http://www.heise.de/newsticker/Guter-Jahresauftakt-fuer-Wincor-Nixdorf--/meldung/121920/from/atom10" type="text/html"/>
+		<summary xml:base="http://www.heise.de/newsticker/" type="html">Guter Jahresauftakt f&#xFC;r Wincor Nixdorf</summary>
+		<author gr:unknown-author="true">
+			<name>(author unknown)</name>
+		</author>
+		<source gr:stream-id="feed/http://www.heise.de/newsticker/heise-atom.xml">
+			<id>tag:google.com,2005:reader/feed/http://www.heise.de/newsticker/heise-atom.xml</id>
+			<title type="html">heise online News</title>
+			<link rel="alternate" href="http://www.heise.de/newsticker/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232356826539">
+		<id gr:original-id="http://www.heise.de/newsticker/meldung/121916">tag:google.com,2005:reader/item/b0ebc133db892c79</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/mobile" scheme="http://www.google.com/reader/" label="mobile"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">Papst bekommt eigenen YouTube-Kanal</title>
+		<published>2009-01-19T11:18:36Z</published>
+		<updated>2009-01-19T11:18:36Z</updated>
+		<link rel="alternate" href="http://www.heise.de/newsticker/Papst-bekommt-eigenen-YouTube-Kanal--/meldung/121916/from/atom10" type="text/html"/>
+		<summary xml:base="http://www.heise.de/newsticker/" type="html">Papst bekommt eigenen YouTube-Kanal</summary>
+		<author gr:unknown-author="true">
+			<name>(author unknown)</name>
+		</author>
+		<source gr:stream-id="feed/http://www.heise.de/newsticker/heise-atom.xml">
+			<id>tag:google.com,2005:reader/feed/http://www.heise.de/newsticker/heise-atom.xml</id>
+			<title type="html">heise online News</title>
+			<link rel="alternate" href="http://www.heise.de/newsticker/" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232355595821">
+		<id gr:original-id="http://www.facebook.com/profile.php?id=520638078&amp;story_fbid=62546475015">tag:google.com,2005:reader/item/f7e75a46a62602de</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">Max Muermann is locked out.</title>
+		<published>2009-01-19T08:56:15Z</published>
+		<updated>2009-01-19T08:56:15Z</updated>
+		<link rel="alternate" href="http://www.facebook.com/profile.php?id=520638078&amp;story_fbid=62546475015" type="text/html"/>
+		<author>
+			<name>Max Muermann</name>
+		</author>
+		<source gr:stream-id="feed/http://www.facebook.com/feeds/friends_status.php?id=549560686&amp;key=2a58f4ff97&amp;format=rss20">
+			<id>tag:google.com,2005:reader/feed/http://www.facebook.com/feeds/friends_status.php?id=549560686&amp;key=2a58f4ff97&amp;format=rss20</id>
+			<title type="html">Mariano Kamp&amp;#39;s Friends&amp;#39; Facebook Status Updates</title>
+			<link rel="alternate" href="http://www.facebook.com/friends.php?s&amp;id=549560686" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232355595821">
+		<id gr:original-id="http://www.facebook.com/profile.php?id=551083174&amp;story_fbid=46070363167">tag:google.com,2005:reader/item/5af0869f3a92cc07</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">David Justen workin&#xB4;.</title>
+		<published>2009-01-19T08:51:07Z</published>
+		<updated>2009-01-19T08:51:07Z</updated>
+		<link rel="alternate" href="http://www.facebook.com/profile.php?id=551083174&amp;story_fbid=46070363167" type="text/html"/>
+		<author>
+			<name>David Justen</name>
+		</author>
+		<source gr:stream-id="feed/http://www.facebook.com/feeds/friends_status.php?id=549560686&amp;key=2a58f4ff97&amp;format=rss20">
+			<id>tag:google.com,2005:reader/feed/http://www.facebook.com/feeds/friends_status.php?id=549560686&amp;key=2a58f4ff97&amp;format=rss20</id>
+			<title type="html">Mariano Kamp&amp;#39;s Friends&amp;#39; Facebook Status Updates</title>
+			<link rel="alternate" href="http://www.facebook.com/friends.php?s&amp;id=549560686" type="text/html"/>
+		</source>
+	</entry>
+	<entry gr:crawl-timestamp-msec="1232355595820">
+		<id gr:original-id="http://www.facebook.com/profile.php?id=659238637&amp;story_fbid=61422670259">tag:google.com,2005:reader/item/88b2b709aeb4dd23</id>
+		<category term="user/06392689305963812258/state/com.google/read" scheme="http://www.google.com/reader/" label="read"/>
+		<category term="user/06392689305963812258/state/com.google/reading-list" scheme="http://www.google.com/reader/" label="reading-list"/>
+		<category term="user/06392689305963812258/label/daily" scheme="http://www.google.com/reader/" label="daily"/>
+		<category term="user/06392689305963812258/state/com.google/fresh" scheme="http://www.google.com/reader/" label="fresh"/>
+		<title type="html">Mark Hamer has a full week.</title>
+		<published>2009-01-19T08:48:43Z</published>
+		<updated>2009-01-19T08:48:43Z</updated>
+		<link rel="alternate" href="http://www.facebook.com/profile.php?id=659238637&amp;story_fbid=61422670259" type="text/html"/>
+		<author>
+			<name>Mark Hamer</name>
+		</author>
+		<source gr:stream-id="feed/http://www.facebook.com/feeds/friends_status.php?id=549560686&amp;key=2a58f4ff97&amp;format=rss20">
+			<id>tag:google.com,2005:reader/feed/http://www.facebook.com/feeds/friends_status.php?id=549560686&amp;key=2a58f4ff97&amp;format=rss20</id>
+			<title type="html">Mariano Kamp&amp;#39;s Friends&amp;#39; Facebook Status Updates</title>
+			<link rel="alternate" href="http://www.facebook.com/friends.php?s&amp;id=549560686" type="text/html"/>
+		</source>
+	</entry>
+</feed>

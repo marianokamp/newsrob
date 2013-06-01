@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:orientation="vertical">
+	<TextView android:id="@+id/google_error_label"
+		android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/google_error_label" />
+	<WebView android:id="@+id/content_web_view"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:textSize="9sp" />
+</LinearLayout>

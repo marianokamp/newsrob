@@ -1,0 +1,27 @@
+<resources>
+	<color
+		name="selection_feedback">#64ffff00</color>
+	<color
+		name="content_button_background_enabled">#fabf</color>
+	<color
+		name="item_count_background">#f444</color>
+	<color
+		name="item_count_text_color">#fccc</color>
+	<color
+		name="item_title_text_color">#f000</color>
+	<color
+		name="article_read_background">#ddd</color>
+	<color
+		name="article_unread_background">#fff</color>
+	<color
+		name="article_read_text">#f777</color>
+	<color
+		name="article_unread_text">#f222</color>
+	<color
+		name="title_separator">#40ffffff</color>
+	<color
+		name="hint_background_color">#ffa500</color>
+	<color
+		name="hint_text_color">#ffffff</color>
+
+</resources>

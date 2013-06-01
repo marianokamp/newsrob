@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<ScrollView
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:padding="5px">
+
+			<TextView
+				android:id="@+id/enter_email_password_text"
+				android:paddingTop="10px"
+				android:paddingBottom="10px"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:autoLink="web" />
+			<WebView
+				android:id="@+id/captcha_image"
+				android:layout_width="fill_parent"
+				android:layout_height="140px"
+				android:visibility="gone" />
+
+			<TextView
+				android:id="@+id/captcha_answer_label"
+				android:text="Enter the text from the image above"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:visibility="gone" />
+
+			<EditText
+				android:id="@+id/captcha_answer"
+				android:singleLine="true"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:visibility="gone"
+				android:inputType="text" />
+
+
+			<TextView
+				android:text="@string/email"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
+			<EditText
+				android:id="@+id/email"
+				android:singleLine="true"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:hint="joe.black@gmail.com"
+				android:inputType="textEmailAddress" />
+
+			<TextView
+				android:text="@string/password"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
+			<EditText
+				android:id="@+id/password"
+				android:password="true"
+				android:inputType="textPassword"
+				android:singleLine="true"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+
+				<CheckBox
+					android:id="@+id/remember_password"
+					android:text="Remember password"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1.0" />
+				<Button
+					android:id="@+id/login"
+					android:text="@string/login"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="right"
+					android:layout_weight="0.1" />
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+	<ProgressBar
+		android:id="@+id/progress"
+		style="?android:attr/progressBarStyleLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center" />
+
+</FrameLayout>

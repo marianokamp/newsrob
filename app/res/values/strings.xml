@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">NewsRob</string>
+	<string name="app_description">The first unoffical offline capable\nGoogle Reader client for Android</string>
+    <string name="article_list">Article List</string>
+    <string name="feed_list">Feed List</string>
+	<string name="show_entry_info">Show Article Info</string>
+	<string name="menu_show_in_browser">Show in Browser</string>
+	<string name="menu_show_in_browser_condensed">Browser</string>
+	<string name="menu_refresh">Refresh</string>
+	<string name="menu_logout">Logout And Clear Cache</string>
+	<string name="menu_settings">Settings</string>
+	<string name="menu_toggle_theme">Day/Night</string>
+	<string name="menu_clear_cache">Clear Cache</string>
+	<string name="menu_cancel">Cancel</string>
+  <string name="menu_faq">FAQ</string>
+  <string name="menu_item_search">Search</string>
+	
+	
+	<string name="dashboard_label">NewsRob</string>
+	<string name="feed_list_label">NR Feeds</string>
+	<string name="article_list_label">NR Articles</string>
+   
+    <string name="search_label">SEARCH_LABEL</string>
+    <string name="search_settings_description">Articles</string>
+    	
+    <string name="zoom_in">Zoom in</string>
+    <string name="zoom_out">Zoom out</string>
+    
+    <string name="settings_webview">Embedded Browser</string>
+    <string name="settings_sync_notifications">Sync Notifications</string>
+    
+    <string name="ui_text_size_title">Text size</string>
+    <string name="ui_text_size_summary">Default text size in the browser</string>
+    
+    <string name="explain_fullscreen_toggle_title">Full Screen Mode</string>
+    <string name="explain_fullscreen_toggle_message"><h2><b><i><u>Tip:</u></i></b></h2>\n\nYou can enter / leave the <pre>full screen mode</pre> by tapping twice in the content area (the article body).\n</string>
+    
+    <string name="usage_data_collection">Usage Data Collection</string>
+    <string name="usage_data_collection_text">NewsRob would like to anonymously collect your usage data using flurry.com. This data will help the developer understand how you use NewsRob so that he can improve it.\n
+\nThis data collection is strictly opt-in, so if you do not approve no data will be collected. The application will continue to function normally regardless of this setting.\n
+\nCurrently, only general data will be collected: what device you use, your NewsRob and Android versions, which country you are in, which NewsRob screens you use and how long you use each screen.\n
+\nIn the future, more specific data may be collected, such as which menu options you use most frequently, NewsRob configuration information, etc. Before this happens however, this dialog will appear again and ask you again to allow this data to be gathered.\n
+\nAt any time you may open the settings and enable or disable the data collection.\n
+\n<b><u>Tip:</u></b>\n
+\nIt is recommended to enable the usage data collection.\nIf you use NewsRob in any unusual way, or use a rare device or Android version, this is your opportunity to make the developer aware of it so that he can better support you.\n
+    </string>
+ 
+    <string name="newsrob_three_to_six">Please Re-Install</string>
+    <string name="newsrob_three_to_six_text">NewsRob kept compatibility with old Android versions for quite some time and to some extent will continue to do so.\n
+    \nHowever this comes at a cost and as meanwhile there are only a few users left who use NewsRob on Android 1.5 - 2.0.1 devices, this cost became harder and harder to justify over the last releases.\n
+    \nTo pick up speed with development the support for the older Android versions will be dropped from the main version of NewsRob.\n
+    \nHowever to make sure that you are still able to install NewsRob and get an update when I discover a very critical bug, a new version of NewsRob is on the Android Market for devices running older versions of the Android OS.\n
+    \nPlease install the new version using the button below.\n
+    \nYou then need to uninstall the current version of NewsRob.\n
+    \nIf you have the Pro version of NewsRob this will also be recognized by the new version.\n
+    \nAlso your per-feed settings will be picked up by the new version, but you need to login again and configure the basic parameters.\n
+    \nThanks! – Waiting for you on the other side.\n
+    </string>
+ 
+ 
+	<string name="no_articles">No articles yet.\n\nSync to load content.</string>
+	<string name="show_article">Show Article</string>
+	<string name="login">Login</string>
+	<string name="email">Email</string>
+	<string name="password">Password</string>
+	<string name="menu_mark_as_read">Mark Read</string>
+	<string name="menu_mark_as_unread">Mark Unread</string>
+	<string name="enter_email_password">
+<b>Login to Google needed</b>
+\n\n
+NewsRob will connect to the Google Reader online service. Therefore your username and password is needed.\n\n
+You can decide if your password should be stored on this device.
+Otherwise you will be asked again for your credentials every two weeks.\n\n
+If you haven\'t used Google Reader before, please visit:
+http://google.com/reader
+	</string>
+	<string name="enter_email_password_captcha">
+<b>Login to Google with CAPTCHA needed</b>
+</string>
+	<string name="enter_email_password_expired">
+<b>Login to Google needed</b>
+\n\n
+Your session expired and you need to login again!\n\n
+You can decide if your password should be stored on this device.
+Otherwise you will be asked again for your credentials every two weeks.
+	</string>
+	<string name="login_to_google_needed">"Login to Google needed."</string>
+	<string name="progressbar_message_refreshing">Synchronizing ...</string>
+
+	<string name="settings_title">Settings</string>
+
+	<string name="settings_always_use_ssl_title">Always use SSL with Reader</string>
+	<string name="settings_always_use_ssl_summary">Not only for login, but for all communications with the Google server. Not for the websites though.</string>
+
+	<string name="settings_automatic_refreshing_category_title">Synchronization</string>
+	<string name="settings_automatic_refreshing_title">Auto Synchronization</string>
+	<string name="settings_automatic_refreshing_summary">Enable automatic synchronization with Google Reader.</string>
+	<string name="settings_automatic_refresh_interval_title">Synchronization Interval</string>
+	<string name="settings_automatic_refresh_interval_summary">How often should NewsRob sync with Google Reader and download content?</string>
+
+    <string name="settings_capacities">Capacities</string>
+	<string name="settings_global_download_pref_title">Download Content Default</string>
+	<string name="settings_global_download_pref_summary">This default can be overwritten on a per feed basis.</string>
+   
+    <string name="settings_sync_in_progress_title">Sync Notification</string> 
+    <string name="settings_sync_in_progress_summary">Show a notification while a sync is running.</string>
+    
+    <string name="settings_sync_type_title">Synchronization Type</string>
+    <string name="settings_sync_type_summary">What to synchronize and keep locally.</string>
+    
+    <string name="settings_vibrate_first_last_enabled_title">Vibrate on first/last article</string>
+    <string name="settings_vibrate_first_last_enabled_summary">When navigating with vol up/down, vibrate when there are no more articles</string>
+    
+    <string name="settings_display_title">Display</string>
+   
+    <string name="settings_ui_theme_title">Theme</string>
+    <string name="settings_ui_theme_summary">Select the color scheme of NewsRob.</string>
+   
+    <string name="settings_ui_sort_newest_first_title">Newest On The Top</string>
+    <string name="settings_ui_sort_newest_first_summary">Default Sort Order in Article List: Newest on the top?</string>
+
+    <string name="settings_hovering_zoom_controls_enabled_title">Hovering Zoom Ctrls</string>
+    <string name="settings_hovering_zoom_controls_enabled_summary">Show Zoom Controls in the embedded browser.</string>
+
+    <string name="settings_hovering_buttons_navigation_enabled_title">Hovering Buttons Nav</string>
+    <string name="settings_hovering_buttons_navigation_enabled_summary">Show hovering buttons to flip through the articles.</string>
+
+    <string name="settings_volume_control_navigation_enabled_title">Volume Up/Down Nav</string>
+    <string name="settings_volume_control_navigation_enabled_summary">Flip through the articles using the volume controls.</string>
+
+    <string name="settings_camera_button_controls_read_state_enabled_title">Camera Toggles Read</string>
+    <string name="settings_camera_button_controls_read_state_enabled_summary">Camera Button toggles an article between read and unread.</string>
+
+    <string name="settings_swipe_article_list_title">Swipe To Mark Read</string>
+    <string name="settings_swipe_article_list_summary">Swipe L-T-R to mark article read, R-T-L to mark unread.</string>
+
+    <string name="settings_swipe_article_detail_view_title">Swipe To Mark Read</string>
+    <string name="settings_swipe_article_detail_view_summary">Swipe L-T-R to mark article read, R-T-L to mark unread.</string>
+
+    <string name="settings_lists">Article List</string>
+    <string name="settings_article_detail_view">Article Detail View</string>
+ 
+    <string name="settings_keep_starred_title">Starred Articles</string>
+    <string name="settings_keep_starred_summary">Additional starred articles to be synced and kept locally.</string>
+
+    <string name="settings_keep_notes_title">Notes</string>
+    <string name="settings_keep_notes_summary">Additional notes to be synced and kept locally.</string>
+    
+    <string name="settings_keep_shared_title">Shared Articles</string>
+    <string name="settings_keep_shared_summary">Additional shared articles to be synced and kept locally.</string>
+    
+    <string name="settings_notifications_title">New Articles Notifications</string>
+ 
+    <string name="settings_notifications_enabled_title">Status Bar Notifications</string>
+    <string name="settings_notifications_enabled_summary">Notifications need to be enabled per feed also.</string>
+    
+    <string name="settings_notify_with_led_enabled_title">Flash LED</string>
+    <string name="settings_notify_with_led_enabled_summary">Flash LED to notify of new articles.</string>
+   
+    <string name="settings_notify_with_sound_url_title">Play Sound</string>
+    <string name="settings_notify_with_sound_url_summary">Pick a sound to notify of new articles.</string>
+ 
+    <string name="settings_notify_with_vibration_enabled_title">Vibration</string>
+    <string name="settings_notify_with_vibration_enabled_summary">Vibrate phone to notify of new articles.</string>
+    
+    <string name="settings_ui_title">User Interface</string>
+    
+   	<string name="ui_mark_all_read_confirmation_threshold_title">Confirm Mark All Read</string>
+   	<string name="ui_mark_all_read_confirmation_threshold_summary">Ask when >= x articles would be marked as read.</string>
+   	 
+   	<string name="ui_theme_title">Theme</string>
+   	<string name="ui_theme_summary">Theme</string>
+   	
+   	<string name="oom_message"><b>Sorry!</b>\n\nThere was not enough memory to complete the operation.\n\nYou already closed the app (force closed), now press OK and NewsRob will be restarted. Please try again then what you just did.\nIt should work now.\n\nSorry for the inconvenience.\n\nIf this should happen on a regular basis and you can reproduce it, I would like to hear about it: mariano.kamp@gmail.com.\n</string>
+   	 
+    <string name="advise_sdcard_read_only_title">SD card inaccessible</string>
+    <string name="advise_sdcard_read_only">
+		You selected to store articles and images on an SD card.\n\n
+		Currently there is no accessible SD card available.\n\n
+    	Possible reasons:\n\n
+         - No SD card inserted\n
+         - SD card used as USB mass storage\n
+         - SD card is almost full\n
+         - SD card is read-only\n\n
+        <u>Impact:</u>\n
+        Until the SD card is accessible again NewsRob cannot synchronize or display downloaded articles.\n\n
+        <u>Resolution:</u>\n
+        Make the SD card accessible to continue using NewsRob or set <i>Storage Provider</i> to <i>Phone Memory</i> in the settings.\n
+    </string>
+ 
+	<string name="settings_local_store_category_title">Local Cache</string>
+	<string name="settings_entry_manager_entries_capacity_title">Reading List</string>
+	<string name="settings_entry_manager_entries_capacity_summary">Number of articles that
+	are to be synced and kept locally.</string>
+
+    <string name="settings_offline">Offline</string>
+
+	<string name="storage_asset_download_title">Offline Use</string>
+	<string name="storage_asset_download_summary">Download article content including images for offline use.</string>
+	
+	<string name="storage_provider_title">Storage Provider</string>
+	<string name="storage_provider_summary">The storage provider for the downloaded content.</string>
+	
+	
+	<string name="google_error_label">Google has sent a response that NewsRob
+		cannot parse (yet).</string>
+	<string name="show_google_error_activity_label">Show Google Error</string>
+	<string name="synchronization_is_scheduled">Next synchronization\n starts in three minutes.
+	</string>
+	<string name="check_market_for_new_version">A new version of NewsRob is available!</string>
+	<string name="synchronization_running_notification_title">Update Running</string>
+	<string name="synchronization_running_notification_summary">An update is running.</string>
+	<string name="fast_synchronization_running_notification_title">Uploading Changes</string>
+	<string name="fast_synchronization_running_notification_summary">Your changes are uploaded.</string>
+	<string name="login_error_dialog_title">Login Error"</string>
+	<string name="login_error_dialog_message">There has been a problem while logging you in.\n\n</string>
+	<string name="enable_notification_for_feed">New articles notification</string>
+    <string name="enable_javascript_for_feed">JavaScript enabled</string>
+    <string name="enable_ftw_for_feed">Image Fit-To-Width enabled</string>
+	
+	<string name="progressbar_message_loading_content">Loading content ...</string>
+	<string name="clear_cache_dialog_message">Clearing the local cache of articles headers and bodies.</string>
+	<string name="clear_cache_dialog_title">Clear Cache</string>
+	<string name="logout_and_clear_cache_dialog_message">Logging out and clearing the local cache of articles headers and bodies.</string>
+	<string name="logout_and_clear_cache_dialog_title">Logout And Clear Cache</string>
+	<string name="menu_item_share_link">Share Link</string>
+    <string name="menu_item_like">Like</string>
+    <string name="menu_item_unlike">Unlike</string>
+	<string name="menu_item_star">Star</string>
+	<string name="menu_item_unstar">Unstar</string>
+	<string name="menu_item_share_in_reader">Share in Reader</string>
+	<string name="menu_item_unshare_in_reader">Unshare in Reader</string>
+	<string name="menu_item_mark_all_read">Mark All Read</string>
+	<string name="menu_item_manage_feed">Manage Feed</string>
+	<string name="menu_item_share_with_note">Share With Note</string>
+	<string name="download_type_prompt">Select the download preference:</string>
+	<string name="display_type_prompt">Select the display preference:</string>
+	<string name="dialog_title_mark_all_read">Mark All Articles Read</string>
+	<string name="google_account">Google Account</string>
+	<string name="google_account_email_title">Google Account</string>
+	<string name="google_account_email_summary">Change by logging out You will be prompted for the new account when refreshing.</string>
+	<string name="dialog_n_articles_will_be_marked_as_read">%s unread articles will be marked as read.</string>
+	<string name="new_version_available_title">Update available</string>
+	<string name="new_version_available_summary">An update of NewsRob is available!</string>
+	<string name="license">NewsRob License</string>
+	<string name="reject">Reject</string>
+	<string name="agree">Agree</string>
+	<string name="shared">shared</string>
+	<string name="license_text">THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\nTHIRD PARTIES MAY BE USING COOKIES, WEB BEACONS OR OTHER MEANS TO COLLECT DATA TO E.G. TARGET ADS.\n\n\n</string>
+    <string name="menu_item_show_article_info">Show Info (Support Only)</string>
+</resources>

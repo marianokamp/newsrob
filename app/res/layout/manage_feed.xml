@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_weight="1.0">
+        
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+
+            android:padding="10sp">
+
+            <TextView
+                android:id="@+id/feed_title"
+
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_alignParentTop="true"
+
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/download_type_label"
+
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_below="@id/feed_title"
+                android:layout_marginTop="10sp"
+
+                android:text="@string/download_type_prompt" />
+            <Spinner
+                android:id="@+id/download_type_spinner"
+
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_below="@id/download_type_label"
+
+                android:prompt="@string/download_type_prompt"
+                android:drawSelectorOnTop="true"
+                android:textSize="10sp" />
+            <TextView
+                android:id="@+id/display_type_label"
+
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_below="@id/download_type_spinner"
+                android:layout_marginTop="10sp"
+
+                android:text="@string/display_type_prompt" />
+            <Spinner
+                android:id="@+id/display_type_spinner"
+
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_below="@id/display_type_label"
+
+                android:prompt="@string/display_type_prompt"
+                android:drawSelectorOnTop="true"
+                android:textSize="10sp" />
+
+            <CheckBox
+                android:id="@+id/notification_enabled_checkbox"
+                android:text="@string/enable_notification_for_feed"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+
+                android:layout_below="@id/display_type_spinner" />
+
+            <CheckBox
+                android:id="@+id/javascript_enabled_checkbox"
+                android:text="@string/enable_javascript_for_feed"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+
+                android:layout_below="@id/notification_enabled_checkbox" />
+
+            <CheckBox
+                android:id="@+id/ftw_enabled_checkbox"
+                android:text="@string/enable_ftw_for_feed"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+
+                android:layout_below="@id/javascript_enabled_checkbox" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:background="@android:drawable/bottom_bar">
+        <Button
+            android:id="@+id/close_button"
+
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+
+
+            android:layout_margin="5sp"
+            android:textSize="12sp"
+            android:text="@android:string/ok" />
+    </LinearLayout>
+</LinearLayout>

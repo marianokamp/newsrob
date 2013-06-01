@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.newsrob.pro"
+    android:versionCode="105"
+    android:versionName="1.0.5">
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true" />
+
+    <uses-sdk
+        android:minSdkVersion="3"
+        android:targetSdkVersion="9" />
+    
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
+
+    <application
+        android:icon="@drawable/gen_app_icon"
+        android:label="@string/app_name">
+
+        <activity
+            android:name="com.newsrob.pro.ShowMarketInformationActivity"
+            android:label="Thanks!"
+            android:icon="@drawable/gen_app_icon"
+            android:theme="@android:style/Theme.Dialog">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.MAIN" />
+                <category
+                    android:name="android.intent.category.INFO" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest> 

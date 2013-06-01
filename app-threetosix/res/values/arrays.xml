@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array
+    name="sync_options_values">
+    <item>yes</item>
+    <item>no</item>
+    <item>wifi-only</item>
+  </string-array>
+  <string-array
+    name="sync_options_labels">
+    <item>Enabled</item>
+    <item>Disabled</item>
+    <item>WiFi-Only</item>
+  </string-array>
+  <string-array
+    name="interval_values_minutes">
+    <item>30</item>
+    <item>60</item>
+    <item>120</item>
+    <item>240</item>
+    <item>720</item>
+    <item>1440</item>
+  </string-array>
+  <string-array
+    name="interval_labels">
+    <item>Every 30 minutes</item>
+    <item>Every hour</item>
+    <item>Every other hour</item>
+    <item>Every four hours</item>
+    <item>Every 12 hours</item>
+    <item>Once a day</item>
+  </string-array>
+
+  <string-array
+    name="storage_capacity_labels">
+    <item>50</item>
+    <item>100</item>
+    <item>150</item>
+    <item>250</item>
+    <item>500</item>
+    <item>1000</item>
+    <item>2000\n(slower)</item>
+ <!--   <item>2000</item>
+    <item>3000</item>
+    <item>4000</item>
+    <item>5000</item>-->
+    <!--
+      <item>1000</item> <item>2000</item> <item>600</item>
+      <item>700</item> <item>2000</item> <item>200000</item>
+    -->
+  </string-array>
+  <string-array
+    name="storage_capacity_values">
+    <item>50</item>
+    <item>100</item>
+    <item>150</item>
+    <item>250</item>
+    <item>500</item>
+    <item>1000</item>
+    <item>2000</item>
+   <!-- <item>2000</item>
+    <item>3000</item>
+    <item>4000</item>
+    <item>5000</item> -->
+    <!--
+      <item>1000</item> <item>2000</item> <item>600</item>
+      <item>700</item> <item>2000</item> <item>200000</item>
+    -->
+  </string-array>
+  <string-array
+    name="storage_provider_values">
+    <item>phone</item>
+    <item>sdcard</item>
+  </string-array>
+  <string-array
+    name="storage_provider_labels">
+    <item>Local</item>
+    <item>SD Card</item>
+  </string-array>
+
+  <string-array
+    name="download_prefs">
+    <item>Default (see Settings)</item>
+	<item>Articles</item> 
+    <item>Articles + Images</item>
+    <item>Articles + Images + Simplified Web Page</item>
+	<item>Articles + Images + Web Page</item>
+  </string-array>
+
+  <string-array
+    name="display_prefs">
+    <item>Default (As Download Pref)</item>
+    <item>Display Feed</item>
+    <item>Display Web Page</item>
+  </string-array>
+  <string-array
+    name="global_download_pref_labels">
+	<item>Articles \n (Fastest &amp; easiest on the battery)</item> 
+    <item>Articles + Images</item>
+    <item>Articles + Images + Simplified Web Page</item>
+	<!-- <item>Articles + Images + Web Page\n(Slowest\nHandle with care\nMay eat battery)</item> -->
+  </string-array>
+  <string-array
+    name="global_download_pref_values">
+    <item>1</item>
+    <item>2</item>
+    <item>3</item>
+ <!--    <item>4</item>-->
+  </string-array>
+  <string-array
+    name="settings_ui_theme_pref_labels">
+    <item>Light</item>
+    <item>Black</item>
+  </string-array>
+  <string-array
+    name="settings_ui_theme_pref_values">
+    <item>16973836</item>
+    <item>16973832</item>
+  </string-array>
+
+  <string-array
+    name="settings_ui_action_bar_labels">
+    <item>Top</item>
+    <item>Bottom</item>
+    <item>Gone</item>
+  </string-array>
+  <string-array
+    name="settings_ui_action_bar_values">
+    <item>top</item>
+    <item>bottom</item>
+    <item>gone</item>
+  </string-array>
+
+  <string-array
+    name="ui_mark_all_read_confirmation_threshold_labels">
+    <item>Always</item>
+    <item>5</item>
+    <item>15</item>
+    <item>50</item>
+    <item>100</item>
+    <item>200</item>
+  </string-array>
+  <string-array
+    name="ui_mark_all_read_confirmation_threshold_values">
+    <item>0</item>
+    <item>5</item>
+    <item>15</item>
+    <item>50</item>
+    <item>100</item>
+    <item>200</item>
+  </string-array>
+  
+  <string-array
+    name="sync_type_labels">
+    <item>Keep And Sync:\nAll Articles</item>
+    <item>Keep And Sync:\nUnread Articles Only</item>
+  </string-array>
+  <string-array
+    name="sync_type_values">
+    <item>all_articles</item>
+    <item>unread_articles_only</item>
+  </string-array>
+  <string-array
+    name="keep_labels">
+    <item>none</item>
+    <item>5</item>
+    <item>20</item>
+    <item>50</item>
+    <item>100</item>
+    <item>200</item>
+  </string-array>
+  <string-array
+    name="keep_values">
+    <item>0</item>
+    <item>5</item>
+    <item>20</item>
+    <item>50</item>
+    <item>100</item>
+    <item>200</item>
+  </string-array>
+
+  <string-array
+    name="text_size_values">
+    <item>SMALLEST</item>
+    <item>SMALLER</item>
+    <item>NORMAL</item>
+    <item>LARGER</item>
+    <item>LARGEST</item>
+  </string-array>
+  <string-array
+    name="text_size_labels">
+    <item>Tiny</item>
+    <item>Small</item>
+    <item>Normal</item>
+    <item>Large</item>
+    <item>Huge</item>
+  </string-array>
+
+  <string-array
+    name="settings_ui_theme_values">
+    <item>Light</item>
+    <item>Dark</item>
+  </string-array>
+  <string-array
+    name="settings_ui_theme_labels">
+    <item>Light \n(High Contrast)</item>
+    <item>Dark \n(Night Time Reading)</item>
+  </string-array>
+
+  <string-array
+    name="settings_mobilizer_values">
+    <item>gwt</item>
+    <item>instapaper</item>
+  </string-array>
+  <string-array
+    name="settings_mobilizer_labels">
+    <item>Google Wireless Transcoder</item>
+    <item>Instapaper\n(Integration Provided \"As Is\". \nPlease don\'t report bugs.\nThanks.)</item>
+  </string-array>
+  
+   <string-array
+    name="settings_plugins_values">
+    <item>ON</item>
+    <item>ON_DEMAND</item>
+    <item>OFF</item>
+  </string-array>
+  <string-array
+    name="settings_plugins_labels">
+    <item>Always On</item>
+    <item>On Demand</item>
+    <item>Off</item>
+  </string-array>
+</resources>

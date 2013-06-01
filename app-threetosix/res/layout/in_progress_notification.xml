@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/progress_container"
+
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_below="@id/action_bar"
+
+    android:background="@drawable/progress_report_background"
+    android:padding="5dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginTop="-4dp"
+    android:layout_gravity="center_horizontal"
+    
+
+    android:orientation="horizontal"
+
+    android:visibility="gone"> <!--   android:layout_below="@id/action_bar" -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/status_text"
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+
+            android:lines="1"
+            android:ellipsize="middle"
+            
+            android:text="Sync In Progress"
+
+            android:textColor="#ccc"
+            android:paddingLeft="9dp"
+            android:paddingRight="6dp"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp" />
+
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+
+            android:textSize="10sp"
+            android:indeterminate="true"
+            android:visibility="invisible" />
+
+        
+    </LinearLayout>
+    <Button
+            android:id="@+id/cancel_sync"
+            
+            android:textColor="#ccc"
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:gravity="center"
+            
+            android:focusable="true"
+
+            android:text="Stop" /> <!--              android:background="@drawable/custom_button"
+             -->
+</LinearLayout>

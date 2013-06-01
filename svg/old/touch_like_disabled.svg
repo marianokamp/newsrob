@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" 
+              "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35">
+  <g style="fill:none; stroke:#777; stroke-width:1px;stroke-dasharray:3,3 ">
+  <circle cx="18" cy="18" r="14"/>
+  <circle cx="23" cy="13" r="2" />
+  <circle cx="13"  cy="13" r="2" />
+  <path d="M10,19 A8,5 0 1 0 25,19"/>
+  </g>
+</svg>

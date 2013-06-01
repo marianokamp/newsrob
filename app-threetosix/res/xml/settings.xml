@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceScreen
+		android:title="@string/settings_automatic_refreshing_category_title">
+
+		<com.newsrob.preference.ListPreference
+			android:entries="@array/sync_type_labels"
+			android:entryValues="@array/sync_type_values"
+			android:key="settings_sync_type"
+			android:summary="@string/settings_sync_type_summary"
+			android:title="@string/settings_sync_type_title"
+			android:defaultValue="unread_articles_only" />
+
+		<com.newsrob.preference.ListPreference
+			android:entries="@array/sync_options_labels"
+			android:entryValues="@array/sync_options_values"
+			android:title="@string/settings_automatic_refreshing_title"
+			android:key="settings_automatic_refreshing_enabled2"
+			android:summary="@string/settings_automatic_refreshing_summary"
+			android:defaultValue="yes" />
+
+		<com.newsrob.preference.ListPreference
+			android:entries="@array/interval_labels"
+			android:entryValues="@array/interval_values_minutes"
+			android:key="settings_automatic_refresh_interval"
+			android:summary="@string/settings_automatic_refresh_interval_summary"
+			android:title="@string/settings_automatic_refresh_interval_title"
+			android:defaultValue="60" />
+
+		<CheckBoxPreference
+			android:title="Always Use Exact Syncing"
+			android:key="settings_always_exact_sync"
+			android:summary="Use Exact Syncing during every sync (Less efficient)."
+			android:defaultValue="false" />
+
+		<CheckBoxPreference
+			android:title="Sync \'newsrob\' Only"
+			android:key="settings_sync_newsrob_only_enabled"
+			android:summary="Sync only articles that in a folder/tag called \'newsrob\'."
+			android:defaultValue="false" />
+
+
+		<PreferenceCategory
+			android:title="@string/settings_offline">
+
+			<com.newsrob.preference.ListPreference
+				android:entries="@array/sync_options_labels"
+				android:entryValues="@array/sync_options_values"
+				android:title="@string/storage_asset_download_title"
+				android:key="storage_asset_download"
+				android:summary="@string/storage_asset_download_summary"
+				android:defaultValue="yes" />
+
+			<com.newsrob.preference.ListPreference
+				android:entries="@array/global_download_pref_labels"
+				android:entryValues="@array/global_download_pref_values"
+				android:title="@string/settings_global_download_pref_title"
+				android:key="settings_global_download_pref"
+				android:summary="@string/settings_global_download_pref_summary"
+				android:defaultValue="2" />
+
+			<!--
+				<CheckBoxPreference
+				android:title="@string/settings_always_use_ssl_title"
+				android:key="settings_always_use_ssl"
+				android:summary="@string/settings_always_use_ssl_summary"
+				android:defaultValue="true" />
+			-->
+		</PreferenceCategory>
+
+	</PreferenceScreen>
+	<PreferenceScreen
+		android:title="@string/settings_local_store_category_title">
+		<com.newsrob.preference.ListPreference
+			android:entries="@array/storage_provider_labels"
+			android:entryValues="@array/storage_provider_values"
+			android:key="settings_storage_provider"
+			android:summary="@string/storage_provider_summary"
+			android:title="@string/storage_provider_title"
+			android:defaultValue="phone">
+		</com.newsrob.preference.ListPreference>
+
+		<PreferenceCategory
+			android:title="@string/settings_capacities">
+			<com.newsrob.preference.ListPreference
+				android:entries="@array/storage_capacity_labels"
+				android:entryValues="@array/storage_capacity_values"
+				android:key="settings_entry_manager_entries_capacity"
+				android:summary="@string/settings_entry_manager_entries_capacity_summary"
+				android:title="@string/settings_entry_manager_entries_capacity_title"
+				android:defaultValue="50">
+			</com.newsrob.preference.ListPreference>
+
+			<com.newsrob.preference.ListPreference
+				android:entries="@array/keep_labels"
+				android:entryValues="@array/keep_values"
+				android:key="settings_keep_starred"
+				android:summary="@string/settings_keep_starred_summary"
+				android:title="@string/settings_keep_starred_title"
+				android:defaultValue="20" />
+
+			<com.newsrob.preference.ListPreference
+				android:entries="@array/keep_labels"
+				android:entryValues="@array/keep_values"
+				android:key="settings_keep_shared"
+				android:summary="@string/settings_keep_shared_summary"
+				android:title="@string/settings_keep_shared_title"
+				android:defaultValue="5" />
+
+			<com.newsrob.preference.ListPreference
+				android:entries="@array/keep_labels"
+				android:entryValues="@array/keep_values"
+				android:key="settings_keep_notes"
+				android:summary="@string/settings_keep_notes_summary"
+				android:title="@string/settings_keep_notes_title"
+				android:defaultValue="5" />
+		</PreferenceCategory>
+	</PreferenceScreen>
+
+	<!--
+		<PreferenceCategory android:title="@string/settings_display_title">
+		<CheckBoxPreference
+		android:title="@string/settings_ellipsize_titles_enabled_title"
+		android:key="settings_ellipsize_titles_enabled"
+		android:summary="@string/settings_ellipsize_titles_enabled_summary"
+		android:defaultValue="false" /> </PreferenceCategory>
+	-->
+
+	<PreferenceScreen
+		android:title="@string/settings_ui_title">
+		<CheckBoxPreference
+			android:title="@string/settings_sync_in_progress_title"
+			android:key="settings_sync_in_progress_enabled"
+			android:summary="@string/settings_sync_in_progress_summary"
+			android:defaultValue="false" />
+		<com.newsrob.preference.ListPreference
+			android:entries="@array/ui_mark_all_read_confirmation_threshold_labels"
+			android:entryValues="@array/ui_mark_all_read_confirmation_threshold_values"
+			android:key="settings_ui_mark_all_read_confirmation_threshold2"
+			android:summary="@string/ui_mark_all_read_confirmation_threshold_summary"
+			android:title="@string/ui_mark_all_read_confirmation_threshold_title"
+			android:defaultValue="0" />
+		<!--
+			<com.newsrob.preference.ListPreference
+			android:entries="@array/settings_ui_theme_labels"
+			android:entryValues="@array/settings_ui_theme_values"
+			android:key="settings_ui_theme"
+			android:summary="@string/settings_ui_theme_summary"
+			android:title="@string/settings_ui_theme_title"
+			android:defaultValue="Light" />
+		-->
+		<com.newsrob.preference.ListPreference
+			android:entries="@array/settings_ui_action_bar_labels"
+			android:entryValues="@array/settings_ui_action_bar_values"
+			android:key="settings_ui_action_bar"
+			android:summary="Where should the action bar be shown?"
+			android:title="Action Bar Location"
+			android:defaultValue="top" />
+
+		<PreferenceCategory
+			android:title="@string/settings_article_detail_view">
+
+			<CheckBoxPreference
+				android:title="@string/settings_swipe_article_detail_view_title"
+				android:key="settings_swipe_article_detail_view"
+				android:summary="@string/settings_swipe_article_detail_view_summary"
+				android:defaultValue="true" />
+
+			<CheckBoxPreference
+				x="xxx"
+				android:title="@string/settings_hovering_zoom_controls_enabled_title"
+				android:key="settings_hovering_zoom_controls_enabled"
+				android:summary="@string/settings_hovering_zoom_controls_enabled_summary"
+				android:defaultValue="false" />
+
+			<CheckBoxPreference
+				android:title="@string/settings_hovering_buttons_navigation_enabled_title"
+				android:key="settings_hovering_buttons_navigation_enabled"
+				android:summary="@string/settings_hovering_buttons_navigation_enabled_summary"
+				android:defaultValue="true" />
+
+
+			<CheckBoxPreference
+				android:title="@string/settings_volume_control_navigation_enabled_title"
+				android:key="settings_volume_control_navigation_enabled"
+				android:summary="@string/settings_volume_control_navigation_enabled_summary"
+				android:defaultValue="true" />
+
+			<CheckBoxPreference
+				android:title="@string/settings_vibrate_first_last_enabled_title"
+				android:key="settings_vibrate_first_last_enabled"
+				android:summary="@string/settings_vibrate_first_last_enabled_summary"
+				android:dependency="settings_volume_control_navigation_enabled"
+				android:defaultValue="true" />
+
+			<!--
+				<CheckBoxPreference
+				android:title="@string/settings_camera_button_controls_read_state_enabled_title"
+				android:key="settings_camera_button_controls_read_state_enabled"
+				android:summary="@string/settings_camera_button_controls_read_state_enabled_summary"
+				android:defaultValue="false" />
+			-->
+		</PreferenceCategory>
+
+		<PreferenceCategory
+			android:title="@string/settings_webview">
+			<com.newsrob.preference.ListPreference
+				android:entries="@array/text_size_labels"
+				android:entryValues="@array/text_size_values"
+				android:key="settings_ui_text_size"
+				android:summary="@string/ui_text_size_summary"
+				android:title="@string/ui_text_size_title"
+				android:defaultValue="NORMAL" />
+		</PreferenceCategory>
+
+		<PreferenceCategory
+			android:title="@string/settings_lists">
+			<CheckBoxPreference
+				android:title="Rich Article List"
+				android:key="settings_ui_rich_articles_enabled"
+				android:summary="Show articles with snippet and preview thumbnail"
+				android:defaultValue="true" />
+
+			<CheckBoxPreference
+				android:title="@string/settings_swipe_article_list_title"
+				android:key="settings_swipe_article_list"
+				android:summary="@string/settings_swipe_article_list_summary"
+				android:defaultValue="true" />
+			<CheckBoxPreference
+				android:title="@string/settings_ui_sort_newest_first_title"
+				android:key="settings_ui_sort_newest_first"
+				android:summary="@string/settings_ui_sort_newest_first_summary"
+				android:defaultValue="true" />
+		</PreferenceCategory>
+
+		<!--
+			<com.newsrob.preference.ListPreference
+			android:entries="@array/ui_theme_pref_labels"
+			android:entryValues="@array/ui_theme_pref_values"
+			android:key="settings_ui_theme"
+			android:summary="@string/ui_theme_summary"
+			android:title="@string/ui_theme_title"/>
+		-->
+
+	</PreferenceScreen>
+	<PreferenceScreen
+		android:title="@string/settings_notifications_title">
+		<CheckBoxPreference
+			android:title="@string/settings_notifications_enabled_title"
+			android:key="settings_notifications_enabled"
+			android:summary="@string/settings_notifications_enabled_summary"
+			android:defaultValue="true" />
+		<RingtonePreference
+			android:title="@string/settings_notify_with_sound_url_title"
+			android:key="settings_notify_with_sound_url"
+			android:summary="@string/settings_notify_with_sound_url_summary"
+			android:dependency="settings_notifications_enabled"
+			android:ringtoneType="notification"
+			android:showDefault="true"
+			android:showSilent="true"
+			android:defaultValue="content://settings/system/notification_sound" />
+		<CheckBoxPreference
+			android:title="@string/settings_notify_with_led_enabled_title"
+			android:key="settings_notify_with_led_enabled"
+			android:summary="@string/settings_notify_with_led_enabled_summary"
+			android:defaultValue="true"
+			android:dependency="settings_notifications_enabled" />
+		<CheckBoxPreference
+			android:title="@string/settings_notify_with_vibration_enabled_title"
+			android:key="settings_notify_with_vibration_enabled"
+			android:summary="@string/settings_notify_with_vibration_enabled_summary"
+			android:defaultValue="true"
+			android:dependency="settings_notifications_enabled" />
+
+
+	</PreferenceScreen>
+	<PreferenceScreen
+		android:title="Work in Progress (Exper.)">
+		<com.newsrob.preference.ListPreference
+			android:entries="@array/settings_mobilizer_labels"
+			android:entryValues="@array/settings_mobilizer_values"
+			android:key="settings_mobilizer"
+			android:title="Mobilizer"
+			android:summary="The service that renders the simplified web pages."
+			android:defaultValue="gwt" />
+		<com.newsrob.preference.ListPreference
+			android:entries="@array/settings_plugins_labels"
+			android:entryValues="@array/settings_plugins_values"
+			android:key="settings_plugins"
+			android:title="Browser Plug-Ins"
+			android:summary="Enable Plug-Ins in the embedded browser."
+			android:defaultValue="OFF" />
+		<!--
+			<CheckBoxPreference android:title="Sync Friend\'s Shared Articles"
+			android:key="settings_sync_broadcast_friends_enabled"
+			android:summary="Sync articles that are shared by friends."
+			android:defaultValue="true" />
+		-->
+	</PreferenceScreen>
+	<com.newsrob.preference.CheckBoxPreference
+		android:title="Usage Data Collection"
+		android:key="usage_data_permission_granted"
+		android:summary="Allow NewsRob to collect anonymous usage data."
+		android:defaultValue="false" />
+
+</PreferenceScreen> 

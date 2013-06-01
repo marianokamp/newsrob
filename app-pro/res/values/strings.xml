@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NewsRob Pro</string>
+    <string name="thanks"><b>Thank you for purchasing NewsRob.</b></string>
+    <string name="all_done">You are done here.\n\nThe Pro features in the free version that you have installed already are now unlocked.\n\nYou keep using the launcher icon and shortcuts from before. Your data etc. from before are also waiting for you.\n\n<b>Have fun with NewsRob!</b></string>
+    <string name="need_to_install_free_version">Just one more step!\n\nThe Pro version unlocks the Pro features in the free version.\n\nIt seems that you have not installed the free version yet.\n\nPlease do that and then you\'re done.\n\n\n<b>Have fun with NewsRob!</b></string>
+   
+</resources>

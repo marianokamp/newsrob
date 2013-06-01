@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:id="@+id/outter_container">
+
+  <TextView
+    android:id="@+id/read_status_indicator"
+
+    android:layout_width="10dp"
+    android:layout_height="fill_parent"
+
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
+
+    android:layout_marginLeft="-5dp"
+    android:layout_marginRight="-2dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp" />
+
+  <com.newsrob.widget.SwipeRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/swipe_container"
+
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+
+    android:paddingLeft="3dp"
+    android:layout_marginLeft="3dp"
+
+    android:paddingRight="5dp">
+
+    <TextView
+      android:id="@+id/view_mode"
+
+      android:layout_height="wrap_content"
+      android:layout_width="30dp"
+
+      android:layout_alignParentRight="true"
+      android:layout_alignParentTop="true"
+
+      android:layout_marginTop="0dp"
+
+      android:textSize="13sp"
+      android:textColor="?com.newsrob:lightTextColor"
+      android:background="?com.newsrob:dividerColor"
+
+      android:gravity="center"
+      android:layout_gravity="bottom"
+      android:visibility="gone" />
+
+    <CheckBox
+      android:id="@+id/star_checkbox"
+      style="?android:attr/starStyle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+
+      android:layout_gravity="bottom"
+      android:layout_alignParentRight="true"
+      android:layout_below="@id/view_mode"
+
+      android:layout_marginTop="4dp"
+      android:visibility="gone"
+      android:focusable="true" />
+
+    <TextView
+      android:id="@+id/article_shared"
+
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+
+      android:layout_alignParentTop="true"
+      android:layout_toLeftOf="@id/star_checkbox"
+      android:layout_alignWithParentIfMissing="true"
+
+      android:layout_marginLeft="2dp"
+      android:layout_marginRight="2dp"
+
+      android:textSize="13dp"
+      android:textColor="#ffff"
+      android:background="#9fb0"
+      android:gravity="right" />
+
+    <TextView
+      android:id="@+id/article_annotated"
+
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+
+      android:layout_toLeftOf="@id/article_shared"
+
+      android:layout_marginLeft="2dp"
+      android:layout_marginRight="2dp"
+
+      android:textSize="13dp"
+      android:textColor="#ffff"
+      android:background="#9fb0"
+      android:gravity="right" />
+
+
+    <TextView
+      android:id="@+id/article_starred"
+
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="2dp"
+
+      android:textSize="13dp"
+      android:textColor="#ffff"
+
+      android:layout_toLeftOf="@id/article_annotated"
+
+      android:background="#9fb0"
+      android:gravity="right" />
+
+    <TextView
+      android:id="@+id/article_changed"
+
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+
+      android:layout_toLeftOf="@id/article_starred"
+
+      android:textSize="13dp"
+      android:textColor="#ffff"
+      android:background="#9fb0"
+      android:gravity="right" />
+
+    <TextView
+      android:id="@+id/feed_title"
+
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+
+      android:layout_alignParentTop="true"
+      android:layout_alignParentLeft="true"
+      android:layout_toLeftOf="@id/article_changed"
+
+      android:ellipsize="middle"
+      android:singleLine="true"
+
+      android:textSize="13dp"
+
+      android:textColor="?com.newsrob:articleHeaderTextColor"
+
+      android:paddingRight="2dp" />
+
+    <TextView
+      android:id="@+id/entry_title"
+
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+
+      android:layout_alignParentLeft="true"
+      android:layout_toLeftOf="@id/star_checkbox"
+      android:layout_below="@id/feed_title"
+
+      android:layout_marginTop="-3dp"
+     
+      android:textColor="?com.newsrob:articleHeaderTextColor"
+
+
+      android:textSize="16dp"
+      android:textStyle="bold" />
+
+    <TextView
+      android:id="@+id/shared_by_friend"
+
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+
+      android:layout_below="@id/entry_title"
+
+      android:textColor="?com.newsrob:articleHeaderTextColor"
+
+
+      android:textSize="12dp"
+      android:visibility="gone" />
+
+  </com.newsrob.widget.SwipeRelativeLayout>
+</LinearLayout>
+  <!-- android:autoLink="web"  -->

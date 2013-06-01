@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:id="@+id/ad_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+    <com.newsrob.widget.RelativeLayout
+        android:id="@+id/show_entry_container"
+
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        android:layout_above="@id/ad_parent"
+
+        <include
+            layout="@layout/rich_article_row"
+            android:layout_alignParentTop="true" />
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+
+            android:layout_below="@id/outter_container"
+            android:layout_alignParentBottom="true">
+
+            <WebView
+                android:id="@+id/content_web_view"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="9sp" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_gravity="right" /> <!-- android:layout_centerInParent="true"  -->
+
+
+            <LinearLayout
+                android:id="@+id/browser_navigation"
+
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+
+                android:visibility="invisible"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/browser_back"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="&lt;" />
+                <Button
+                    android:id="@+id/browser_forward"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="&gt;" />
+                <Button
+                    android:id="@+id/browser_stop"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="stop" />
+                <FrameLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0">
+
+                    <ProgressBar
+                        android:id="@+id/browser_progress"
+
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+
+                        style="?android:attr/progressBarStyleHorizontal"
+
+                        />
+                    <TextView
+                        android:id="@+id/browser_url"
+
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+
+                        android:ellipsize="end"
+                        android:singleLine="true"
+
+                        android:text="Some long text ... Some long text ... Some long text ... " />
+
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/browse_zoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/outter_container" />
+
+        <Button
+            android:id="@+id/prev"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+
+            android:visibility="invisible"
+
+            android:background="@drawable/btn_camera_arrow_left" />
+
+        <Button
+            android:id="@+id/next"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+
+            android:visibility="invisible"
+
+            android:background="@drawable/btn_camera_arrow_right" />
+
+    </com.newsrob.widget.RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/title_preview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_preview_background"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+
+        android:layout_above="@id/ad_parent"
+
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="47dp"
+        android:visibility="gone"> <!--  -->
+        <TextView
+            android:id="@+id/title_preview_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lines="3"
+            android:textColor="#fff" /> <!-- android:textColor="?com.newsrob:lightTextColor" -->
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/control_panel"
+
+	android:orientation="vertical"
+
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content">
+
+	<LinearLayout
+		android:id="@+id/action_bar"
+
+		android:orientation="horizontal"
+		android:layout_alignParentTop="true"
+
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<ImageView
+			android:id="@+id/newsrob_logo"
+
+			android:src="@drawable/gen_logo_small_actionbar"
+
+			style="@style/TitleBarAction"
+
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content" />
+
+
+		<ImageView
+			style="@style/TitleBarSeparator" />
+
+		<TextView
+			style="@style/TitleBarText" />
+
+		<TextView
+			android:id="@+id/control_panel_text"
+
+			style="@style/TitleBarText"
+            android:textSize="16sp"
+			android:textColor="#fff"
+			android:layout_weight="1" />
+
+		<ImageView
+			style="@style/TitleBarSeparator" />
+		<TextView
+			style="@style/TitleBarText" />
+
+		<FrameLayout
+			android:layout_width="45dp"
+			android:layout_height="fill_parent"
+		    android:paddingRight="1dp"
+		    
+			android:background="@drawable/title_button"
+		 >
+		<ProgressBar
+			android:id="@+id/background_progress"
+			style="?android:attr/progressBarStyleSmall"
+
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"  
+        
+			android:indeterminateDrawable="@drawable/progress_small_white"
+			android:focusable="true"
+			android:clickable="true"
+			
+			android:padding="10dp"
+
+			android:indeterminate="true"
+			android:visibility="visible" />
+	
+			<ImageButton
+			android:id="@+id/refresh"
+
+			style="@style/TitleBarAction"
+
+			android:src="@drawable/gen_toolbar_icon_sync"
+			
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content" />
+			    		    
+		</FrameLayout>
+		
+		
+		<!--      android:paddingRight="17dp"
+			android:paddingLeft="18dp"
+            
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+		 -->
+
+	
+		<ImageView
+			style="@style/TitleBarSeparator" />
+		<TextView
+			style="@style/TitleBarText" />
+
+		<ImageButton
+			android:id="@+id/mark_all_read_button"
+
+			style="@style/TitleBarAction"
+
+			android:src="@drawable/gen_toolbar_icon_mark_all_read"
+
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content" />
+
+		<ImageView
+			style="@style/TitleBarSeparator" />
+		<TextView
+			style="@style/TitleBarText" />
+
+		<ImageButton
+			android:id="@+id/show_hide_button"
+
+			style="@style/TitleBarAction"
+
+			android:src="@drawable/gen_toolbar_icon_show"
+
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content" />
+
+		<ImageView
+			style="@style/TitleBarSeparator"
+			android:id="@+id/toggle_order_divider" />
+		<TextView
+			style="@style/TitleBarText" />
+
+		<ImageButton
+			android:id="@+id/toggle_order_button"
+
+			style="@style/TitleBarAction"
+
+			android:src="@drawable/gen_toolbar_icon_sort_order_ascending"
+
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content" />
+
+	</LinearLayout>
+
+	
+	<!--
+		<include layout="@layout/in_progress_notification" />
+	-->
+
+</LinearLayout>
+		

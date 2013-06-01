@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/container"
+	android:layout_height="fill_parent"
+	android:layout_width="fill_parent"
+	android:minWidth="300sp"
+	android:orientation="vertical">
+
+	<ViewFlipper
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/content_area"
+		android:layout_weight="1.0"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent">
+
+		<ScrollView
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent">
+
+			<LinearLayout
+				android:id="@+id/select_scope_page"
+				android:layout_height="fill_parent"
+				android:layout_width="fill_parent"
+				android:orientation="vertical"
+				android:padding="10sp">
+
+				<TextView
+					android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:textSize="16sp"
+					android:paddingBottom="10sp"
+					android:paddingLeft="10sp"
+					android:text="What number do you want to display? All unread articles that belong to ..." />
+
+				<RadioGroup
+					android:id="@+id/scope"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical">
+					<RadioButton
+						android:text="... the reading list."
+						android:id="@+id/scope_reading_list"
+						android:textSize="16sp"
+						android:checked="true" />
+					<RadioButton
+						android:text="... to a specific label."
+						android:textSize="16sp"
+						android:id="@+id/scope_label" />
+					<RadioButton
+						android:text="... to a specific feed."
+						android:textSize="16sp"
+						android:id="@+id/scope_feed" />
+				</RadioGroup>
+			</LinearLayout>
+		</ScrollView>
+
+		<LinearLayout
+			android:id="@+id/select_label_page"
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			android:orientation="vertical"
+			android:padding="10sp">
+
+			<TextView
+				android:id="@+id/label_label"
+
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:text="Please select a label:" />
+
+			<Spinner
+				android:id="@+id/label_spinner"
+
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:textSize="6sp" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/select_feed_page"
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			android:orientation="vertical"
+			android:padding="10sp">
+			<TextView
+				android:id="@+id/feed_label"
+
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:text="Please select a feed:" />
+
+			<Spinner
+				android:id="@+id/feed_spinner"
+
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:drawSelectorOnTop="true" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/pick_starting_activity_page"
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			android:orientation="vertical"
+			android:padding="10sp">
+
+			<TextView
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:textSize="16sp"
+				android:text="You can now define the entry point:" />
+
+			<RadioGroup
+				android:id="@+id/starting_activity"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+				<RadioButton
+					android:text="Dashboard (Labels)"
+					android:id="@+id/starting_activity_dashboard"
+					android:textSize="16sp"
+					android:checked="true" />
+				<RadioButton
+					android:text="Feed List"
+					android:textSize="16sp"
+					android:id="@+id/starting_activity_feed_list" />
+				<RadioButton
+					android:text="Article List"
+					android:textSize="16sp"
+					android:id="@+id/starting_activity_article_list" />
+			</RadioGroup>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/enter_label_page"
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			android:orientation="vertical"
+			android:padding="10sp">
+
+			<TextView
+				android:id="@+id/feed_label"
+
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:textSize="16sp"
+				android:text="You can now give the widget a name/label or leave it blank." />
+
+			<EditText
+				android:id="@+id/widget_label"
+
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+
+				android:lines="1"
+
+				android:imeOptions="actionDone"
+				android:inputType="text"
+
+				android:textSize="16sp" />
+
+		</LinearLayout>
+
+
+
+	</ViewFlipper>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:orientation="horizontal">
+		<!--
+			<Button android:id="@+id/cancel" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:layout_weight="1.0" android:text="Cancel"
+			/>
+		-->
+
+		<Button
+			android:id="@+id/left"
+			android:layout_height="wrap_content"
+			android:layout_width="100sp"
+			android:layout_weight="1.0"
+			android:layout_gravity="left"
+			android:text="Previous" />
+
+		<Button
+			android:id="@+id/right"
+			android:layout_height="wrap_content"
+			android:layout_width="100sp"
+			android:layout_weight="1.0"
+			android:layout_gravity="right"
+			android:text="Next" />
+
+
+	</LinearLayout>
+</LinearLayout>

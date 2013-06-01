@@ -1,0 +1,42 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="46px" height="67px" 
+     opacity="1.0"
+     fill="none"
+     xmlns="http://www.w3.org/2000/svg" version="1.1">
+	<defs>
+	    <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+	      <stop offset="0%" 
+	       style="stop-color:rgb(165,42,42);
+	       stop-opacity:1"/>
+	      <stop offset="100%" style="stop-color:rgb(165,42,42); stop-opacity:1"/>
+	    </linearGradient>
+	    <filter id="dropshadow" filterUnits="userSpaceOnUse" x="0" y="0">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+				<feOffset in="blur" dx="0" dy="2" result="offsetBlur"/>
+			<!--	<feSpecularLighting in="blur" surfaceScale="5" specularConstant=".75" specularExponent="20" lighting-color="#bbbbbb" result="specOut">
+					<fePointLight x="-5000" y="-10000" z="20000"/>
+				</feSpecularLighting>
+				<feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut"/>
+				<feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litPaint"/>-->
+				<feMerge>
+					<feMergeNode in="offsetBlur"/>
+					<feMergeNode in="SourceGraphic"/>
+				</feMerge>
+			</filter>
+			<filter id="diffuse_light" filterUnits="userSpaceOnUse" x="0" y="0">
+				<feDiffuseLighting result="diffOut" in="SourceGraphic" diffuseConstant="1" lighting-color="white">
+					<fePointLight x="50" y="15" z="25"/>
+				</feDiffuseLighting>
+				<feComposite in="SourceGraphic" in2="diffOut" operator="arithmetic" k1="1" k2="0" k3="0" k4="0"/>
+		</filter>
+	</defs>
+  
+  <g  filter="url(#dropshadow)" fill="url(#gradient)" stroke="url(#gradient)">
+    <line x1="23" y1="15" x2="23" y2="48" fill="rgb(165,42,42)" stroke="rgb(165,42,42)" style="stroke-linecap:round;stroke-width:15px;"/>
+    <polyline points="8,24 23,7 38,24 8,24"  style="stroke-linecap:round;stroke-linejoin:round;stroke-width:10px;"/>
+  </g>
+</svg>
+
+<!--<polyline points="11,28 24,39 37,28 24,34 11,28"  style="stroke-linecap:round;stroke-linejoin:round;stroke-width:6px;stroke:#000;fill:#0f0"/>-->

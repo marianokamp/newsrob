@@ -1,0 +1,55 @@
+General
+=======
+
+I don't think it is a good idea to use a MS formatted document. I had to borrow a Windows PC to be able to fill in your Excel sheets. Not looking forward to do that again when I want to send you updates.
+
+
+Developer Bio
+=============
+
+Mariano Kamp is a news junkie who wants to process a huge amount of news efficiently. Hence he created NewsRob for Android.
+
+In his day job he works as a Senior IT Architect for a large IT company.
+
+For support please checkout the faq: http://bit.ly/nrfaq and the mailing list: http://bit.ly/nr_list.
+You can suggest new features at user voice: http://bit.ly/nr_suggest.
+
+EULA
+====
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\nTHIRD PARTIES MAY BE USING COOKIES, WEB BEACONS OR OTHER MEANS TO COLLECT DATA TO E.G. TARGET ADS.
+
+SKU
+===
+SKU10000001 Free Version
+SKU10000002 Pro Version
+
+Marketing Description of App
+============================
+
+Stay in sync with what's happening around you.
+
+NewsRob seamlessly syncs with Google Reader and helps you to stay in touch with your latest news.
+
+Add rss/atom feeds of whatever you are interested in to your Google Reader account, e.g. latest updates of your friends on Facebook and Twitter, finance news or new images of your family on Flickr.
+
+NewsRob can download your articles in the background so that when you pick up your phone you can start reading, not downloading. All articles can be made available offline, so that you are independent of network speed or coverage.
+NewsRob can also download the full pages of articles that are just provided as partial feeds.
+
+There is a pro version available with more features:
++ Night Theme
++ Share With Comment
++ ...
+
+Mobile Description of App
+=========================
+
+NewsRob seamlessly syncs with Google Reader and helps you to stay in touch with your latest news.
+
+Add rss/atom feeds of whatever you are interested in to your Google Reader account, e.g. latest updates of your friends on Facebook and Twitter, finance news or new images of your family on Flickr.
+
+NewsRob can download your articles in the background so that when you pick up your phone you can start reading, not downloading. All articles can be made available offline, so that you are independent of network speed or coverage.
+NewsRob can also download the full pages of articles that are just provided as partial feeds.
+
+There is a pro version available with more features like Night Theme, Mark Read Until Here, Share With Note, ...
+

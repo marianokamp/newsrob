@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <style name="Theme.NoBackground" parent="@android:style/Theme.Light">
+        <item name="android:windowBackground">@null</item>
+    </style>
+    
+    <style name="Theme.NewsRob_Light_Normal" parent="@android:style/Theme.Light">
+      <item name="com.newsrob:startColor">#123</item>
+      <item name="com.newsrob:endColor">#456</item>
+      <item name="com.newsrob:lightTextColor">#fff</item>
+      <item name="com.newsrob:articleHeaderTextColor">#333</item>
+      <item name="com.newsrob:articleSnippetTextColor">#777</item>
+      <item name="com.newsrob:feedTitleTextColor">#777</item>
+      <item name="com.newsrob:sharedByTextColor">#777</item>
+      <item name="com.newsrob:dividerColor">#bbb</item>
+      <item name="com.newsrob:controlPanelDividerColor">#bbb</item>
+      <item name="com.newsrob:controlPanelBottomDividerColor">#0f00</item>
+      <item name="webViewBackgroundColorLight">#fff</item>
+      <item name="com.newsrob:countBackground">@com.newsrob:drawable/count_background</item>
+    </style>
+    
+    <style name="Theme.NewsRob_Dark_Normal" parent="@android:style/Theme.Black">
+      <item name="com.newsrob:startColor">#789</item>
+      <item name="com.newsrob:endColor">#0ab</item>
+      <item name="com.newsrob:lightTextColor">#999</item>
+      <item name="com.newsrob:articleHeaderTextColor">#999</item>
+      <item name="com.newsrob:articleSnippetTextColor">#777</item>
+      <item name="com.newsrob:feedTitleTextColor">#777</item>
+      <item name="com.newsrob:sharedByTextColor">#777</item>
+      <item name="webViewBackgroundColorLight">#bbb</item>
+      <item name="com.newsrob:dividerColor">#333</item>
+      <item name="com.newsrob:controlPanelDividerColor">#999</item>
+      <item name="com.newsrob:controlPanelBottomDividerColor">#0999</item>
+      <item name="com.newsrob:countBackground">@com.newsrob:drawable/count_background_dark</item>
+    </style>
+    
+    <style name="TitleBarSeparator">
+      <item name="android:layout_width">1px</item>
+      <item name="android:layout_height">fill_parent</item>
+      <item name="android:background">?com.newsrob:controlPanelDividerColor</item> <!--  TODO  -->
+    </style>
+    
+    <style name="ControlPanelSeparator">
+      <item name="android:layout_width">fill_parent</item>
+      <item name="android:layout_height">1px</item>
+      <item name="android:background">?com.newsrob:controlPanelBottomDividerColor</item> <!--  TODO  -->
+    </style>
+    
+    <style name="TitleBarText" parent="@android:style/TextAppearance.Medium">
+      <item name="android:layout_width">0dp</item>
+      <item name="android:layout_height">fill_parent</item>
+      <item name="android:layout_weight">0</item>
+      <item name="android:gravity">center_vertical</item>
+      <item name="android:paddingLeft">8dp</item>
+      <item name="android:paddingRight">8dp</item>
+      <item name="android:textStyle">bold</item>
+      <item name="android:singleLine">true</item>
+      <item name="android:ellipsize">end</item>
+    </style>
+       
+    <style name="TitleBar">
+      <item name="android:id">@id/title_container</item>
+      <item name="android:layout_width">fill_parent</item>
+      <item name="android:orientation">horizontal</item>
+    </style>
+    
+    <style name="TitleBarAction">
+      <item name="android:paddingTop">2dp</item>
+      <item name="android:paddingBottom">2dp</item>
+      <item name="android:paddingRight">3dp</item>
+      <item name="android:paddingLeft">3dp</item>
+      
+      <item name="android:layout_weight">0</item>
+      <item name="android:background">@drawable/title_button</item>
+    </style>
+    
+</resources>

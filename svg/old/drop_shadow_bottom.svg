@@ -1,0 +1,31 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" width="100px" height="30px">
+ 	<defs>
+		<filter id="MyFilter" filterUnits="userSpaceOnUse" x="0" y="0">
+			<feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+			<feOffset in="blur" dx="0" dy="2" result="offsetBlur"/>
+		<!--	<feSpecularLighting in="blur" surfaceScale="5" specularConstant=".75" specularExponent="20" lighting-color="#bbbbbb" result="specOut">
+				<fePointLight x="-5000" y="-10000" z="20000"/>
+			</feSpecularLighting>
+			<feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut"/>
+			<feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litPaint"/>-->
+			<feMerge>
+				<feMergeNode in="offsetBlur"/>
+				<feMergeNode in="SourceGraphic"/>
+			</feMerge>
+		</filter>
+		<filter id="diffuse_light" filterUnits="userSpaceOnUse" x="0" y="0">
+			<feDiffuseLighting result="diffOut" in="SourceGraphic" diffuseConstant="1" lighting-color="white">
+				<fePointLight x="50" y="15" z="25"/>
+			</feDiffuseLighting>
+			<feComposite in="SourceGraphic" in2="diffOut" operator="arithmetic" k1="1" k2="0" k3="0" k4="0"/>
+		</filter>
+	</defs>
+	<g filter="url(#MyFilter)">
+		<g> <!-- filter="url(#diffuse_light)"-->
+		  <rect x="00px" y="5px" width="100px" height="15px" style="fill:#777"/>
+	    </g>
+	</g>
+</svg>

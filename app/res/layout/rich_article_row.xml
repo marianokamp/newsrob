@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:id="@+id/outter_container"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+	<TextView
+		android:id="@+id/read_status_indicator"
+
+		android:layout_width="10dp"
+		android:layout_height="fill_parent"
+
+		android:layout_gravity="center_vertical"
+		android:gravity="center_vertical"
+
+		android:layout_marginLeft="-5dp"
+		android:layout_marginRight="-2dp"
+		android:layout_marginTop="4dp"
+		android:layout_marginBottom="4dp" />
+
+	<com.newsrob.widget.SwipeRelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+
+		android:id="@+id/swipe_container"
+
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+
+		android:paddingLeft="3dp"
+		android:layout_marginLeft="3dp"
+
+		android:paddingRight="5dp">
+
+		<LinearLayout
+			android:id="@+id/first_line"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:orientation="horizontal">
+
+			<TextView
+				android:id="@+id/feed_title"
+
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+
+				android:layout_alignParentTop="true"
+				android:layout_alignParentLeft="true"
+
+				android:ellipsize="middle"
+				android:singleLine="true"
+
+				android:textSize="@dimen/article_list_feed_title"
+		
+				android:textColor="?com.newsrob:feedTitleTextColor"
+
+				android:paddingRight="2dp"
+				android:layout_weight="1" />
+
+			<include
+				layout="@layout/article_states" />
+
+			<TextView
+				android:id="@+id/view_mode"
+
+				android:layout_height="wrap_content"
+				android:layout_width="30dp"
+
+				android:layout_marginTop="0dp"
+
+				android:textSize="13sp"
+				android:textColor="?com.newsrob:lightTextColor"
+				android:background="?com.newsrob:dividerColor"
+
+				android:gravity="center"
+				android:layout_gravity="bottom"
+				android:visibility="gone" />
+
+		</LinearLayout>
+
+		<CheckBox
+			android:id="@+id/star_checkbox"
+			style="?android:attr/starStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+
+			android:layout_gravity="bottom"
+			android:layout_alignParentRight="true"
+			android:layout_below="@id/first_line"
+
+			android:layout_marginTop="4dp"
+			android:visibility="gone"
+			android:focusable="true" />
+
+
+		<RelativeLayout
+			android:id="@+id/title_container"
+
+
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+
+			android:layout_alignParentLeft="true"
+			android:layout_toLeftOf="@id/star_checkbox"
+			android:layout_below="@id/first_line">
+
+			<ImageView
+				android:id="@+id/thumbnail"
+
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="4dp"
+
+				android:layout_alignParentRight="true"
+				android:visibility="gone" />
+
+			<TextView
+				android:id="@+id/entry_title"
+
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+
+				android:layout_toLeftOf="@id/thumbnail"
+				android:layout_alignParentLeft="true"
+
+				android:textColor="?com.newsrob:articleHeaderTextColor"
+
+				android:textSize="@dimen/article_list_title"
+				android:textStyle="bold" />
+
+			<TextView
+				android:id="@+id/entry_snippet"
+
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+
+				android:layout_below="@id/entry_title"
+				android:layout_toLeftOf="@id/thumbnail"
+				android:layout_alignParentLeft="true"
+
+				android:textColor="?com.newsrob:articleSnippetTextColor"
+				android:maxLines="3"
+				android:textSize="@dimen/article_list_snippet"
+				android:visibility="gone" />
+		</RelativeLayout>
+
+		<TextView
+			android:id="@+id/shared_by_friend"
+
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+
+			android:layout_below="@id/title_container"
+
+			android:textColor="?com.newsrob:sharedByTextColor"
+
+
+			android:textSize="12dp"
+			android:visibility="gone" />
+
+	</com.newsrob.widget.SwipeRelativeLayout>
+</LinearLayout>
+	<!-- android:autoLink="web"  -->

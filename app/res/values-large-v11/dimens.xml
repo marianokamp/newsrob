@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <dimen name="article_list_snippet">14dp</dimen>
+        <dimen name="article_list_title">18dp</dimen>
+        <dimen name="article_list_feed_title">15dp</dimen>
+</resources>

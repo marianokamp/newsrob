@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" 
+              "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+  <g style="fill:none; stroke:#777; stroke-width:3px; stroke-linejoin:round; stroke-linecap:round;" transform="scale(0.75,0.75)">
+    <rect x="13" y="14" rx="3" ry="3" width="22" height="30" />
+    <rect x="13" y="14" rx="3" ry="3" width="22" height="12"/>
+ 
+    <line x1="16" y1="6" x2="16" y2="13" style="stroke-width:4px"/>
+    
+  	<rect x="14" y="27" width="21" height="15" style="fill:#777"/>
+  
+    <use xlink:href="lib/phone_dial_pad.svg#phone_dial" style="stroke:#fff" x="1"/>
+   
+  </g>
+</svg>

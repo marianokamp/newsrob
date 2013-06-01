@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" 
+              "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35">
+  <g style="fill:none; stroke:#ccc; stroke-width:3px; stroke-linejoin:round; stroke-linecap:round;">
+    <path d="M18,3 L14,13 L3, 16 L12,21 L6, 32 L18,26"/>
+    <path d="M18,3 L21,13 L32,16 L23,21 L29,32 L18,26"/>
+  </g>
+</svg>

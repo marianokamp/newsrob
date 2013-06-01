@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" 
+              "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" transform="scale(0.75)">
+   <defs>
+    <linearGradient id="grey_gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="000%" stop-color="#777" stop-opacity="0.0"/>
+      <stop offset="045%" stop-color="#777" stop-opacity="1.0"/>
+      <stop offset="055%" stop-color="#777" stop-opacity="1.0"/>
+      <stop offset="100%" stop-color="#777" stop-opacity="0.0"/>
+    </linearGradient>
+  </defs>
+ 
+  <g opacity="1.0">
+    <rect x="0" y="59" width="60" height="1" style="fill:url(#grey_gradient); stroke:url(#grey_gradient); stroke-width:1px; stroke-linejoin:round; stroke-linecap:round;" />
+  </g>
+</svg>

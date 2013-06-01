@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"> <!-- android:background="@drawable/discovered_feed_background" -->
+
+    <FrameLayout
+    android:layout_width="25dp"
+    android:layout_height="25dp"
+    android:background="#c999"
+    android:layout_margin="2dp"
+    android:layout_gravity="right|bottom">
+    
+    <Button
+        android:id="@+id/subscribe_button"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        
+       
+        android:background="@android:drawable/ic_input_add" /> <!--  delete     -->
+        </FrameLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+       
+        android:layout_toLeftOf="@id/subscribe_button">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/url"
+            android:textSize="10sp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/snippet"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp" />
+
+    </LinearLayout>
+
+
+</FrameLayout>
+            

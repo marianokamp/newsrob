@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.newsrob"
+    android:versionCode="489"
+    android:versionName="4.8.9-5">
+
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:anyDensity="true" />
+
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="9"></uses-sdk>
+    
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
+
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WAKE_LOCK" />
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.VIBRATE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission
+        android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission
+        android:name="android.permission.MANAGE_ACCOUNTS" />
+
+
+    <application
+        android:icon="@drawable/gen_app_icon"
+        android:label="@string/app_name"
+        android:name="com.newsrob.NewsRob"
+        android:theme="@android:style/Theme.Black"
+        android:description="@string/app_description">
+
+        <!--
+            <meta-data android:name="android.app.default_searchable"
+            android:value=".activities.ShowArticleActivity" />
+        -->
+
+
+        <activity
+            android:name="com.newsrob.DashboardListActivity"
+            android:label="@string/dashboard_label"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:clearTaskOnLaunch="true"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.MAIN" />
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.newsrob.activities.ArticleListActivity"
+            android:label="@string/article_list_label"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:clearTaskOnLaunch="true"
+            android:exported="true">
+
+            <!--
+                <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            -->
+
+        </activity>
+
+
+
+        <activity
+            android:name="com.newsrob.activities.FeedListActivity"
+            android:label="@string/feed_list_label"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+
+            android:clearTaskOnLaunch="true"
+            android:exported="true" />
+
+
+        <activity
+            android:name="com.newsrob.activities.ShowArticleActivity"
+            android:label="@string/show_article"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:exported="true">
+
+            <intent-filter>
+                <action
+                    android:name="com.newsrob.VIEW" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.SEARCH" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!--
+                <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            -->
+
+
+        </activity>
+        <activity
+            android:name="com.newsrob.activities.AccountListActivity"
+            android:label="Accounts"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:clearTaskOnLaunch="true">
+        </activity>
+
+        <!--
+            <activity
+            android:name="com.newsrob.activities.DebugActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:clearTaskOnLaunch="true"> <intent-filter> <action
+            android:name="android.settings.ADD_ACCOUNT_SETTINGS" />
+            <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter> </activity>
+        -->
+
+        <activity
+            android:name="com.newsrob.activities.LoginActivity"
+            android:label="@string/login"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Light"
+            android:configChanges="orientation|keyboardHidden|keyboard" />
+
+
+        <activity
+            android:name="com.newsrob.activities.SettingsActivity"
+            android:theme="@android:style/Theme.Black"
+
+            android:label="@string/settings_title" />
+
+        <activity
+            android:name="com.newsrob.activities.ShowGoogleErrorActivity"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:label="@string/show_google_error_activity_label" />
+
+        <activity
+            android:name="com.newsrob.activities.ShowArticleInfoActivity"
+            android:label="@string/show_entry_info"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <activity
+            android:name="com.newsrob.activities.ShowMessageActivity"
+            android:label="Show Message"
+            android:process="com.newsrob.message.show"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <activity
+            android:name="com.newsrob.activities.ManageFeedActivity"
+            android:label="@string/menu_item_manage_feed"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <activity
+            android:name="com.newsrob.activities.SubscribeFeedActivity"
+            android:label="Subscribe to Feed in Google Reader"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.SEND" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:mimeType="text/plain"
+                    scheme="http" />
+                <data
+                    android:mimeType="text/plain"
+                    scheme="https" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.newsrob.appwidget.UnreadWidgetPrefActivity"
+            android:label="Configure Unread Widget"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:theme="@android:style/Theme.Dialog">
+            <intent-filter>
+                <action
+                    android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="com.newsrob.locale.MockEditSettingsActivity"
+            android:label="@string/app_name"
+            android:icon="@drawable/newsrob_logo_32x32">
+            <intent-filter>
+                <action
+                    android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="com.newsrob.locale.FireReceiver">
+            <intent-filter>
+                <action
+                    android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
+                <action
+                    android:name="com.newsrob.SYNC" />
+                <action
+                    android:name="com.newsrob.UP_SYNC" />
+                <action
+                    android:name="com.newsrob.CANCEL_SYNC" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.newsrob.WakeupAndSynchronizeReceiver" />
+
+        <receiver
+            android:name="com.newsrob.BootReceiver">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.BOOT_COMPLETED" />
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.newsrob.PackageChangedReceiver">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.PACKAGE_REPLACED" />
+                <action
+                    android:name="android.intent.action.PACKAGE_ADDED" />
+                <data
+                    android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.newsrob.appwidget.UnreadWidgetProvider"
+            android:label="NewsRob\nUnread Count">
+            <intent-filter>
+                <action
+                    android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <!--
+                <intent-filter> <action
+                android:name="com.newsrob.MODEL_UPDATED" />
+                </intent-filter>
+            -->
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/unread_widget" />
+        </receiver>
+
+        <!--
+            <provider android:name="com.newsrob.search.SearchProvider"
+            android:authorities="articles" android:syncable="false" />
+        -->
+
+        <provider
+            android:name="com.newsrob.AssetContentProvider"
+            android:authorities="com.newsrob.assets" />
+
+        <service
+            android:name="com.newsrob.SynchronizationService"
+            android:enabled="true" />
+
+        <service
+            android:name="com.newsrob.appwidget.UnreadWidgetProvider$UpdateService" />
+
+    </application>
+</manifest> 

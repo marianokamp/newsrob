@@ -1,0 +1,89 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" 
+     width="500px" height="500px">
+	  <defs>
+	    <linearGradient id="orange_gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+	      <stop offset="0%" 
+	       style="stop-color:rgb(239,90,31);
+	       stop-opacity:1"/>
+	      <stop offset="100%" style="stop-color:rgb(250,168,15);
+	            stop-opacity:1"/>
+	    </linearGradient>
+	    <linearGradient id="blue_gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+	      <stop offset="0%" 
+	       style="stop-color:rgb(16,98,153);
+	       stop-opacity:1"/>
+	      <stop offset="100%" style="stop-color:rgb(18,133,203);
+	            stop-opacity:1"/>
+	    </linearGradient>
+  	    <linearGradient id="grey_gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+		  <stop offset="0%" 
+		         style="stop-color:rgb(169,169,169);
+		         stop-opacity:1"/>
+		  <stop offset="100%" 
+		         style="stop-color:rgb(126,126,126);
+		         stop-opacity:1"/>
+		</linearGradient>
+  	    <linearGradient id="fill_gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+		  <stop offset="0%" 
+		         style="stop-color:rgb(105,105,105);
+		         stop-opacity:1"/>
+		  <stop offset="100%" 
+		         style="stop-color:rgb(10,10,10);
+		         stop-opacity:1"/>
+		</linearGradient>
+	  </defs>
+
+<!-- orange = F58020 blue = 126CA0 -->
+
+  <g>
+    <!-- REPLACE ME1 -->
+    <g transform='scale(0.05,0.45)'  >
+
+   <!--<rect x="0" y="0" width="100%" height="100%"/>-->
+     <path d="M20,140 Q250,-120 480,140   Q380,160 275,290   L225,290   Q120,160 20,140" 
+         fill="url(#orange_gradient)" /> <!-- ccc -->
+  
+   <path 
+  d="M0,150   Q25,330 10,400  Q125,425 220,550   L280,550   Q375,425 490,400  Q475,330 500,150   Q375,175 280,300    L220,300   Q125,175 0,150 "
+  fill="url(#blue_gradient)"  /> <!-- 777 -->
+
+    <circle cx="210" cy="165" r="35" fill="white"/>
+    <circle cx="290" cy="165" r="35" fill="white"/>
+
+ <!-- <line x1="0" x2="500px" y1="50"  y2="50" stroke="grey"/>
+  <line x1="0" x2="500px" y1="100" y2="100" stroke="grey"/>
+  <line x1="0" x2="500px" y1="150" y2="150" stroke="grey"/>
+  <line x1="0" x2="500px" y1="200" y2="200" stroke="grey"/>
+  <line x1="0" x2="500px" y1="250" y2="250" stroke="grey"/>
+  <line x1="0" x2="500px" y1="300" y2="300" stroke="grey"/>
+  <line x1="0" x2="500px" y1="350" y2="350" stroke="grey"/>
+  <line x1="0" x2="500px" y1="400" y2="400" stroke="grey"/>
+  <line x1="0" x2="500px" y1="450" y2="450" stroke="grey"/>
+  <line x1="0" x2="500px" y1="500" y2="500" stroke="grey"/>
+  <line x1="0" x2="500px" y1="550" y2="550" stroke="grey"/>
+
+  <line x1="050" x2="050" y1="000" y2="550px" stroke="grey"/>
+  <line x1="100" x2="100" y1="000" y2="550px" stroke="grey"/>
+  <line x1="150" x2="150" y1="000" y2="550px" stroke="grey"/>
+  <line x1="200" x2="200" y1="000" y2="550px" stroke="grey"/>
+  <line x1="250" x2="250" y1="000" y2="550px" stroke="grey"/>
+  <line x1="300" x2="300" y1="000" y2="550px" stroke="grey"/>
+  <line x1="350" x2="350" y1="000" y2="550px" stroke="grey"/>
+  <line x1="400" x2="400" y1="000" y2="550px" stroke="grey"/>
+  <line x1="450" x2="450" y1="000" y2="550px" stroke="grey"/>
+  <line x1="500" x2="500" y1="000" y2="550px" stroke="grey"/>
+
+  <circle cx="025" cy="330" r="5" fill="red"/>
+  <circle cx="125" cy="425" r="5" fill="red"/>
+  <circle cx="375" cy="425" r="5" fill="red"/>
+  <circle cx="475" cy="330" r="5" fill="red"/>
+  <circle cx="375" cy="175" r="5" fill="green"/>
+  <circle cx="125" cy="175" r="5" fill="blue"/>-->
+
+
+  </g>
+  </g>
+  
+</svg>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/ad_parent"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/status_bar"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentTop="true"
+
+        android:orientation="vertical"
+        android:background="@drawable/label_background"
+
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/control_panel_title"
+
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:gravity="top|center_horizontal"
+
+                android:paddingBottom="2dip"
+                android:textColor="?com.newsrob:lightTextColor"
+                android:ellipsize="end"
+                android:layout_weight="1.0"
+                android:lines="1" />
+
+            <ProgressBar
+                android:id="@+id/progress_status_bar"
+                style="?android:attr/progressBarStyleSmall"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dip"
+
+                android:visibility="invisible" /> <!-- android:indeterminateDrawable="@drawable/progress_small_white" -->
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--
+        <include android:id="@+id/control_panel"
+        layout="@layout/control_panel" />
+    -->
+
+    <ViewStub
+        android:id="@+id/control_panel_stub"
+        android:inflatedId="@+id/control_panel"
+
+        android:layout="@layout/control_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    <!--
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+    -->
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1.0">
+
+        <ListView
+            android:id="@android:id/list"
+
+            android:divider="?com.newsrob:dividerColor"
+            android:dividerHeight="1px"
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            layout="@layout/in_progress_notification" />
+
+        <TextView
+            android:id="@+id/show_open_progress_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="Tap on the circling progress indicator to show a detailed progress report or to cancel the sync.\n\nTap again to hide it."
+            android:textSize="25dip"
+            android:textColor="#eee"
+            android:background="#d222"
+            android:visibility="invisible" />
+
+        <AbsoluteLayout
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent">
+            <ImageView
+                android:id="@+id/bouncing_arrow"
+
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+
+                android:paddingTop="5dp"
+
+                android:visibility="invisible" />
+        </AbsoluteLayout>
+
+
+        <FrameLayout
+
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ProgressBar
+                android:id="@+id/data_update_progress"
+                style="?android:attr/progressBarStyle"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@android:id/empty"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/no_articles"
+            android:textSize="20dip" />
+    </FrameLayout>
+
+    <!-- <include
+		layout="@layout/ad" /> -->
+
+</LinearLayout>

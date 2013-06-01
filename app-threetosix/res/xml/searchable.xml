@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<searchable
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:label="@string/search_label"
+	android:hint="enter keyword"
+	android:searchSuggestAuthority="articles"
+	android:searchSuggestIntentAction="com.newsrob.VIEW"
+	android:searchSuggestThreshold="3"
+	android:queryAfterZeroResults="false"
+	>
+</searchable>
+<!-- 	
+	android:includeInGlobalSearch="true"
+	android:searchSettingsDescription="@string/search_settings_description"
+
+-->

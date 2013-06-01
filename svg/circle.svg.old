@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" 
+              "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" 
+     width="10" 
+     height="10">
+  <defs>
+    <linearGradient id="gradient" 
+                    x1="0%" 
+                    y1="0%" 
+                    x2="0%"
+                    y2="100%">
+      <stop offset="001%" style="stop-color:#777"/>
+      <stop offset="100%" style="stop-color:#777"/> <!--8af-->
+    </linearGradient>
+  </defs>
+  
+  
+  <g fill="url(#gradient)">
+	<!--<rect x="0" y="0" width="11" height="11" stroke="grey" fill="none"/>-->
+    <circle id="content-circle" 
+	        cx="5"
+	        cy="5" 
+	        r="5"/>
+  
+  </g>
+</svg>

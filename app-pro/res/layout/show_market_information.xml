@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1.0">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+
+            android:orientation="vertical"
+            android:padding="20sp">
+            <TextView
+                android:id="@+id/thanks"
+                android:text="@string/thanks"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:paddingTop="20sp"
+                android:id="@+id/all_done"
+                android:text="@string/all_done"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:paddingTop="20sp"
+                android:id="@+id/need_to_install_free_version"
+                android:text="@string/need_to_install_free_version"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_marginTop="45dip"
+        android:padding="0dip"
+        android:layout_alignParentBottom="true"
+        android:background="@android:drawable/bottom_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:gravity="center">
+        <Button
+            android:id="@+id/close_button"
+            android:text="OK"
+            android:minWidth="100sp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal|bottom" />
+    </RelativeLayout>
+</LinearLayout>
