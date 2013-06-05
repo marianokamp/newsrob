@@ -55,7 +55,7 @@ import com.newsrob.util.SimpleStringExtractorHandler;
 import com.newsrob.util.Timing;
 import com.newsrob.util.U;
 
-public class EntriesRetriever implements SyncInterface {
+public class EntriesRetriever {
 
     private static final int MIN_EXACT_SYNC_FREQUENCY_MIN = 29;
     private static final int MAX_ARTICLES_ON_GOOGLE_READER_ACCOUNT = 10000;
@@ -102,9 +102,8 @@ public class EntriesRetriever implements SyncInterface {
         return !getEntryManager().needsSession();
     }
 
-    @Override
-    public boolean authenticate(Context context, String email, String password, String captchaToken,
-            String captchaAnswer) throws ClientProtocolException, IOException, AuthenticationFailedException {
+    boolean authenticate(Context context, String email, String password, String captchaToken, String captchaAnswer)
+            throws ClientProtocolException, IOException, AuthenticationFailedException {
 
         getEntryManager().getNewsRobNotificationManager().cancelSyncProblemNotification();
 
@@ -174,12 +173,6 @@ public class EntriesRetriever implements SyncInterface {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.newsrob.SyncInterface#discoverFeeds(java.lang.String)
-     */
-    @Override
     public List<DiscoveredFeed> discoverFeeds(final String query) throws ReaderAPIException, IOException,
             GRTokenExpiredException, ParserConfigurationException, SAXException, GRAnsweredBadRequestException {
         Timing t = new Timing("discoverFeeds()", context);
@@ -281,12 +274,6 @@ public class EntriesRetriever implements SyncInterface {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.newsrob.SyncInterface#submitSubscribe(java.lang.String)
-     */
-    @Override
     public boolean submitSubscribe(String url2subscribe) throws ReaderAPIException {
         Timing t = new Timing("Submit Subscribe", context);
 
@@ -317,12 +304,6 @@ public class EntriesRetriever implements SyncInterface {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.newsrob.SyncInterface#submitNotes(com.newsrob.jobs.Job)
-     */
-    @Override
     public void submitNotes(Job job) throws ReaderAPIException {
         Timing t = new Timing("Submit Notes", context);
         List<Entry> entries = getEntryManager().getEntriesWithNotesToBeSubmitted();
@@ -561,8 +542,7 @@ public class EntriesRetriever implements SyncInterface {
      * @return No of entries updated
      * @throws NeedsSessionException
      */
-    @Override
-    public int synchronizeWithGoogleReader(EntryManager entryManager, SyncJob syncJob) throws MalformedURLException,
+    int synchronizeWithGoogleReader(EntryManager entryManager, SyncJob syncJob) throws MalformedURLException,
             IOException, ParserConfigurationException, FactoryConfigurationError, SAXException, ParseException,
             NeedsSessionException {
 
@@ -628,8 +608,7 @@ public class EntriesRetriever implements SyncInterface {
         return noOfUpdated;
     }
 
-    @Override
-    public int fetchNewEntries(final EntryManager entryManager, final SyncJob job, boolean manualSync)
+    int fetchNewEntries(final EntryManager entryManager, final SyncJob job, boolean manualSync)
             throws ClientProtocolException, IOException, NeedsSessionException, SAXException, IllegalStateException,
             ParserConfigurationException, FactoryConfigurationError, ReaderAPIException, GRTokenExpiredException {
 
@@ -905,15 +884,10 @@ public class EntriesRetriever implements SyncInterface {
         return futureReadUpdateResult;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.newsrob.SyncInterface#differentialUpdateOfArticlesStates(com.newsrob
-     * .EntryManager, com.newsrob.jobs.Job, java.lang.String, java.lang.String,
-     * com.newsrob.ArticleDbState)
+    /**
+     * differentialUpdateOfArticlesStates is where the actual exact syncing
+     * magic happens
      */
-    @Override
     public void differentialUpdateOfArticlesStates(final EntryManager entryManager, Job job, String stream,
             String excludeState, ArticleDbState articleDbState) throws SAXException, IOException,
             ParserConfigurationException, GRTokenExpiredException, GRAnsweredBadRequestException {
@@ -1133,7 +1107,7 @@ public class EntriesRetriever implements SyncInterface {
 
     private void retryLogin() {
 
-        if (SyncInterface.AuthToken.AuthType.AUTH == entryManager.getAuthToken().getType()) {
+        if (EntriesRetriever.AuthToken.AuthType.AUTH == entryManager.getAuthToken().type) {
             getAuthToken();
         } else {
             try {
@@ -1157,12 +1131,6 @@ public class EntriesRetriever implements SyncInterface {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.newsrob.SyncInterface#unsubscribeFeed(java.lang.String)
-     */
-    @Override
     public void unsubscribeFeed(String feedAtomId) throws IOException, NeedsSessionException, ReaderAPIException {
 
         NewsRobHttpClient httpClient = NewsRobHttpClient.newInstance(false, context);
@@ -1393,15 +1361,15 @@ public class EntriesRetriever implements SyncInterface {
                         int state = -1;
 
                         if (s.endsWith("read"))
-                            state = SyncInterface.StateChange.STATE_READ;
+                            state = EntriesRetriever.StateChange.STATE_READ;
 
                         else if (s.endsWith("starred"))
-                            state = SyncInterface.StateChange.STATE_STARRED;
+                            state = EntriesRetriever.StateChange.STATE_STARRED;
 
                         if (state > -1) {
                             EntriesRetriever.StateChange sc = new EntriesRetriever.StateChange(currentAtomId, state,
-                                    delete ? SyncInterface.StateChange.OPERATION_REMOVE
-                                            : SyncInterface.StateChange.OPERATION_ADD);
+                                    delete ? EntriesRetriever.StateChange.OPERATION_REMOVE
+                                            : EntriesRetriever.StateChange.OPERATION_ADD);
                             stateChanges.add(sc);
                         }
                     }
@@ -1430,7 +1398,7 @@ public class EntriesRetriever implements SyncInterface {
         getEntryManager().setGRUpdated(lastUpdated);
     }
 
-    public void logout() {
+    void logout() {
         clearAuthToken();
         getEntryManager().setGoogleUserId(null);
     }
@@ -1678,6 +1646,53 @@ public class EntriesRetriever implements SyncInterface {
         }
     }
 
+    static class StateChange {
+        static final int OPERATION_REMOVE = 0;
+        static final int OPERATION_ADD = 1;
+        static final int STATE_READ = 2;
+        static final int STATE_STARRED = 3;
+
+        private int state;
+        private int operation;
+
+        int getState() {
+            return state;
+        }
+
+        int getOperation() {
+            return operation;
+        }
+
+        String getAtomId() {
+            return atomId;
+        }
+
+        private String atomId;
+
+        StateChange(String atomId, int state, int operation) {
+            this.atomId = atomId;
+            this.state = state;
+            this.operation = operation;
+        }
+
+        @Override
+        public String toString() {
+            String stateLabel = "State?";
+            switch (state) {
+            case STATE_READ:
+                stateLabel = "read";
+                break;
+            case STATE_STARRED:
+                stateLabel = "starred";
+                break;
+            }
+
+            String operationLabel = operation == OPERATION_ADD ? "add" : "remove";
+            return "State: " + operationLabel + " " + stateLabel + " for " + getAtomId() + ".";
+        }
+
+    }
+
     public static class FetchContext {
         // raw number of entries processed
         int countSeenEntries;
@@ -1696,7 +1711,7 @@ public class EntriesRetriever implements SyncInterface {
     static class UpdateSubscriptionsCancelledException extends RuntimeException {
     }
 
-    public void updateSubscriptionList(final EntryManager entryManager, final Job job) throws IOException,
+    void updateSubscriptionList(final EntryManager entryManager, final Job job) throws IOException,
             ParserConfigurationException, SAXException, GRTokenExpiredException {
 
         if (job.isCancelled())
@@ -1775,6 +1790,32 @@ public class EntriesRetriever implements SyncInterface {
             t.stop();
         }
         entryManager.updateLastSyncedSubscriptions(System.currentTimeMillis());
+    }
+
+    public static class AuthToken {
+        enum AuthType {
+            AUTH_STANDALONE, AUTH
+        };
+
+        private AuthType type;
+        private String authToken;
+
+        AuthToken(AuthType type, String authToken) {
+            this.type = type;
+            this.authToken = authToken;
+        }
+
+        AuthType getAuthType() {
+            return type;
+        }
+
+        String getAuthToken() {
+            return authToken;
+        }
+
+        public String toString() {
+            return "AuthToken " + authToken.substring(0, 4) + " of type " + type + ".";
+        }
     }
 
 }

@@ -99,7 +99,7 @@ public class SubscribeFeedActivity extends Activity {
 
             for (String feedUrl : feedUrls)
                 try {
-                    EntryManager.getInstance(SubscribeFeedActivity.this).getSyncInterface().submitSubscribe(feedUrl);
+                    EntryManager.getInstance(SubscribeFeedActivity.this).getEntriesRetriever().submitSubscribe(feedUrl);
                 } catch (ReaderAPIException e) {
                     exception = e;
                     e.printStackTrace();
@@ -222,7 +222,7 @@ public class SubscribeFeedActivity extends Activity {
             List<DiscoveredFeed> result = null;
 
             try {
-                result = EntryManager.getInstance(SubscribeFeedActivity.this).getSyncInterface().discoverFeeds(
+                result = EntryManager.getInstance(SubscribeFeedActivity.this).getEntriesRetriever().discoverFeeds(
                         params[0]);
             } catch (Exception e) {
                 this.exception = e;

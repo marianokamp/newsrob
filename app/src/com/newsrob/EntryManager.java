@@ -62,9 +62,9 @@ import com.google.ads.AdSenseSpec.ExpandDirection;
 import com.newsrob.DB.Entries;
 import com.newsrob.DB.EntryLabelAssociations;
 import com.newsrob.DB.TempTable;
-import com.newsrob.SyncInterface.AuthToken;
-import com.newsrob.SyncInterface.AuthToken.AuthType;
-import com.newsrob.SyncInterface.StateChange;
+import com.newsrob.EntriesRetriever.AuthToken;
+import com.newsrob.EntriesRetriever.AuthToken.AuthType;
+import com.newsrob.EntriesRetriever.StateChange;
 import com.newsrob.appwidget.UnreadWidgetProvider;
 import com.newsrob.appwidget.WidgetPreferences;
 import com.newsrob.auth.AccountManagementUtils;
@@ -192,7 +192,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
 
     private final DB databaseHelper;
 
-    private SyncInterface grf;
+    private EntriesRetriever grf;
 
     private static EntryManager instance;
 
@@ -361,9 +361,9 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         return packageInfo.versionName + (isProVersion() ? " Pro" : "");
     }
 
-    public synchronized SyncInterface getSyncInterface() {
+    public synchronized EntriesRetriever getEntriesRetriever() {
         if (grf == null)
-            grf = SyncInterfaceFactory.getSyncInterface(getContext());
+            grf = new EntriesRetriever(getContext());
         return grf;
     }
 
@@ -534,7 +534,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
 
     public void doLogin(final Context context, final String email, final String password, String captchaToken,
             String captchaAnswer) throws ClientProtocolException, IOException, AuthenticationFailedException {
-        getSyncInterface().authenticate(context, email, password, captchaToken, captchaAnswer);
+        getEntriesRetriever().authenticate(context, email, password, captchaToken, captchaAnswer);
         proVersion = null; // reset pro version, so that it is evaluated again
                            // after a login. This is necessary to detect the
                            // special accounts.
@@ -550,7 +550,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         AuthToken authToken = getAuthToken();
         IAccountManagementUtils accountManagementUtils = AccountManagementUtils.getAccountManagementUtils(ctx);
         if (accountManagementUtils != null && authToken != null
-                && authToken.getAuthType() == SyncInterface.AuthToken.AuthType.AUTH) {
+                && authToken.getAuthType() == EntriesRetriever.AuthToken.AuthType.AUTH) {
             AccountManagementUtils.getAccountManagementUtils(ctx).invalidateAuthToken(ctx, authToken.getAuthToken());
         }
         SDK9Helper.apply(getSharedPreferences().edit().putString(SETTINGS_AUTH_TOKEN, "EXPIRED"));
@@ -561,7 +561,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         IAccountManagementUtils accountManagementUtils = AccountManagementUtils.getAccountManagementUtils(ctx);
 
         if (accountManagementUtils != null && authToken != null
-                && authToken.getAuthType() == SyncInterface.AuthToken.AuthType.AUTH) {
+                && authToken.getAuthType() == EntriesRetriever.AuthToken.AuthType.AUTH) {
             AccountManagementUtils.getAccountManagementUtils(ctx).invalidateAuthToken(ctx, authToken.getAuthToken());
         }
         SharedPreferences.Editor editor = getSharedPreferences().edit().remove(SETTINGS_AUTH_TOKEN);
@@ -607,7 +607,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
 
         PL.log("EM.getAuthToken() token=" + authToken.substring(0, 4) + " type=" + authType, ctx);
         if (authToken != null && authType != null) {
-            AuthToken token = new EntriesRetriever.AuthToken(SyncInterface.AuthToken.AuthType.valueOf(authType),
+            AuthToken token = new EntriesRetriever.AuthToken(EntriesRetriever.AuthToken.AuthType.valueOf(authType),
                     authToken);
             PL.log("EM.getAuthToken()2 ton=" + token, ctx);
             if ("EXPIRED".equals(token.getAuthToken())) {
@@ -617,7 +617,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
                     e.printStackTrace();
                     return null;
                 }
-                token = new EntriesRetriever.AuthToken(SyncInterface.AuthToken.AuthType.valueOf(authType), authToken);
+                token = new EntriesRetriever.AuthToken(EntriesRetriever.AuthToken.AuthType.valueOf(authType), authToken);
             }
             return token;
         }
@@ -1277,7 +1277,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     public void logout() {
-        getSyncInterface().logout();
+        getEntriesRetriever().logout();
     }
 
     public IStorageAdapter getStorageAdapter() {

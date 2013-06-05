@@ -226,7 +226,7 @@ public class SynchronizationService extends Service {
             PL.log(this, "doSync invoked. (2)", null, getApplicationContext());
 
             final EntryManager entryManager = getEntryManager();
-            final SyncInterface grf = entryManager.getSyncInterface();
+            final EntriesRetriever grf = entryManager.getEntriesRetriever();
             final IStorageAdapter fileContextAdapter = entryManager.getStorageAdapter();
             PL.log(this, "doSync invoked. (3)", null, getApplicationContext());
 
@@ -293,7 +293,7 @@ public class SynchronizationService extends Service {
                         public void run() throws Exception {
 
                             if (entryManager.syncCurrentlyEnabled(manualSync))
-                                entryManager.getSyncInterface().submitNotes(this);
+                                entryManager.getEntriesRetriever().submitNotes(this);
                         }
 
                     });
@@ -317,7 +317,7 @@ public class SynchronizationService extends Service {
                                 while (c.moveToNext()) {
                                     String feedAtomId = c.getString(1);
                                     PL.log("Unsubscribing: " + feedAtomId, SynchronizationService.this);
-                                    entryManager.getSyncInterface().unsubscribeFeed(feedAtomId);
+                                    entryManager.getEntriesRetriever().unsubscribeFeed(feedAtomId);
                                 }
                             } finally {
                                 c.close();
@@ -721,7 +721,7 @@ class FetchUnreadArticlesJob extends SyncJob {
         if (!getEntryManager().syncCurrentlyEnabled(manualSync))
             return 0;
 
-        final SyncInterface grf = getEntryManager().getSyncInterface();
+        final EntriesRetriever grf = getEntryManager().getEntriesRetriever();
 
         int noOfEntriesFetched = 0;
 
@@ -749,7 +749,7 @@ class SyncChangedArticlesStatusJob extends SyncJob {
         if (!getEntryManager().syncCurrentlyEnabled(manualSync))
             return 0;
 
-        int noOfEntriesUpdated = getEntryManager().getSyncInterface().synchronizeWithGoogleReader(getEntryManager(),
+        int noOfEntriesUpdated = getEntryManager().getEntriesRetriever().synchronizeWithGoogleReader(getEntryManager(),
                 this);
         getSyncJobStatus().noOfEntriesUpdated += noOfEntriesUpdated;
         if (noOfEntriesUpdated > 0)
