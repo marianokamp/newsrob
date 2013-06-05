@@ -780,8 +780,9 @@ public class DB extends SQLiteOpenHelper {
                     associateLabelToEntry(newEntryId, label, dbase);
 
             }
-        } finally {
+
             dbase.setTransactionSuccessful();
+        } finally {
             dbase.endTransaction();
         }
 
@@ -947,9 +948,9 @@ public class DB extends SQLiteOpenHelper {
             dbase.delete(Labels.TABLE_NAME, "1", null);
             dbase.delete(EntryLabelAssociations.TABLE_NAME, "1", null);
             dbase.delete(UnsubscribeFeeds.TABLE_NAME, "1", null);
+            dbase.setTransactionSuccessful();
             return dbase.delete(Entries.TABLE_NAME, "1", null);
         } finally {
-            dbase.setTransactionSuccessful();
             dbase.endTransaction();
         }
     }
@@ -1636,10 +1637,10 @@ public class DB extends SQLiteOpenHelper {
                 }
                 offset += nextPackSize;
 
+                dbase.setTransactionSuccessful();
             } finally {
                 if (stmt != null)
                     stmt.close();
-                dbase.setTransactionSuccessful();
                 dbase.endTransaction();
             }
             Thread.yield();
@@ -1682,76 +1683,83 @@ public class DB extends SQLiteOpenHelper {
             throw new IllegalStateException("stateColumn must not be null here.");
 
         SQLiteDatabase dbase = getDb();
-        dbase.beginTransaction();
+        try {
+            dbase.beginTransaction();
 
-        // Mark all articles as read where the read_state is not pending
-        // and they were not read before
-        Timing t3 = new Timing("DB.updateStatesFromTempTable - mark existing read", context);
-        final String markExistingSQL = "UPDATE " + Entries.TABLE_NAME + " SET " + stateColumn + " = " + targetValueOff
-                + " WHERE " + stateColumn + " = " + targetValueOn + " AND " + statePendingColumn + " = 0;";
-        dbase.execSQL(markExistingSQL);
-        t3.stop();
+            // Mark all articles as read where the read_state is not pending
+            // and they were not read before
+            Timing t3 = new Timing("DB.updateStatesFromTempTable - mark existing read", context);
+            final String markExistingSQL = "UPDATE " + Entries.TABLE_NAME + " SET " + stateColumn + " = "
+                    + targetValueOff + " WHERE " + stateColumn + " = " + targetValueOn + " AND " + statePendingColumn
+                    + " = 0;";
+            dbase.execSQL(markExistingSQL);
+            t3.stop();
 
-        // Mark all articles unread that exists in the temp table and are not
-        // read state pending
+            // Mark all articles unread that exists in the temp table and are
+            // not
+            // read state pending
 
-        Timing t4 = new Timing("DB.updateStatesFromTempTable - mark as x", context);
+            Timing t4 = new Timing("DB.updateStatesFromTempTable - mark as x", context);
 
-        String sql = context.getString(R.string.sql_mark_as_x);
-        sql = sql.replaceAll("-STATE-", stateColumn);
-        sql = sql.replaceAll("-STATE_PENDING-", statePendingColumn);
-        sql = sql.replaceAll("-SET-", targetValueOn + "");
-        sql = sql.replaceAll("-CLEAR-", targetValueOff + "");
+            String sql = context.getString(R.string.sql_mark_as_x);
+            sql = sql.replaceAll("-STATE-", stateColumn);
+            sql = sql.replaceAll("-STATE_PENDING-", statePendingColumn);
+            sql = sql.replaceAll("-SET-", targetValueOn + "");
+            sql = sql.replaceAll("-CLEAR-", targetValueOff + "");
 
-        dbase.execSQL(expandTempTableName(sql, tempTableType));
-        t4.stop();
+            dbase.execSQL(expandTempTableName(sql, tempTableType));
+            t4.stop();
 
-        if (state == ArticleDbState.READ) {
-            Timing t5 = new Timing("DB.updateReadStates - mark as read even when pinned", context);
+            if (state == ArticleDbState.READ) {
+                Timing t5 = new Timing("DB.updateReadStates - mark as read even when pinned", context);
 
-            dbase.execSQL(expandTempTableName(context.getString(R.string.sql_mark_as_read_even_when_pinned),
-                    tempTableType));
-            t5.stop();
+                dbase.execSQL(expandTempTableName(context.getString(R.string.sql_mark_as_read_even_when_pinned),
+                        tempTableType));
+                t5.stop();
+            }
+
+            if (mergePinned) {
+                Timing t6 = new Timing("DB.updateReadStates - mark pinned as pinned", context);
+
+                sql = expandTempTableName(context.getString(R.string.sql_mark_as_x), TempTable.PINNED);
+                sql = sql.replaceAll("-STATE-", stateColumn); // READ STATE
+                sql = sql.replaceAll("-STATE_PENDING-", Entries.READ_STATE_PENDING + " = 0 AND "
+                        + Entries.PINNED_STATE_PENDING);
+                sql = sql.replaceAll("-SET-", "-1");
+                sql = sql.replaceAll("-CLEAR-", "0");
+                PL.log("DB.updateStatesFromTempTable Executing sql=" + sql, context);
+                // -- Setting Pinned state for all articles that are unread
+                // and for which in temp_ids_pinned a record exists
+                // and for which neither a read_state_pending nor a
+                // pinned_state_pending is set.
+
+                dbase.execSQL(sql);
+                sql = sql.replaceAll("EXISTS", "NOT EXISTS").replaceAll("-1", "0")
+                        .replaceAll("entries.READ_STATE = 0", "entries.READ_STATE = -1");
+                PL.log("DB.updateStatesFromTempTable Executing sql2=" + sql, context);
+
+                // -- Setting Unread state for all articles that are pinned
+                // and for which in temp_ids_pinned no record exists
+                // and for which neither a read_state_pending nor a
+                // pinned_state_pending is set.
+                dbase.execSQL(sql);
+
+                t6.stop();
+            }
+            dbase.setTransactionSuccessful();
+        } finally {
+            dbase.endTransaction();
+            t.stop();
         }
 
-        if (mergePinned) {
-            Timing t6 = new Timing("DB.updateReadStates - mark pinned as pinned", context);
-
-            sql = expandTempTableName(context.getString(R.string.sql_mark_as_x), TempTable.PINNED);
-            sql = sql.replaceAll("-STATE-", stateColumn); // READ STATE
-            sql = sql.replaceAll("-STATE_PENDING-", Entries.READ_STATE_PENDING + " = 0 AND "
-                    + Entries.PINNED_STATE_PENDING);
-            sql = sql.replaceAll("-SET-", "-1");
-            sql = sql.replaceAll("-CLEAR-", "0");
-            PL.log("DB.updateStatesFromTempTable Executing sql=" + sql, context);
-            // -- Setting Pinned state for all articles that are unread
-            // and for which in temp_ids_pinned a record exists
-            // and for which neither a read_state_pending nor a
-            // pinned_state_pending is set.
-
-            dbase.execSQL(sql);
-            sql = sql.replaceAll("EXISTS", "NOT EXISTS").replaceAll("-1", "0")
-                    .replaceAll("entries.READ_STATE = 0", "entries.READ_STATE = -1");
-            PL.log("DB.updateStatesFromTempTable Executing sql2=" + sql, context);
-
-            // -- Setting Unread state for all articles that are pinned
-            // and for which in temp_ids_pinned no record exists
-            // and for which neither a read_state_pending nor a
-            // pinned_state_pending is set.
-            dbase.execSQL(sql);
-
-            t6.stop();
-        }
-
-        dbase.setTransactionSuccessful();
-        dbase.endTransaction();
-        t.stop();
     }
 
     public void clearTempTable(TempTable tempTableType) {
         Timing t = new Timing("DB.clearTempTable " + tempTableType, context);
+        SQLiteDatabase dbase = null;
+
         try {
-            SQLiteDatabase dbase = getDb();
+            dbase = getDb();
 
             dbase.beginTransaction();
 
@@ -1760,10 +1768,10 @@ public class DB extends SQLiteOpenHelper {
             dbase.execSQL(sql);
 
             dbase.setTransactionSuccessful();
-            dbase.endTransaction();
         } catch (Exception e) {
             PL.log("clearTempTable", e, context);
         } finally {
+            dbase.endTransaction();
             t.stop();
         }
     }
@@ -1776,11 +1784,13 @@ public class DB extends SQLiteOpenHelper {
         SQLiteDatabase dbase = getDb();
         dbase.beginTransaction();
 
-        dbase.execSQL(expandTempTableName(context.getString(R.string.sql_delete_existing_from_temp_table),
-                TempTable.READ));
-
-        dbase.setTransactionSuccessful();
-        dbase.endTransaction();
+        try {
+            dbase.execSQL(expandTempTableName(context.getString(R.string.sql_delete_existing_from_temp_table),
+                    TempTable.READ));
+            dbase.setTransactionSuccessful();
+        } finally {
+            dbase.endTransaction();
+        }
     }
 
     public int getTempIdsCount(TempTable tempTableType) {
@@ -1983,10 +1993,12 @@ public class DB extends SQLiteOpenHelper {
         SQLiteDatabase dbase = getDb();
         dbase.beginTransaction();
 
-        dbase.execSQL(context.getString(R.string.sql_remove_deleted_notes));
-
-        dbase.setTransactionSuccessful();
-        dbase.endTransaction();
+        try {
+            dbase.execSQL(context.getString(R.string.sql_remove_deleted_notes));
+            dbase.setTransactionSuccessful();
+        } finally {
+            dbase.endTransaction();
+        }
         t.stop();
     }
 
