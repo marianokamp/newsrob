@@ -10,3 +10,5 @@ bin/
 site/.DS_Store
 sd.img.*
 sd.img*
+
+/app/.settings/org.eclipse.jdt.core.prefs
