@@ -26,7 +26,7 @@ import android.widget.TextView.OnEditorActionListener;
 import com.newsrob.DiscoveredFeed;
 import com.newsrob.EntryManager;
 import com.newsrob.R;
-import com.newsrob.ReaderAPIException;
+import com.newsrob.SyncAPIException;
 
 public class SubscribeFeedActivity extends Activity {
 
@@ -100,7 +100,7 @@ public class SubscribeFeedActivity extends Activity {
             for (String feedUrl : feedUrls)
                 try {
                     EntryManager.getInstance(SubscribeFeedActivity.this).getSyncInterface().submitSubscribe(feedUrl);
-                } catch (ReaderAPIException e) {
+                } catch (SyncAPIException e) {
                     exception = e;
                     e.printStackTrace();
                     break;

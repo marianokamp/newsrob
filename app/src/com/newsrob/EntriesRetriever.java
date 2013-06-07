@@ -180,7 +180,7 @@ public class EntriesRetriever implements SyncInterface {
      * @see com.newsrob.SyncInterface#discoverFeeds(java.lang.String)
      */
     @Override
-    public List<DiscoveredFeed> discoverFeeds(final String query) throws ReaderAPIException, IOException,
+    public List<DiscoveredFeed> discoverFeeds(final String query) throws SyncAPIException, IOException,
             AuthenticationExpiredException, ParserConfigurationException, SAXException, ServerBadRequestException {
         Timing t = new Timing("discoverFeeds()", context);
 
@@ -287,7 +287,7 @@ public class EntriesRetriever implements SyncInterface {
      * @see com.newsrob.SyncInterface#submitSubscribe(java.lang.String)
      */
     @Override
-    public boolean submitSubscribe(String url2subscribe) throws ReaderAPIException {
+    public boolean submitSubscribe(String url2subscribe) throws SyncAPIException {
         Timing t = new Timing("Submit Subscribe", context);
 
         NewsRobHttpClient httpClient = NewsRobHttpClient.newInstance(false, context);
@@ -309,7 +309,7 @@ public class EntriesRetriever implements SyncInterface {
         } catch (Exception e) {
             String message = "Problem during submission of subscribe: " + e.getMessage();
             Log.e(TAG, message, e);
-            throw new ReaderAPIException(message, e);
+            throw new SyncAPIException(message, e);
         } finally {
             httpClient.close();
             t.stop();
@@ -323,7 +323,7 @@ public class EntriesRetriever implements SyncInterface {
      * @see com.newsrob.SyncInterface#submitNotes(com.newsrob.jobs.Job)
      */
     @Override
-    public void submitNotes(Job job) throws ReaderAPIException {
+    public void submitNotes(Job job) throws SyncAPIException {
         Timing t = new Timing("Submit Notes", context);
         List<Entry> entries = getEntryManager().getEntriesWithNotesToBeSubmitted();
         if (entries.isEmpty()) {
@@ -360,7 +360,7 @@ public class EntriesRetriever implements SyncInterface {
         } catch (Exception e) {
             String message = "Problem during submission of note: " + e.getMessage();
             Log.e(TAG, message, e);
-            throw new ReaderAPIException(message, e);
+            throw new SyncAPIException(message, e);
         } finally {
             httpClient.close();
             t.stop();
@@ -368,7 +368,7 @@ public class EntriesRetriever implements SyncInterface {
     }
 
     private int remotelyAlterState(Collection<Entry> entries, final String column, String desiredState)
-            throws ReaderAPIException {
+            throws SyncAPIException {
 
         NewsRobHttpClient httpClient = NewsRobHttpClient.newInstance(false, context);
         try {
@@ -390,7 +390,7 @@ public class EntriesRetriever implements SyncInterface {
         } catch (Exception e) {
             String message = "Problem during marking entry as un-/read: " + e.getMessage();
             Log.e(TAG, message, e);
-            throw new ReaderAPIException(message, e);
+            throw new SyncAPIException(message, e);
         } finally {
             httpClient.close();
         }
@@ -399,7 +399,7 @@ public class EntriesRetriever implements SyncInterface {
 
     private HttpResponse submitPostRequest(NewsRobHttpClient httpClient, HttpPost postRequest,
             List<NameValuePair> nameValuePairs, boolean zipped) throws IOException, NeedsSessionException,
-            ReaderAPIException, ServerBadRequestException {
+            SyncAPIException, ServerBadRequestException {
 
         setAuthInRequest(postRequest);
 
@@ -418,7 +418,7 @@ public class EntriesRetriever implements SyncInterface {
             Log.w(TAG, "PostRequest to uri " + postRequest.getURI() + " resulted in GRTokenExpired.");
             Log.w(TAG, "Token is fresh? " + tokenIsFresh);
             if (tokenIsFresh)
-                throw new ReaderAPIException("Problem during post request to Google.");
+                throw new SyncAPIException("Problem during post request to Google.");
             else {
                 Log.w(TAG, "Retrying post with new token.");
                 token = acquireToken(httpClient);
@@ -569,7 +569,7 @@ public class EntriesRetriever implements SyncInterface {
         int noOfStateSyncAffectedEntries = 0;
         try {
             noOfStateSyncAffectedEntries = syncStates(entryManager, syncJob);
-        } catch (ReaderAPIException e) {
+        } catch (SyncAPIException e) {
             // silently ignored, just logging for debugging/support purposes
             Log.e(TAG, "Problem during synching read states with Google Reader: " + e.getMessage() + " ("
                     + e.getCause().getClass().getName() + ")", e);
@@ -578,7 +578,7 @@ public class EntriesRetriever implements SyncInterface {
         return noOfStateSyncAffectedEntries;
     }
 
-    private int syncStates(EntryManager entryManager, SyncJob syncJob) throws ReaderAPIException {
+    private int syncStates(EntryManager entryManager, SyncJob syncJob) throws SyncAPIException {
         int noOfUpdated = 0;
 
         String[] fields = { DB.Entries.READ_STATE_PENDING, DB.Entries.STARRED_STATE_PENDING,
@@ -631,7 +631,7 @@ public class EntriesRetriever implements SyncInterface {
     @Override
     public int fetchNewEntries(final EntryManager entryManager, final SyncJob job, boolean manualSync)
             throws ClientProtocolException, IOException, NeedsSessionException, SAXException, IllegalStateException,
-            ParserConfigurationException, FactoryConfigurationError, ReaderAPIException, AuthenticationExpiredException {
+            ParserConfigurationException, FactoryConfigurationError, SyncAPIException, AuthenticationExpiredException {
 
         String originalJobDescription = job.getJobDescription();
         Timing t = new Timing("fetchEntries", context);
@@ -779,7 +779,7 @@ public class EntriesRetriever implements SyncInterface {
 
     private void performIncrementalUpdate(final EntryManager entryManager, final SyncJob job,
             final FetchContext fetchCtx, long lastUpdated) throws IOException, ParserConfigurationException,
-            SAXException, NeedsSessionException, ReaderAPIException, AuthenticationExpiredException,
+            SAXException, NeedsSessionException, SyncAPIException, AuthenticationExpiredException,
             ServerBadRequestException {
 
         if (job.isCancelled())
@@ -851,7 +851,7 @@ public class EntriesRetriever implements SyncInterface {
     }
 
     private void waitForFuture(FutureTask<Void> futureTask) throws IOException, ParserConfigurationException,
-            SAXException, ReaderAPIException, NeedsSessionException, AuthenticationExpiredException,
+            SAXException, SyncAPIException, NeedsSessionException, AuthenticationExpiredException,
             ServerBadRequestException {
         try {
             PL.log("Waiting for future " + futureTask, context);
@@ -870,8 +870,8 @@ public class EntriesRetriever implements SyncInterface {
             else if (root instanceof SAXException)
                 throw (SAXException) root;
 
-            else if (root instanceof ReaderAPIException)
-                throw (ReaderAPIException) root;
+            else if (root instanceof SyncAPIException)
+                throw (SyncAPIException) root;
 
             else if (root instanceof NeedsSessionException)
                 throw (NeedsSessionException) root;
@@ -996,7 +996,7 @@ public class EntriesRetriever implements SyncInterface {
 
     private void fetchOlderUnreadToMatchCapacity(final EntryManager entryManager, final Job job,
             final FetchContext fetchCtx) throws SAXException, IOException, ParserConfigurationException,
-            NeedsSessionException, ReaderAPIException, AuthenticationExpiredException, ServerBadRequestException {
+            NeedsSessionException, SyncAPIException, AuthenticationExpiredException, ServerBadRequestException {
 
         final long minutesSinceLastSync = (System.currentTimeMillis() - entryManager.getLastSyncTime()) / 1000 / 60;
         if (minutesSinceLastSync < MIN_EXACT_SYNC_FREQUENCY_MIN)
@@ -1078,7 +1078,7 @@ public class EntriesRetriever implements SyncInterface {
     }
 
     private void fetchNewArticlesByAtomIds(Job job, FetchContext fetchCtx, List<String> atomIds) throws SAXException,
-            IOException, ParserConfigurationException, NeedsSessionException, ReaderAPIException {
+            IOException, ParserConfigurationException, NeedsSessionException, SyncAPIException {
 
         NewsRobHttpClient httpClient = NewsRobHttpClient.newInstance(false, context);
         try {
@@ -1102,7 +1102,7 @@ public class EntriesRetriever implements SyncInterface {
                 try {
                     response = submitPostRequest(httpClient, getNewArticlesRequest, keyValuePairs, true);
                 } catch (ServerBadRequestException e1) {
-                    throw new ReaderAPIException("GR believes to have received a bad request!");
+                    throw new SyncAPIException("GR believes to have received a bad request!");
                 }
             }
 
@@ -1163,7 +1163,7 @@ public class EntriesRetriever implements SyncInterface {
      * @see com.newsrob.SyncInterface#unsubscribeFeed(java.lang.String)
      */
     @Override
-    public void unsubscribeFeed(String feedAtomId) throws IOException, NeedsSessionException, ReaderAPIException {
+    public void unsubscribeFeed(String feedAtomId) throws IOException, NeedsSessionException, SyncAPIException {
 
         NewsRobHttpClient httpClient = NewsRobHttpClient.newInstance(false, context);
         try {
@@ -1183,7 +1183,7 @@ public class EntriesRetriever implements SyncInterface {
                 try {
                     result = submitPostRequest(httpClient, editApiRequest, nameValuePairs, false);
                 } catch (ServerBadRequestException e1) {
-                    throw new ReaderAPIException("GR believes it received a bad request.");
+                    throw new SyncAPIException("GR believes it received a bad request.");
                 }
             }
             if (HttpStatus.SC_OK == result.getStatusLine().getStatusCode())

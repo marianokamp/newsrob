@@ -717,7 +717,7 @@ class FetchUnreadArticlesJob extends SyncJob {
 
     @Override
     public int doRun() throws ClientProtocolException, IllegalStateException, IOException, NeedsSessionException,
-            SAXException, ParserConfigurationException, FactoryConfigurationError, ReaderAPIException,
+            SAXException, ParserConfigurationException, FactoryConfigurationError, SyncAPIException,
             ServerBadRequestException, AuthenticationExpiredException {
 
         if (!getEntryManager().syncCurrentlyEnabled(manualSync))

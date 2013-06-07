@@ -103,13 +103,13 @@ public interface SyncInterface {
         }
     }
 
-    public List<DiscoveredFeed> discoverFeeds(final String query) throws ReaderAPIException, IOException,
+    public List<DiscoveredFeed> discoverFeeds(final String query) throws SyncAPIException, IOException,
             ServerBadRequestException, ParserConfigurationException, SAXException, ServerBadRequestException,
             AuthenticationExpiredException;
 
-    public boolean submitSubscribe(String url2subscribe) throws ReaderAPIException;
+    public boolean submitSubscribe(String url2subscribe) throws SyncAPIException;
 
-    public void submitNotes(Job job) throws ReaderAPIException;
+    public void submitNotes(Job job) throws SyncAPIException;
 
     /**
      * differentialUpdateOfArticlesStates is where the actual exact syncing
@@ -122,14 +122,14 @@ public interface SyncInterface {
             ParserConfigurationException, ServerBadRequestException, ServerBadRequestException,
             AuthenticationExpiredException;
 
-    public void unsubscribeFeed(String feedAtomId) throws IOException, NeedsSessionException, ReaderAPIException;
+    public void unsubscribeFeed(String feedAtomId) throws IOException, NeedsSessionException, SyncAPIException;
 
     public boolean authenticate(Context context, String email, String password, String captchaToken,
             String captchaAnswer) throws ClientProtocolException, IOException, AuthenticationFailedException;
 
     public int fetchNewEntries(final EntryManager entryManager, final SyncJob job, boolean manualSync)
             throws ClientProtocolException, IOException, NeedsSessionException, SAXException, IllegalStateException,
-            ParserConfigurationException, FactoryConfigurationError, ReaderAPIException, ServerBadRequestException,
+            ParserConfigurationException, FactoryConfigurationError, SyncAPIException, ServerBadRequestException,
             AuthenticationExpiredException;
 
     public void updateSubscriptionList(EntryManager entryManager, Job job) throws IOException,
