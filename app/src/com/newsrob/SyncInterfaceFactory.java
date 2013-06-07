@@ -23,6 +23,7 @@ public class SyncInterfaceFactory {
             Log.d(TAG, "SyncInterface loaded: " + obj.toString());
             return obj;
         } catch (Exception e) {
+            Log.wtf(TAG, e);
             return new EntriesRetriever(context);
         }
     }
