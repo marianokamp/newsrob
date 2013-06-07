@@ -181,7 +181,7 @@ public class EntriesRetriever implements SyncInterface {
      */
     @Override
     public List<DiscoveredFeed> discoverFeeds(final String query) throws ReaderAPIException, IOException,
-            GRTokenExpiredException, ParserConfigurationException, SAXException, GRAnsweredBadRequestException {
+            AuthenticationExpiredException, ParserConfigurationException, SAXException, ServerBadRequestException {
         Timing t = new Timing("discoverFeeds()", context);
 
         final List<DiscoveredFeed> results = new ArrayList<DiscoveredFeed>();
@@ -399,7 +399,7 @@ public class EntriesRetriever implements SyncInterface {
 
     private HttpResponse submitPostRequest(NewsRobHttpClient httpClient, HttpPost postRequest,
             List<NameValuePair> nameValuePairs, boolean zipped) throws IOException, NeedsSessionException,
-            ReaderAPIException, GRAnsweredBadRequestException {
+            ReaderAPIException, ServerBadRequestException {
 
         setAuthInRequest(postRequest);
 
@@ -414,7 +414,7 @@ public class EntriesRetriever implements SyncInterface {
         HttpResponse response = null;
         try {
             response = executeGRRequest(httpClient, postRequest, zipped);
-        } catch (GRTokenExpiredException e) {
+        } catch (AuthenticationExpiredException e) {
             Log.w(TAG, "PostRequest to uri " + postRequest.getURI() + " resulted in GRTokenExpired.");
             Log.w(TAG, "Token is fresh? " + tokenIsFresh);
             if (tokenIsFresh)
@@ -425,7 +425,7 @@ public class EntriesRetriever implements SyncInterface {
                 addParametersIncludingTokenToPostRequest(postRequest, nameValuePairs);
                 try {
                     response = executeGRRequest(httpClient, postRequest, zipped);
-                } catch (GRTokenExpiredException e1) {
+                } catch (AuthenticationExpiredException e1) {
                     // Can't help it, if it also doesn't work on the 2nd attempt
                 }
                 throwExceptionWhenNotStatusOK(response);
@@ -562,7 +562,7 @@ public class EntriesRetriever implements SyncInterface {
      * @throws NeedsSessionException
      */
     @Override
-    public int synchronizeWithGoogleReader(EntryManager entryManager, SyncJob syncJob) throws MalformedURLException,
+    public int synchronizeArticles(EntryManager entryManager, SyncJob syncJob) throws MalformedURLException,
             IOException, ParserConfigurationException, FactoryConfigurationError, SAXException, ParseException,
             NeedsSessionException {
 
@@ -631,7 +631,7 @@ public class EntriesRetriever implements SyncInterface {
     @Override
     public int fetchNewEntries(final EntryManager entryManager, final SyncJob job, boolean manualSync)
             throws ClientProtocolException, IOException, NeedsSessionException, SAXException, IllegalStateException,
-            ParserConfigurationException, FactoryConfigurationError, ReaderAPIException, GRTokenExpiredException {
+            ParserConfigurationException, FactoryConfigurationError, ReaderAPIException, AuthenticationExpiredException {
 
         String originalJobDescription = job.getJobDescription();
         Timing t = new Timing("fetchEntries", context);
@@ -733,7 +733,7 @@ public class EntriesRetriever implements SyncInterface {
             throw e;
         } catch (FetchCancelledException fce) {
             // user interruption -> ignored
-        } catch (GRAnsweredBadRequestException e) {
+        } catch (ServerBadRequestException e) {
             throw new IOException("GR: Bad Request.");
         } finally {
             httpClient.close();
@@ -746,7 +746,7 @@ public class EntriesRetriever implements SyncInterface {
 
     private void requestArticlesFromGoogleReader(Job job, FetchContext fetchCtx, NewsRobHttpClient httpClient,
             String state, int n, String urlPostfix) throws IOException, FactoryConfigurationError,
-            ParserConfigurationException, SAXException, GRTokenExpiredException, GRAnsweredBadRequestException {
+            ParserConfigurationException, SAXException, AuthenticationExpiredException, ServerBadRequestException {
 
         if (n == 0)
             return;
@@ -779,8 +779,8 @@ public class EntriesRetriever implements SyncInterface {
 
     private void performIncrementalUpdate(final EntryManager entryManager, final SyncJob job,
             final FetchContext fetchCtx, long lastUpdated) throws IOException, ParserConfigurationException,
-            SAXException, NeedsSessionException, ReaderAPIException, GRTokenExpiredException,
-            GRAnsweredBadRequestException {
+            SAXException, NeedsSessionException, ReaderAPIException, AuthenticationExpiredException,
+            ServerBadRequestException {
 
         if (job.isCancelled())
             return;
@@ -851,8 +851,8 @@ public class EntriesRetriever implements SyncInterface {
     }
 
     private void waitForFuture(FutureTask<Void> futureTask) throws IOException, ParserConfigurationException,
-            SAXException, ReaderAPIException, NeedsSessionException, GRTokenExpiredException,
-            GRAnsweredBadRequestException {
+            SAXException, ReaderAPIException, NeedsSessionException, AuthenticationExpiredException,
+            ServerBadRequestException {
         try {
             PL.log("Waiting for future " + futureTask, context);
             futureTask.get();
@@ -876,11 +876,11 @@ public class EntriesRetriever implements SyncInterface {
             else if (root instanceof NeedsSessionException)
                 throw (NeedsSessionException) root;
 
-            else if (root instanceof GRTokenExpiredException)
-                throw (GRTokenExpiredException) root;
+            else if (root instanceof AuthenticationExpiredException)
+                throw (AuthenticationExpiredException) root;
 
-            else if (root instanceof GRAnsweredBadRequestException)
-                throw (GRAnsweredBadRequestException) root;
+            else if (root instanceof ServerBadRequestException)
+                throw (ServerBadRequestException) root;
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -916,7 +916,7 @@ public class EntriesRetriever implements SyncInterface {
     @Override
     public void differentialUpdateOfArticlesStates(final EntryManager entryManager, Job job, String stream,
             String excludeState, ArticleDbState articleDbState) throws SAXException, IOException,
-            ParserConfigurationException, GRTokenExpiredException, GRAnsweredBadRequestException {
+            ParserConfigurationException, ServerBadRequestException, AuthenticationExpiredException {
 
         // Map read state to temp table
         TempTable tempTableType = TempTable.READ;
@@ -963,8 +963,8 @@ public class EntriesRetriever implements SyncInterface {
     }
 
     private long[] fetchStreamIds(final EntryManager entryManager, String tag, final String googleStateToExclude)
-            throws SAXException, IOException, ParserConfigurationException, GRTokenExpiredException,
-            GRAnsweredBadRequestException {
+            throws SAXException, IOException, ParserConfigurationException, AuthenticationExpiredException,
+            ServerBadRequestException {
 
         Timing t = new Timing("ER.fetchStreamIds for " + tag + " xt=" + googleStateToExclude, context);
         PL.log("ER.fetchStreamIds for " + tag + " xt=" + googleStateToExclude + " (1)", context);
@@ -987,8 +987,8 @@ public class EntriesRetriever implements SyncInterface {
     }
 
     private long[] getStreamIDsFromGR(NewsRobHttpClient httpClient, String tag, String xt, int noOfNotesToKeep)
-            throws IOException, SAXException, ParserConfigurationException, GRTokenExpiredException,
-            GRAnsweredBadRequestException {
+            throws IOException, SAXException, ParserConfigurationException, AuthenticationExpiredException,
+            ServerBadRequestException {
         List<String> tags = new ArrayList<String>(1);
         tags.add(tag);
         return getStreamIDsFromGR(httpClient, tags, xt, noOfNotesToKeep);
@@ -996,7 +996,7 @@ public class EntriesRetriever implements SyncInterface {
 
     private void fetchOlderUnreadToMatchCapacity(final EntryManager entryManager, final Job job,
             final FetchContext fetchCtx) throws SAXException, IOException, ParserConfigurationException,
-            NeedsSessionException, ReaderAPIException, GRTokenExpiredException, GRAnsweredBadRequestException {
+            NeedsSessionException, ReaderAPIException, AuthenticationExpiredException, ServerBadRequestException {
 
         final long minutesSinceLastSync = (System.currentTimeMillis() - entryManager.getLastSyncTime()) / 1000 / 60;
         if (minutesSinceLastSync < MIN_EXACT_SYNC_FREQUENCY_MIN)
@@ -1098,10 +1098,10 @@ public class EntriesRetriever implements SyncInterface {
             HttpResponse response;
             try {
                 response = submitPostRequest(httpClient, getNewArticlesRequest, keyValuePairs, true);
-            } catch (GRAnsweredBadRequestException e) {
+            } catch (ServerBadRequestException e) {
                 try {
                     response = submitPostRequest(httpClient, getNewArticlesRequest, keyValuePairs, true);
-                } catch (GRAnsweredBadRequestException e1) {
+                } catch (ServerBadRequestException e1) {
                     throw new ReaderAPIException("GR believes to have received a bad request!");
                 }
             }
@@ -1113,7 +1113,7 @@ public class EntriesRetriever implements SyncInterface {
     }
 
     private HttpResponse executeGRRequest(NewsRobHttpClient httpClient, HttpRequestBase articleRequest, boolean zipped)
-            throws IOException, GRTokenExpiredException, GRAnsweredBadRequestException {
+            throws IOException, AuthenticationExpiredException, ServerBadRequestException {
 
         HttpResponse response = zipped ? httpClient.executeZipped(articleRequest) : httpClient.execute(articleRequest);
         /*
@@ -1179,10 +1179,10 @@ public class EntriesRetriever implements SyncInterface {
             HttpResponse result;
             try {
                 result = submitPostRequest(httpClient, editApiRequest, nameValuePairs, false);
-            } catch (GRAnsweredBadRequestException e) {
+            } catch (ServerBadRequestException e) {
                 try {
                     result = submitPostRequest(httpClient, editApiRequest, nameValuePairs, false);
-                } catch (GRAnsweredBadRequestException e1) {
+                } catch (ServerBadRequestException e1) {
                     throw new ReaderAPIException("GR believes it received a bad request.");
                 }
             }
@@ -1204,8 +1204,8 @@ public class EntriesRetriever implements SyncInterface {
      *            can be null
      */
     protected long[] getStreamIDsFromGR(NewsRobHttpClient httpClient, final List<String> tags, String xt, int max)
-            throws IOException, SAXException, ParserConfigurationException, GRTokenExpiredException,
-            GRAnsweredBadRequestException {
+            throws IOException, SAXException, ParserConfigurationException, AuthenticationExpiredException,
+            ServerBadRequestException {
 
         if (max == 0)
             return new long[0];
@@ -1282,23 +1282,23 @@ public class EntriesRetriever implements SyncInterface {
 
     /**
      * @return should retry
-     * @throws GRTokenExpiredException
-     * @throws GRAnsweredBadRequestException
+     * @throws AuthenticationExpiredException
+     * @throws ServerBadRequestException
      */
     private boolean checkStatusCodeForReloginAndExpiredToken(HttpResponse response, boolean firstTry)
-            throws IOException, GRTokenExpiredException, GRAnsweredBadRequestException {
+            throws IOException, AuthenticationExpiredException, ServerBadRequestException {
 
         // check for bad token
         Header googleBadTokenHeader = response.getFirstHeader("X-Reader-Google-Bad-Token");
 
         if (googleBadTokenHeader != null && "true".equals(googleBadTokenHeader.getValue()))
-            throw new GRTokenExpiredException();
+            throw new AuthenticationExpiredException();
 
         int statusCode = response.getStatusLine().getStatusCode();
 
         switch (statusCode) {
         case HttpStatus.SC_BAD_REQUEST:
-            throw new GRAnsweredBadRequestException();
+            throw new ServerBadRequestException();
         case HttpStatus.SC_MOVED_TEMPORARILY:
         case HttpStatus.SC_UNAUTHORIZED:
         case HttpStatus.SC_FORBIDDEN:
@@ -1352,7 +1352,7 @@ public class EntriesRetriever implements SyncInterface {
     }
 
     private Collection<StateChange> getStateChangesFromGR(long lastUpdated) throws IOException,
-            ParserConfigurationException, SAXException, GRTokenExpiredException, GRAnsweredBadRequestException {
+            ParserConfigurationException, SAXException, AuthenticationExpiredException, ServerBadRequestException {
 
         Timing t = new Timing("EntriesRetriever.getStateChangesFromGR()", context);
 
@@ -1697,7 +1697,7 @@ public class EntriesRetriever implements SyncInterface {
     }
 
     public void updateSubscriptionList(final EntryManager entryManager, final Job job) throws IOException,
-            ParserConfigurationException, SAXException, GRTokenExpiredException {
+            ParserConfigurationException, SAXException, AuthenticationExpiredException {
 
         if (job.isCancelled())
             return;
@@ -1718,7 +1718,7 @@ public class EntriesRetriever implements SyncInterface {
             HttpResponse response;
             try {
                 response = executeGRRequest(httpClient, req, true);
-            } catch (GRAnsweredBadRequestException e) {
+            } catch (ServerBadRequestException e) {
                 throw new IOException("GR: Bad Request.");
             }
 
@@ -1777,11 +1777,4 @@ public class EntriesRetriever implements SyncInterface {
         entryManager.updateLastSyncedSubscriptions(System.currentTimeMillis());
     }
 
-}
-
-@SuppressWarnings("serial")
-class GRTokenExpiredException extends Exception {
-}
-
-class GRAnsweredBadRequestException extends Exception {
 }

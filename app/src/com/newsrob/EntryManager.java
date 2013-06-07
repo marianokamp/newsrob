@@ -1921,7 +1921,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
                     proVersion = true;
             }
         }
-        return proVersion;
+        return true;
     }
 
     public boolean isAndroidMarketInstalled() {
@@ -1946,7 +1946,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
             PL.log("EntryManager.shouldAdsBeShown() isProVersion=" + isProVersion() + " debugEnabledAds="
                     + NewsRob.getDebugProperties(ctx).getProperty("enableAds", "0") + " result=" + shouldAdsBeShown,
                     ctx);
-        return shouldAdsBeShown;
+        return false;
     }
 
     public Long findNotesFeedId() {

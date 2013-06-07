@@ -16,6 +16,11 @@ import android.content.Context;
 import com.newsrob.jobs.Job;
 
 public interface SyncInterface {
+    class AuthenticationExpiredException extends Exception {
+    }
+
+    class ServerBadRequestException extends Exception {
+    }
 
     static class StateChange {
         static final int OPERATION_REMOVE = 0;
@@ -99,7 +104,8 @@ public interface SyncInterface {
     }
 
     public List<DiscoveredFeed> discoverFeeds(final String query) throws ReaderAPIException, IOException,
-            GRTokenExpiredException, ParserConfigurationException, SAXException, GRAnsweredBadRequestException;
+            ServerBadRequestException, ParserConfigurationException, SAXException, ServerBadRequestException,
+            AuthenticationExpiredException;
 
     public boolean submitSubscribe(String url2subscribe) throws ReaderAPIException;
 
@@ -108,10 +114,13 @@ public interface SyncInterface {
     /**
      * differentialUpdateOfArticlesStates is where the actual exact syncing
      * magic happens
+     * 
+     * @throws AuthenticationExpiredException
      */
     public void differentialUpdateOfArticlesStates(final EntryManager entryManager, Job job, String stream,
             String excludeState, ArticleDbState articleDbState) throws SAXException, IOException,
-            ParserConfigurationException, GRTokenExpiredException, GRAnsweredBadRequestException;
+            ParserConfigurationException, ServerBadRequestException, ServerBadRequestException,
+            AuthenticationExpiredException;
 
     public void unsubscribeFeed(String feedAtomId) throws IOException, NeedsSessionException, ReaderAPIException;
 
@@ -120,15 +129,16 @@ public interface SyncInterface {
 
     public int fetchNewEntries(final EntryManager entryManager, final SyncJob job, boolean manualSync)
             throws ClientProtocolException, IOException, NeedsSessionException, SAXException, IllegalStateException,
-            ParserConfigurationException, FactoryConfigurationError, ReaderAPIException, GRTokenExpiredException;
+            ParserConfigurationException, FactoryConfigurationError, ReaderAPIException, ServerBadRequestException,
+            AuthenticationExpiredException;
 
     public void updateSubscriptionList(EntryManager entryManager, Job job) throws IOException,
-            ParserConfigurationException, SAXException, GRTokenExpiredException;
+            ParserConfigurationException, SAXException, ServerBadRequestException, AuthenticationExpiredException;
 
     public void logout();
 
-    public abstract int synchronizeWithGoogleReader(EntryManager entryManager, SyncJob syncJob)
-            throws MalformedURLException, IOException, ParserConfigurationException, FactoryConfigurationError,
-            SAXException, ParseException, NeedsSessionException, ParseException;
+    public int synchronizeArticles(EntryManager entryManager, SyncJob syncJob) throws MalformedURLException,
+            IOException, ParserConfigurationException, FactoryConfigurationError, SAXException, ParseException,
+            NeedsSessionException, ParseException;
 
 }

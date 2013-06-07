@@ -42,6 +42,8 @@ import android.os.PowerManager.WakeLock;
 import android.util.Log;
 
 import com.newsrob.EntryManager.SyncJobStatus;
+import com.newsrob.SyncInterface.AuthenticationExpiredException;
+import com.newsrob.SyncInterface.ServerBadRequestException;
 import com.newsrob.activities.UIHelper;
 import com.newsrob.download.DownloadCancelledException;
 import com.newsrob.download.DownloadContext;
@@ -335,7 +337,7 @@ public class SynchronizationService extends Service {
 
                         @Override
                         public void run() throws IOException, ParserConfigurationException, SAXException,
-                                GRTokenExpiredException {
+                                ServerBadRequestException, AuthenticationExpiredException {
 
                             if (entryManager.syncCurrentlyEnabled(manualSync)) {
                                 grf.updateSubscriptionList(entryManager, this);
@@ -716,7 +718,7 @@ class FetchUnreadArticlesJob extends SyncJob {
     @Override
     public int doRun() throws ClientProtocolException, IllegalStateException, IOException, NeedsSessionException,
             SAXException, ParserConfigurationException, FactoryConfigurationError, ReaderAPIException,
-            GRTokenExpiredException {
+            ServerBadRequestException, AuthenticationExpiredException {
 
         if (!getEntryManager().syncCurrentlyEnabled(manualSync))
             return 0;
@@ -749,8 +751,7 @@ class SyncChangedArticlesStatusJob extends SyncJob {
         if (!getEntryManager().syncCurrentlyEnabled(manualSync))
             return 0;
 
-        int noOfEntriesUpdated = getEntryManager().getSyncInterface().synchronizeWithGoogleReader(getEntryManager(),
-                this);
+        int noOfEntriesUpdated = getEntryManager().getSyncInterface().synchronizeArticles(getEntryManager(), this);
         getSyncJobStatus().noOfEntriesUpdated += noOfEntriesUpdated;
         if (noOfEntriesUpdated > 0)
             getEntryManager().fireModelUpdated();
