@@ -12,21 +12,21 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
+import com.newsrob.BackendProvider.SyncAPIException;
 import com.newsrob.DiscoveredFeed;
 import com.newsrob.EntryManager;
 import com.newsrob.R;
-import com.newsrob.SyncAPIException;
 
 public class SubscribeFeedActivity extends Activity {
 
@@ -222,8 +222,8 @@ public class SubscribeFeedActivity extends Activity {
             List<DiscoveredFeed> result = null;
 
             try {
-                result = EntryManager.getInstance(SubscribeFeedActivity.this).getSyncInterface().discoverFeeds(
-                        params[0]);
+                result = EntryManager.getInstance(SubscribeFeedActivity.this).getSyncInterface()
+                        .discoverFeeds(params[0]);
             } catch (Exception e) {
                 this.exception = e;
             }

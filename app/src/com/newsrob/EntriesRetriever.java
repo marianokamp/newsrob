@@ -55,7 +55,7 @@ import com.newsrob.util.SimpleStringExtractorHandler;
 import com.newsrob.util.Timing;
 import com.newsrob.util.U;
 
-public class EntriesRetriever implements SyncInterface {
+public class EntriesRetriever implements BackendProvider {
 
     private static final int MIN_EXACT_SYNC_FREQUENCY_MIN = 29;
     private static final int MAX_ARTICLES_ON_GOOGLE_READER_ACCOUNT = 10000;
@@ -315,56 +315,6 @@ public class EntriesRetriever implements SyncInterface {
             t.stop();
         }
 
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.newsrob.SyncInterface#submitNotes(com.newsrob.jobs.Job)
-     */
-    @Override
-    public void submitNotes(Job job) throws SyncAPIException {
-        Timing t = new Timing("Submit Notes", context);
-        List<Entry> entries = getEntryManager().getEntriesWithNotesToBeSubmitted();
-        if (entries.isEmpty()) {
-            t.stop();
-            return;
-        }
-
-        NewsRobHttpClient httpClient = NewsRobHttpClient.newInstance(false, context);
-        try {
-
-            for (Entry entry : entries) {
-
-                HttpPost editApiRequest = new HttpPost(getGoogleHost() + "/reader/api/0/item/edit?client="
-                        + CLIENT_NAME);
-
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("client", CLIENT_NAME));
-
-                nameValuePairs.add(new BasicNameValuePair("title", entry.getTitle()));
-                nameValuePairs.add(new BasicNameValuePair("url", entry.getAlternateHRef()));
-                String s = "This feed url can only be set after the next article from this feed is imported into NewsRob. You can force this with Clear Cache/Refresh.";
-                if (entry.getFeedAlternateUrl() != null)
-                    s = entry.getFeedAlternateUrl();
-                nameValuePairs.add(new BasicNameValuePair("srcUrl", s));
-                nameValuePairs.add(new BasicNameValuePair("srcTitle", entry.getFeedTitle()));
-                nameValuePairs.add(new BasicNameValuePair("snippet", entry.getContent()));
-
-                submitPostRequest(httpClient, editApiRequest, nameValuePairs, false);
-
-                getEntryManager().update(entry);
-
-            }
-
-        } catch (Exception e) {
-            String message = "Problem during submission of note: " + e.getMessage();
-            Log.e(TAG, message, e);
-            throw new SyncAPIException(message, e);
-        } finally {
-            httpClient.close();
-            t.stop();
-        }
     }
 
     private int remotelyAlterState(Collection<Entry> entries, final String column, String desiredState)
@@ -1133,7 +1083,7 @@ public class EntriesRetriever implements SyncInterface {
 
     private void retryLogin() {
 
-        if (SyncInterface.AuthToken.AuthType.AUTH == entryManager.getAuthToken().getType()) {
+        if (BackendProvider.AuthToken.AuthType.AUTH == entryManager.getAuthToken().getType()) {
             getAuthToken();
         } else {
             try {
@@ -1393,15 +1343,15 @@ public class EntriesRetriever implements SyncInterface {
                         int state = -1;
 
                         if (s.endsWith("read"))
-                            state = SyncInterface.StateChange.STATE_READ;
+                            state = BackendProvider.StateChange.STATE_READ;
 
                         else if (s.endsWith("starred"))
-                            state = SyncInterface.StateChange.STATE_STARRED;
+                            state = BackendProvider.StateChange.STATE_STARRED;
 
                         if (state > -1) {
                             EntriesRetriever.StateChange sc = new EntriesRetriever.StateChange(currentAtomId, state,
-                                    delete ? SyncInterface.StateChange.OPERATION_REMOVE
-                                            : SyncInterface.StateChange.OPERATION_ADD);
+                                    delete ? BackendProvider.StateChange.OPERATION_REMOVE
+                                            : BackendProvider.StateChange.OPERATION_ADD);
                             stateChanges.add(sc);
                         }
                     }

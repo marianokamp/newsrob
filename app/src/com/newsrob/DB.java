@@ -18,7 +18,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.newsrob.SyncInterface.StateChange;
+import com.newsrob.BackendProvider.StateChange;
 import com.newsrob.search.SearchProvider;
 import com.newsrob.util.SQLiteOpenHelper;
 import com.newsrob.util.Timing;
@@ -1494,11 +1494,11 @@ public class DB extends SQLiteOpenHelper {
             String stateColumnName = null;
 
             switch (stateChange.getState()) {
-            case SyncInterface.StateChange.STATE_READ:
+            case BackendProvider.StateChange.STATE_READ:
                 valueColumnName = Entries.READ_STATE;
                 stateColumnName = Entries.READ_STATE_PENDING;
                 break;
-            case SyncInterface.StateChange.STATE_STARRED:
+            case BackendProvider.StateChange.STATE_STARRED:
                 valueColumnName = Entries.STARRED_STATE;
                 stateColumnName = Entries.STARRED_STATE_PENDING;
                 break;
@@ -1506,7 +1506,7 @@ public class DB extends SQLiteOpenHelper {
                 throw new IllegalArgumentException("state invalid: " + stateChange.getState());
             }
             try {
-                String newValue = stateChange.getOperation() == SyncInterface.StateChange.OPERATION_REMOVE ? "0" : "1";
+                String newValue = stateChange.getOperation() == BackendProvider.StateChange.OPERATION_REMOVE ? "0" : "1";
                 c = getDb().query(
                         Entries.TABLE_NAME,
                         Entries.FIELD_NAMES,

@@ -15,11 +15,25 @@ import android.content.Context;
 
 import com.newsrob.jobs.Job;
 
-public interface SyncInterface {
+public interface BackendProvider {
     class AuthenticationExpiredException extends Exception {
     }
 
     class ServerBadRequestException extends Exception {
+    }
+
+    public class SyncAPIException extends Exception {
+
+        private static final long serialVersionUID = -4038203280616398790L;
+
+        public SyncAPIException(String message, Throwable rootCause) {
+            super(message, rootCause);
+        }
+
+        public SyncAPIException(String message) {
+            super(message);
+        }
+
     }
 
     static class StateChange {
@@ -108,8 +122,6 @@ public interface SyncInterface {
             AuthenticationExpiredException;
 
     public boolean submitSubscribe(String url2subscribe) throws SyncAPIException;
-
-    public void submitNotes(Job job) throws SyncAPIException;
 
     /**
      * differentialUpdateOfArticlesStates is where the actual exact syncing

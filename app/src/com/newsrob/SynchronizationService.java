@@ -41,9 +41,10 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
 
+import com.newsrob.BackendProvider.AuthenticationExpiredException;
+import com.newsrob.BackendProvider.ServerBadRequestException;
+import com.newsrob.BackendProvider.SyncAPIException;
 import com.newsrob.EntryManager.SyncJobStatus;
-import com.newsrob.SyncInterface.AuthenticationExpiredException;
-import com.newsrob.SyncInterface.ServerBadRequestException;
 import com.newsrob.activities.UIHelper;
 import com.newsrob.download.DownloadCancelledException;
 import com.newsrob.download.DownloadContext;
@@ -228,7 +229,7 @@ public class SynchronizationService extends Service {
             PL.log(this, "doSync invoked. (2)", null, getApplicationContext());
 
             final EntryManager entryManager = getEntryManager();
-            final SyncInterface grf = entryManager.getSyncInterface();
+            final BackendProvider grf = entryManager.getSyncInterface();
             final IStorageAdapter fileContextAdapter = entryManager.getStorageAdapter();
             PL.log(this, "doSync invoked. (3)", null, getApplicationContext());
 
@@ -287,18 +288,6 @@ public class SynchronizationService extends Service {
                         jobList.add(deleteReadArticlesJob);
                     jobList.add(reduceToCapacityJob);
                 }
-
-                if (false)
-                    jobList.add(new Job("Submitting annotated articles", entryManager) {
-
-                        @Override
-                        public void run() throws Exception {
-
-                            if (entryManager.syncCurrentlyEnabled(manualSync))
-                                entryManager.getSyncInterface().submitNotes(this);
-                        }
-
-                    });
 
                 jobList.add(new SyncChangedArticlesStatusJob(SynchronizationService.this, entryManager, syncJobStatus,
                         manualSync));
@@ -723,7 +712,7 @@ class FetchUnreadArticlesJob extends SyncJob {
         if (!getEntryManager().syncCurrentlyEnabled(manualSync))
             return 0;
 
-        final SyncInterface grf = getEntryManager().getSyncInterface();
+        final BackendProvider grf = getEntryManager().getSyncInterface();
 
         int noOfEntriesFetched = 0;
 
