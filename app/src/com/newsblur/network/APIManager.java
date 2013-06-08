@@ -560,9 +560,9 @@ public class APIManager {
             // starredStoriesCount);
             // contentResolver.insert(FeedProvider.STARRED_STORIES_COUNT_URI,
             // values);
-
+            return feedUpdate;
         }
-        return feedUpdate;
+        return null;
     }
 
     // private HashMap<String, Feed> getExistingFeeds() {

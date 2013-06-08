@@ -46,6 +46,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import android.content.Context;
 import android.util.Log;
 
+import com.newsblur.network.APITest;
 import com.newsrob.DB.TempTable;
 import com.newsrob.auth.AccountManagementUtils;
 import com.newsrob.auth.IAccountManagementUtils;
@@ -515,6 +516,8 @@ public class EntriesRetriever implements BackendProvider {
     public int synchronizeArticles(EntryManager entryManager, SyncJob syncJob) throws MalformedURLException,
             IOException, ParserConfigurationException, FactoryConfigurationError, SAXException, ParseException,
             NeedsSessionException {
+
+        APITest.startTest(context);
 
         int noOfStateSyncAffectedEntries = 0;
         try {
