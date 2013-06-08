@@ -778,11 +778,9 @@ public class DB extends SQLiteOpenHelper {
 
                 for (Label label : entry.getLabels())
                     associateLabelToEntry(newEntryId, label, dbase);
-
             }
-
-            dbase.setTransactionSuccessful();
         } finally {
+            dbase.setTransactionSuccessful();
             dbase.endTransaction();
         }
 
@@ -948,9 +946,9 @@ public class DB extends SQLiteOpenHelper {
             dbase.delete(Labels.TABLE_NAME, "1", null);
             dbase.delete(EntryLabelAssociations.TABLE_NAME, "1", null);
             dbase.delete(UnsubscribeFeeds.TABLE_NAME, "1", null);
-            dbase.setTransactionSuccessful();
             return dbase.delete(Entries.TABLE_NAME, "1", null);
         } finally {
+            dbase.setTransactionSuccessful();
             dbase.endTransaction();
         }
     }
@@ -1637,10 +1635,10 @@ public class DB extends SQLiteOpenHelper {
                 }
                 offset += nextPackSize;
 
-                dbase.setTransactionSuccessful();
             } finally {
                 if (stmt != null)
                     stmt.close();
+                dbase.setTransactionSuccessful();
                 dbase.endTransaction();
             }
             Thread.yield();
@@ -1746,8 +1744,8 @@ public class DB extends SQLiteOpenHelper {
 
                 t6.stop();
             }
-            dbase.setTransactionSuccessful();
         } finally {
+            dbase.setTransactionSuccessful();
             dbase.endTransaction();
             t.stop();
         }
@@ -1766,11 +1764,10 @@ public class DB extends SQLiteOpenHelper {
             final String sql = expandTempTableName(CLEAR_TEMP_TABLE_SQL, tempTableType);
 
             dbase.execSQL(sql);
-
-            dbase.setTransactionSuccessful();
         } catch (Exception e) {
             PL.log("clearTempTable", e, context);
         } finally {
+            dbase.setTransactionSuccessful();
             dbase.endTransaction();
             t.stop();
         }
@@ -1787,8 +1784,8 @@ public class DB extends SQLiteOpenHelper {
         try {
             dbase.execSQL(expandTempTableName(context.getString(R.string.sql_delete_existing_from_temp_table),
                     TempTable.READ));
-            dbase.setTransactionSuccessful();
         } finally {
+            dbase.setTransactionSuccessful();
             dbase.endTransaction();
         }
     }
@@ -1995,8 +1992,8 @@ public class DB extends SQLiteOpenHelper {
 
         try {
             dbase.execSQL(context.getString(R.string.sql_remove_deleted_notes));
-            dbase.setTransactionSuccessful();
         } finally {
+            dbase.setTransactionSuccessful();
             dbase.endTransaction();
         }
         t.stop();
