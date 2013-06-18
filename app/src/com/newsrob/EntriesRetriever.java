@@ -74,8 +74,6 @@ public class EntriesRetriever implements BackendProvider {
     private static final String GOOGLE_SCHEME = "http://www.google.com/reader/";
     private static final String GOOGLE_SCHEMA = "http://www.google.com/schemas/reader/atom/";
 
-    private final static long ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
-
     private static final String EXCLUDE_READ = "xt=" + GOOGLE_STATE_READ;
 
     // private static final String XT_NEWSROB_IGNORE = "&xt=" +

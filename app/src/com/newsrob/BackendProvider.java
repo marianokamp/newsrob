@@ -16,6 +16,8 @@ import android.content.Context;
 import com.newsrob.jobs.Job;
 
 public interface BackendProvider {
+    final static long ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
+
     class AuthenticationExpiredException extends Exception {
     }
 
