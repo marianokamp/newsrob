@@ -3,6 +3,7 @@ package com.newsrob;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,13 +16,19 @@ import org.xml.sax.SAXException;
 
 import android.content.Context;
 
+import com.newsblur.domain.Story;
 import com.newsblur.network.APIManager;
 import com.newsblur.network.domain.FeedFolderResponse;
 import com.newsblur.network.domain.LoginResponse;
+import com.newsblur.network.domain.StoriesResponse;
+import com.newsblur.util.ReadFilter;
+import com.newsblur.util.StoryOrder;
 import com.newsrob.jobs.Job;
 import com.newsrob.util.Timing;
 
 public class NewsBlurBackendProvider implements BackendProvider {
+    private static final String TAG = NewsBlurBackendProvider.class.getName();
+
     private APIManager apiManager = null;
     private Context context;
 
@@ -75,33 +82,133 @@ public class NewsBlurBackendProvider implements BackendProvider {
             throws ClientProtocolException, IOException, NeedsSessionException, SAXException, IllegalStateException,
             ParserConfigurationException, FactoryConfigurationError, SyncAPIException, ServerBadRequestException,
             AuthenticationExpiredException {
-        // TODO Auto-generated method stub
-        return 0;
+
+        int articlesFetchedCount = 0;
+        List<Entry> entriesToBeInserted = new ArrayList<Entry>(20);
+
+        if (handleAuthenticate() == false)
+            return 0;
+
+        // Update the feed list, make sure we have feed records for
+        // everything...
+        List<Feed> feeds = entryManager.findAllFeeds();
+        List<String> feedIds = new ArrayList<String>();
+        Map<String, Long> feedAtomIdToId = new HashMap<String, Long>();
+        FeedFolderResponse feedResponse = apiManager.getFolderFeedMapping(false);
+
+        for (com.newsblur.domain.Feed nbFeed : feedResponse.feeds.values()) {
+            feedIds.add(nbFeed.feedId);
+
+            boolean found = false;
+
+            for (Feed nrFeed : feeds) {
+                if (nrFeed != null && nrFeed.getAtomId().equals(nbFeed.feedId)) {
+                    found = true;
+                    feedAtomIdToId.put(nrFeed.getAtomId(), nrFeed.getId());
+                    break;
+                }
+            }
+
+            if (found == false) {
+                Feed newFeed = new Feed();
+                newFeed.setAtomId(nbFeed.feedId);
+                newFeed.setTitle(nbFeed.title);
+                newFeed.setUrl(nbFeed.address);
+
+                long id = entryManager.insert(newFeed);
+
+                feedAtomIdToId.put(newFeed.getAtomId(), id);
+            }
+        }
+
+        // Here we start getting stories. Need to limit based on the UI config
+        // and figure out when we're really done from the API.
+        for (Integer page = 1; articlesFetchedCount < 100; page++) {
+            StoriesResponse storiesResp = apiManager.getStoriesForFeeds(feedIds.toArray(new String[feedIds.size()]),
+                    page.toString(), StoryOrder.OLDEST, ReadFilter.UNREAD);
+
+            for (Story story : storiesResp.stories) {
+                // Skip importing stories we already have.
+                if (entryManager.entryExists(story.id))
+                    continue;
+
+                Entry newEntry = new Entry();
+                newEntry.setAtomId(story.id);
+                newEntry.setContentURL(story.permalink);
+                newEntry.setContent(story.content);
+                newEntry.setTitle(story.title);
+                newEntry.setReadState(story.read ? ReadState.READ : ReadState.UNREAD);
+                newEntry.setFeedAtomId(story.feedId);
+                newEntry.setAuthor(story.authors);
+                newEntry.setAlternateHRef(story.permalink);
+
+                // Fill in some data from the feed record....
+                Feed nrFeed = getFeedFromAtomId(feeds, feedAtomIdToId, story.feedId);
+
+                if (nrFeed != null) {
+                    newEntry.setFeedId(nrFeed.getId());
+                    newEntry.setDownloadPref(nrFeed.getDownloadPref());
+                    newEntry.setDisplayPref(nrFeed.getDisplayPref());
+                }
+
+                entriesToBeInserted.add(newEntry);
+                articlesFetchedCount++;
+
+                if (entriesToBeInserted.size() == 10) {
+                    entryManager.insert(entriesToBeInserted);
+                    entriesToBeInserted.clear();
+                    entryManager.fireModelUpdated();
+                }
+            }
+
+            // Handle leftovers from the 10 at a time insert block
+            if (entriesToBeInserted.size() > 0) {
+                entryManager.insert(entriesToBeInserted);
+                entriesToBeInserted.clear();
+                entryManager.fireModelUpdated();
+            }
+        }
+
+        return articlesFetchedCount;
+    }
+
+    private Feed getFeedFromAtomId(List<Feed> feeds, Map<String, Long> feedAtomIdToId, String atomId) {
+        Long id = feedAtomIdToId.get(atomId);
+        if (id != null) {
+            for (Feed feed : feeds) {
+                if (id.equals(feed.getId()))
+                    return feed;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean handleAuthenticate() {
+        try {
+            return authenticate(null, null, null, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     @Override
     public void updateSubscriptionList(EntryManager entryManager, Job job) throws IOException,
             ParserConfigurationException, SAXException, ServerBadRequestException, AuthenticationExpiredException {
 
-        if (apiManager == null) {
-            try {
-                authenticate(null, null, null, null, null);
-            } catch (AuthenticationFailedException e) {
-                e.printStackTrace();
-                return;
-            }
-        }
+        if (handleAuthenticate() == false)
+            return;
 
         if (job.isCancelled())
             return;
 
-        /*
-         * if (entryManager.getLastSyncedSubscriptions() != -1l &&
-         * System.currentTimeMillis() <
-         * entryManager.getLastSyncedSubscriptions() + ONE_DAY_IN_MS) {
-         * PL.log("Not updating subscription list this time.", context); return;
-         * }
-         */
+        if (entryManager.getLastSyncedSubscriptions() != -1l
+                && System.currentTimeMillis() < entryManager.getLastSyncedSubscriptions() + ONE_DAY_IN_MS) {
+            PL.log("Not updating subscription list this time.", context);
+            return;
+        }
 
         PL.log("Updating subscription list.", context);
 
