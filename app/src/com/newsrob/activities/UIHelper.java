@@ -107,6 +107,8 @@ public class UIHelper {
     }
 
     int getArticleDownloadIndicatorDrawable(int downloaded, int downloadPref, Resources resources) {
+        if (downloadPref < 0)
+            downloadPref = 1;
 
         int cacheKey = downloaded + (downloadPref * 5);
         if (resourceIdCache[cacheKey] != 0)
