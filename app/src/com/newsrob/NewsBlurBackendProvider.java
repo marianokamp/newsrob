@@ -92,6 +92,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
         int articlesFetchedCount = 0;
         int nbUnreadCount = 0;
         int currentArticlesCount = entryManager.getArticleCount();
+        int currentUnreadArticlesCount = entryManager.getUnreadArticleCountExcludingPinned();
         List<Entry> entriesToBeInserted = new ArrayList<Entry>(20);
 
         if (handleAuthenticate() == false)
@@ -136,6 +137,11 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
         for (Integer page = 1; articlesFetchedCount + currentArticlesCount <= maxCapacity
                 && seenArticlesCount < nbUnreadCount; page++) {
+
+            // If what we have downloaded plus what we already had is >= what
+            // the server says we should have, get out.
+            if (articlesFetchedCount + currentUnreadArticlesCount >= nbUnreadCount)
+                break;
 
             if (job.isCancelled())
                 break;
