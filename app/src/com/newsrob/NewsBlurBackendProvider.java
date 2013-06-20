@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.http.client.ClientProtocolException;
 import org.xml.sax.SAXException;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 
 import com.newsblur.domain.Story;
 import com.newsblur.network.APIManager;
@@ -23,6 +26,7 @@ import com.newsblur.network.domain.LoginResponse;
 import com.newsblur.network.domain.StoriesResponse;
 import com.newsblur.util.ReadFilter;
 import com.newsblur.util.StoryOrder;
+import com.newsrob.download.NewsRobHttpClient;
 import com.newsrob.jobs.Job;
 import com.newsrob.util.Timing;
 
@@ -31,6 +35,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
     private APIManager apiManager = null;
     private Context context;
+    private EntryManager entryManager = null;
 
     public NewsBlurBackendProvider(Context context) {
         this.context = context.getApplicationContext();
@@ -125,14 +130,15 @@ public class NewsBlurBackendProvider implements BackendProvider {
         // Here we start getting stories. Need to figure out when we're really
         // done from the API.
         int maxCapacity = entryManager.getNewsRobSettings().getStorageCapacity();
-        for (Integer page = 1; articlesFetchedCount + currentArticlesCount < maxCapacity; page++) {
+
+        fetchLoop: for (Integer page = 1; articlesFetchedCount + currentArticlesCount <= maxCapacity; page++) {
             StoriesResponse storiesResp = apiManager.getStoriesForFeeds(feedIds.toArray(new String[feedIds.size()]),
                     page.toString(), StoryOrder.OLDEST, ReadFilter.UNREAD);
 
             for (Story story : storiesResp.stories) {
                 // Skip importing stories we already have.
                 if (entryManager.entryExists(story.id))
-                    continue;
+                    break fetchLoop;
 
                 Entry newEntry = new Entry();
                 newEntry.setAtomId(story.id);
@@ -170,13 +176,13 @@ public class NewsBlurBackendProvider implements BackendProvider {
                     entryManager.fireModelUpdated();
                 }
             }
+        }
 
-            // Handle leftovers from the 10 at a time insert block
-            if (entriesToBeInserted.size() > 0) {
-                entryManager.insert(entriesToBeInserted);
-                entriesToBeInserted.clear();
-                entryManager.fireModelUpdated();
-            }
+        // Handle leftovers from the 10 at a time insert block
+        if (entriesToBeInserted.size() > 0) {
+            entryManager.insert(entriesToBeInserted);
+            entriesToBeInserted.clear();
+            entryManager.fireModelUpdated();
         }
 
         return articlesFetchedCount;
@@ -263,8 +269,98 @@ public class NewsBlurBackendProvider implements BackendProvider {
     public int synchronizeArticles(EntryManager entryManager, SyncJob syncJob) throws MalformedURLException,
             IOException, ParserConfigurationException, FactoryConfigurationError, SAXException, ParseException,
             NeedsSessionException, ParseException {
-        // TODO Auto-generated method stub
-        return 0;
+
+        if (handleAuthenticate() == false)
+            return 0;
+
+        int noOfUpdated = 0;
+
+        String[] fields = { DB.Entries.READ_STATE_PENDING // ,
+        // DB.Entries.STARRED_STATE_PENDING,
+        // DB.Entries.PINNED_STATE_PENDING
+        };
+        for (String f : fields) {
+
+            String progressLabel;
+            if (f == DB.Entries.READ_STATE_PENDING)
+                progressLabel = "read";
+            else if (f == DB.Entries.STARRED_STATE_PENDING)
+                progressLabel = "starred";
+            else if (f == DB.Entries.PINNED_STATE_PENDING)
+                progressLabel = "pinned";
+            else
+                progressLabel = "unknown";
+
+            String[] desiredStates = { "0", "1" };
+            for (String desiredState : desiredStates) {
+                List<Entry> allEntries = entryManager.findAllStatePendingEntries(f, desiredState);
+
+                if (allEntries.size() == 0)
+                    continue;
+
+                syncJob.setJobDescription("Syncing state: " + progressLabel);
+                syncJob.target = allEntries.size();
+                syncJob.actual = 0;
+                entryManager.fireStatusUpdated();
+
+                // LATER make this cancelable? Add Job here.
+
+                int offset = 0;
+
+                while (offset < allEntries.size()) {
+                    int nextPackSize = Math.min(allEntries.size() - offset, 25);
+                    if (nextPackSize == 0)
+                        break;
+
+                    List<Entry> currentPack = new ArrayList<Entry>(allEntries.subList(offset, offset + nextPackSize));
+                    offset += nextPackSize;
+                    noOfUpdated += remotelyAlterState(currentPack, f, desiredState);
+                    syncJob.actual = noOfUpdated;
+                    entryManager.fireStatusUpdated();
+
+                }
+            }
+        }
+        return noOfUpdated;
     }
 
+    private final EntryManager getEntryManager() {
+        if (entryManager == null)
+            entryManager = EntryManager.getInstance(context);
+        return entryManager;
+    }
+
+    private int remotelyAlterState(Collection<Entry> entries, final String column, String desiredState) {
+        NewsRobHttpClient httpClient = NewsRobHttpClient.newInstance(false, context);
+
+        try {
+            ContentValues values = new ContentValues();
+
+            for (Entry e : entries) {
+                values.put(e.getFeedAtomId(), e.getAtomId());
+            }
+
+            if (apiManager.markMultipleStoriesAsRead(values)) {
+                List<String> atomIds = new ArrayList<String>(entries.size());
+
+                for (Entry entry : entries) {
+                    atomIds.add(entry.getAtomId());
+                }
+
+                getEntryManager().removePendingStateMarkers(atomIds, column);
+
+                return entries.size();
+            } else {
+                String message = "Problem during marking entry as un-/read: ";
+                Log.e(TAG, message);
+            }
+        } catch (Exception e) {
+            String message = "Problem during marking entry as un-/read: " + e.getMessage();
+            Log.e(TAG, message, e);
+        } finally {
+            httpClient.close();
+        }
+
+        return 0;
+    }
 }
