@@ -15,11 +15,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.http.client.ClientProtocolException;
 import org.xml.sax.SAXException;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
 import com.newsblur.domain.Story;
+import com.newsblur.domain.ValueMultimap;
 import com.newsblur.network.APIManager;
 import com.newsblur.network.domain.FeedFolderResponse;
 import com.newsblur.network.domain.LoginResponse;
@@ -132,11 +132,15 @@ public class NewsBlurBackendProvider implements BackendProvider {
         int maxCapacity = entryManager.getNewsRobSettings().getStorageCapacity();
 
         fetchLoop: for (Integer page = 1; articlesFetchedCount + currentArticlesCount <= maxCapacity; page++) {
+            if (job.isCancelled())
+                break fetchLoop;
+
             StoriesResponse storiesResp = apiManager.getStoriesForFeeds(feedIds.toArray(new String[feedIds.size()]),
-                    page.toString(), StoryOrder.OLDEST, ReadFilter.UNREAD);
+                    page.toString(), StoryOrder.NEWEST, ReadFilter.UNREAD);
 
             for (Story story : storiesResp.stories) {
-                // Skip importing stories we already have.
+                // Stop when we hit some we already have. It seems to go into an
+                // Infinite loop if we don't.
                 if (entryManager.entryExists(story.id))
                     break fetchLoop;
 
@@ -334,7 +338,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
         NewsRobHttpClient httpClient = NewsRobHttpClient.newInstance(false, context);
 
         try {
-            ContentValues values = new ContentValues();
+            ValueMultimap values = new ValueMultimap();
 
             for (Entry e : entries) {
                 values.put(e.getFeedAtomId(), e.getAtomId());

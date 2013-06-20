@@ -702,7 +702,7 @@ public class APIManager {
         return (response.responseCode == HttpStatus.SC_OK && !response.hasRedirected);
     }
 
-    public boolean markMultipleStoriesAsRead(ContentValues values) {
+    public boolean markMultipleStoriesAsRead(ValueMultimap values) {
         final APIClient client = new APIClient(context, cookie);
         final APIResponse response = client.post(APIConstants.URL_MARK_FEED_STORIES_AS_READ, values);
         if (!response.isOffline && response.responseCode == HttpStatus.SC_OK && !response.hasRedirected) {

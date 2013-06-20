@@ -113,7 +113,7 @@ public class SyncService extends IntentService {
                 final ValueMultimap stories = (ValueMultimap) intent.getSerializableExtra(EXTRA_TASK_STORIES);
                 ContentValues values = new ContentValues();
                 values.put(APIConstants.PARAMETER_FEEDS_STORIES, stories.getJsonString());
-                apiManager.markMultipleStoriesAsRead(values);
+                // apiManager.markMultipleStoriesAsRead(values);
                 break;
 
             case EXTRA_TASK_MARK_SOCIALSTORY_READ:
