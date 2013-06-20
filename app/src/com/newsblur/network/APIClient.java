@@ -120,7 +120,6 @@ public class APIClient {
             }
 
             final PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
-            Log.d(this.getClass().getName(), "parameterString = " + parameterString);
             printWriter.print(parameterString);
             printWriter.close();
 

@@ -15,18 +15,19 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.http.client.ClientProtocolException;
 import org.xml.sax.SAXException;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
 import com.newsblur.domain.Story;
 import com.newsblur.domain.ValueMultimap;
+import com.newsblur.network.APIConstants;
 import com.newsblur.network.APIManager;
 import com.newsblur.network.domain.FeedFolderResponse;
 import com.newsblur.network.domain.LoginResponse;
 import com.newsblur.network.domain.StoriesResponse;
 import com.newsblur.util.ReadFilter;
 import com.newsblur.util.StoryOrder;
-import com.newsrob.download.NewsRobHttpClient;
 import com.newsrob.jobs.Job;
 import com.newsrob.util.Timing;
 
@@ -89,6 +90,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             AuthenticationExpiredException {
 
         int articlesFetchedCount = 0;
+        int nbUnreadCount = 0;
         int currentArticlesCount = entryManager.getArticleCount();
         List<Entry> entriesToBeInserted = new ArrayList<Entry>(20);
 
@@ -100,10 +102,11 @@ public class NewsBlurBackendProvider implements BackendProvider {
         List<Feed> feeds = entryManager.findAllFeeds();
         List<String> feedIds = new ArrayList<String>();
         Map<String, Long> feedAtomIdToId = new HashMap<String, Long>();
-        FeedFolderResponse feedResponse = apiManager.getFolderFeedMapping(false);
+        FeedFolderResponse feedResponse = apiManager.getFolderFeedMapping(true);
 
         for (com.newsblur.domain.Feed nbFeed : feedResponse.feeds.values()) {
             feedIds.add(nbFeed.feedId);
+            nbUnreadCount += nbFeed.neutralCount += nbFeed.positiveCount += nbFeed.negativeCount;
 
             boolean found = false;
 
@@ -127,22 +130,25 @@ public class NewsBlurBackendProvider implements BackendProvider {
             }
         }
 
-        // Here we start getting stories. Need to figure out when we're really
-        // done from the API.
+        // Here we start getting stories.
         int maxCapacity = entryManager.getNewsRobSettings().getStorageCapacity();
+        int seenArticlesCount = 0;
 
-        fetchLoop: for (Integer page = 1; articlesFetchedCount + currentArticlesCount <= maxCapacity; page++) {
+        for (Integer page = 1; articlesFetchedCount + currentArticlesCount <= maxCapacity
+                && seenArticlesCount < nbUnreadCount; page++) {
+
             if (job.isCancelled())
-                break fetchLoop;
+                break;
 
             StoriesResponse storiesResp = apiManager.getStoriesForFeeds(feedIds.toArray(new String[feedIds.size()]),
                     page.toString(), StoryOrder.NEWEST, ReadFilter.UNREAD);
 
             for (Story story : storiesResp.stories) {
-                // Stop when we hit some we already have. It seems to go into an
-                // Infinite loop if we don't.
+                seenArticlesCount++;
+
+                // Don't save ones we already have.
                 if (entryManager.entryExists(story.id))
-                    break fetchLoop;
+                    continue;
 
                 Entry newEntry = new Entry();
                 newEntry.setAtomId(story.id);
@@ -335,14 +341,18 @@ public class NewsBlurBackendProvider implements BackendProvider {
     }
 
     private int remotelyAlterState(Collection<Entry> entries, final String column, String desiredState) {
-        NewsRobHttpClient httpClient = NewsRobHttpClient.newInstance(false, context);
+        // NewsRobHttpClient httpClient = NewsRobHttpClient.newInstance(false,
+        // context);
 
         try {
-            ValueMultimap values = new ValueMultimap();
+            ValueMultimap list = new ValueMultimap();
 
             for (Entry e : entries) {
-                values.put(e.getFeedAtomId(), e.getAtomId());
+                list.put(e.getFeedAtomId(), e.getAtomId());
             }
+
+            ContentValues values = new ContentValues();
+            values.put(APIConstants.PARAMETER_FEEDS_STORIES, list.getJsonString());
 
             if (apiManager.markMultipleStoriesAsRead(values)) {
                 List<String> atomIds = new ArrayList<String>(entries.size());
@@ -362,7 +372,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             String message = "Problem during marking entry as un-/read: " + e.getMessage();
             Log.e(TAG, message, e);
         } finally {
-            httpClient.close();
+            // httpClient.close();
         }
 
         return 0;
