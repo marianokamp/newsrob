@@ -149,6 +149,14 @@ public class NewsBlurBackendProvider implements BackendProvider {
                     newEntry.setFeedId(nrFeed.getId());
                     newEntry.setDownloadPref(nrFeed.getDownloadPref());
                     newEntry.setDisplayPref(nrFeed.getDisplayPref());
+
+                    String labelName = getFolderNameForFeed(feedResponse, nrFeed.getAtomId());
+
+                    if (labelName != null) {
+                        Label l = new Label();
+                        l.setName(labelName);
+                        newEntry.addLabel(l);
+                    }
                 }
 
                 entriesToBeInserted.add(newEntry);
@@ -170,6 +178,18 @@ public class NewsBlurBackendProvider implements BackendProvider {
         }
 
         return articlesFetchedCount;
+    }
+
+    private String getFolderNameForFeed(FeedFolderResponse folders, String feedId) {
+        for (String folderName : folders.folders.keySet()) {
+            for (Long id : folders.folders.get(folderName)) {
+                if (feedId.equals(id.toString())) {
+                    return folderName;
+                }
+            }
+        }
+
+        return null;
     }
 
     private Feed getFeedFromAtomId(List<Feed> feeds, Map<String, Long> feedAtomIdToId, String atomId) {
