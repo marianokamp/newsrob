@@ -84,6 +84,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             AuthenticationExpiredException {
 
         int articlesFetchedCount = 0;
+        int currentArticlesCount = entryManager.getArticleCount();
         List<Entry> entriesToBeInserted = new ArrayList<Entry>(20);
 
         if (handleAuthenticate() == false)
@@ -121,9 +122,10 @@ public class NewsBlurBackendProvider implements BackendProvider {
             }
         }
 
-        // Here we start getting stories. Need to limit based on the UI config
-        // and figure out when we're really done from the API.
-        for (Integer page = 1; articlesFetchedCount < 100; page++) {
+        // Here we start getting stories. Need to figure out when we're really
+        // done from the API.
+        int maxCapacity = entryManager.getNewsRobSettings().getStorageCapacity();
+        for (Integer page = 1; articlesFetchedCount + currentArticlesCount < maxCapacity; page++) {
             StoriesResponse storiesResp = apiManager.getStoriesForFeeds(feedIds.toArray(new String[feedIds.size()]),
                     page.toString(), StoryOrder.OLDEST, ReadFilter.UNREAD);
 
