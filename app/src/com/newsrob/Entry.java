@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.newsrob.storage.AbstractStorageAdapter;
 import com.newsrob.util.U;
 
 public class Entry {
@@ -285,8 +286,7 @@ public class Entry {
     }
 
     public static String getShortAtomId(String fullAtomId) {
-        int idx = fullAtomId.lastIndexOf('/');
-        return fullAtomId.substring(idx + 1);
+        return AbstractStorageAdapter.longAtomIdToShortAtomId(fullAtomId);
     }
 
     public void setDownloadPref(int downloadPref) {
