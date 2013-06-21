@@ -131,9 +131,16 @@ public class NewsBlurBackendProvider implements BackendProvider {
         // Here we start getting stories.
         int maxCapacity = entryManager.getNewsRobSettings().getStorageCapacity();
         int seenArticlesCount = 0;
+        job.setJobDescription("Fetching new articles");
+        job.target = nbUnreadCount;
+        job.actual = 0;
+        entryManager.fireStatusUpdated();
 
         for (Integer page = 1; articlesFetchedCount + currentArticlesCount <= maxCapacity
                 && seenArticlesCount < nbUnreadCount; page++) {
+
+            job.actual = seenArticlesCount;
+            entryManager.fireStatusUpdated();
 
             // If what we have downloaded plus what we already had is >= what
             // the server says we should have, get out.
@@ -197,6 +204,9 @@ public class NewsBlurBackendProvider implements BackendProvider {
             entriesToBeInserted.clear();
             entryManager.fireModelUpdated();
         }
+
+        job.actual = job.target;
+        entryManager.fireStatusUpdated();
 
         return articlesFetchedCount;
     }

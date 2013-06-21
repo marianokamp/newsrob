@@ -10,7 +10,7 @@ public class SyncInterfaceFactory {
 
     public static BackendProvider getSyncInterface(Context context) {
         String className = NewsRob.getDebugProperties(context).getProperty("syncClassName",
-                "com.newsrob.EntriesRetriever");
+                "com.newsrob.NewsBlurBackendProvider");
 
         Log.d(TAG, "Attempting to load sync class: " + className);
 
