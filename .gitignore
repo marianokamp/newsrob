@@ -12,3 +12,4 @@ sd.img.*
 sd.img*
 
 /app/.settings/org.eclipse.jdt.core.prefs
+*.apk
