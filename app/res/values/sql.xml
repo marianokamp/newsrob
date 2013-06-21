@@ -442,11 +442,9 @@ SELECT \n
   entries.CONTENT_TYPE,\n
   entries.CONTENT_URL,\n
   entries.TITLE,\n
-  entries.TITLE_TYPE,\n
   feeds.title  as derived_feed_title,\n
   feeds.DOWNLOAD_PREF,\n
   feeds.DISPLAY_PREF,\n
-  entries.FEED_TITLE_TYPE,\n
   entries.FEED_ID,\n
   entries.READ_STATE,\n
   entries.READ_STATE_PENDING,\n
