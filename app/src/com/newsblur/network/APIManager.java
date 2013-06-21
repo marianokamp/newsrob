@@ -28,6 +28,7 @@ import com.newsblur.network.domain.Message;
 import com.newsblur.network.domain.ProfileResponse;
 import com.newsblur.network.domain.SocialFeedResponse;
 import com.newsblur.network.domain.StoriesResponse;
+import com.newsblur.network.domain.UnreadHashResponse;
 import com.newsblur.serialization.BooleanTypeAdapter;
 import com.newsblur.serialization.DateStringTypeAdapter;
 import com.newsblur.util.ReadFilter;
@@ -252,6 +253,19 @@ public class APIManager {
             // }
 
             return storiesResponse;
+        } else {
+            return null;
+        }
+    }
+
+    public UnreadHashResponse getUnreadStoryHashes() {
+        final APIClient client = new APIClient(context, cookie);
+        final APIResponse response = client.get(APIConstants.URL_UNREAD_STORY_HASHES);
+
+        UnreadHashResponse unreadResponse = new UnreadHashResponse(response.responseString, gson);
+
+        if (response.responseCode == HttpStatus.SC_OK && !response.hasRedirected) {
+            return unreadResponse;
         } else {
             return null;
         }

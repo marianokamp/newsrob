@@ -654,6 +654,11 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         return result;
     }
 
+    public Entry findEntryByHash(final String hash) {
+        final Entry result = databaseHelper.findEntryByHash(hash);
+        return result;
+    }
+
     public void fireStatusUpdated() {
         try {
             for (final IEntryModelUpdateListener listener : new ArrayList<IEntryModelUpdateListener>(listeners))
@@ -1739,6 +1744,15 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
 
     public void populateTempTable(TempTable tempTableType, final long[] articleIds) {
         databaseHelper.populateTempIds(tempTableType, articleIds);
+    }
+
+    public void populateTempTableHashes(TempTable tempTableType, final List<String> hashes) {
+        databaseHelper.populateTempHashes(tempTableType, hashes);
+    }
+
+    public void updateStatesFromTempTableHash(TempTable tempTableType, ArticleDbState state) {
+        databaseHelper.updateStatesFromTempTableHash(tempTableType, state);
+        fireStatusUpdated();
     }
 
     public void clearTempTable(TempTable tempTableType) {

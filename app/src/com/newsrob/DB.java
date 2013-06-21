@@ -35,7 +35,7 @@ public class DB extends SQLiteOpenHelper {
     private static final String CLEAR_TEMP_TABLE_SQL = "DELETE FROM temp_ids;";
 
     public enum TempTable {
-        READ, STARRED, PINNED, NOTES;
+        READ, STARRED, PINNED, NOTES, READ_HASHES;
     }
 
     private static class Feeds {
@@ -136,10 +136,7 @@ public class DB extends SQLiteOpenHelper {
         private static final String CONTENT_TYPE = "CONTENT_TYPE";
         private static final String CONTENT_URL = "CONTENT_URL";
         public static final String TITLE = "TITLE";
-        private static final String TITLE_TYPE = "TITLE_TYPE"; // Remove me!
         static final String FEED_TITLE = "FEED_TITLE";
-        private static final String FEED_TITLE_TYPE = "FEED_TITLE_TYPE"; // R
-        // me!
 
         private static final String FEED_ID = "FEED_ID";
         public static final String READ_STATE = "READ_STATE";
@@ -163,6 +160,7 @@ public class DB extends SQLiteOpenHelper {
 
         public static final String DOWNLOADED = "DOWNLOADED";
         public static final String AUTHOR = "AUTHOR";
+        public static final String ENTRY_HASH = "ENTRY_HASH";
 
         static final String ERROR = "ERROR";
 
@@ -173,10 +171,10 @@ public class DB extends SQLiteOpenHelper {
 
         private static final String[][] FIELDS = { { __ID, "INTEGER PRIMARY KEY" }, { ATOM_ID, "TEXT" },
                 { ALTERNATE_URL, "TEXT" }, { CONTENT, "TEXT" }, { CONTENT_TYPE, "TEXT" }, { CONTENT_URL, "TEXT" },
-                { TITLE, "TEXT" }, { TITLE_TYPE, "TEXT" }, { FEED_TITLE, "TEXT" }, { FEED_TITLE_TYPE, "TEXT" },
-                { FEED_ID, "INTEGER" }, { READ_STATE, "INTEGER" }, { READ_STATE_PENDING, "INTEGER" },
-                { STARRED_STATE, "INTEGER" }, { STARRED_STATE_PENDING, "INTEGER" }, { SHARED_STATE, "INTEGER" },
-                { LIKED_STATE, "INTEGER" }, { SHARED_STATE_PENDING, "INTEGER" }, { PINNED_STATE_PENDING, "INTEGER" },
+                { TITLE, "TEXT" }, { ENTRY_HASH, "TEXT" }, { FEED_TITLE, "TEXT" }, { FEED_ID, "INTEGER" },
+                { READ_STATE, "INTEGER" }, { READ_STATE_PENDING, "INTEGER" }, { STARRED_STATE, "INTEGER" },
+                { STARRED_STATE_PENDING, "INTEGER" }, { SHARED_STATE, "INTEGER" }, { LIKED_STATE, "INTEGER" },
+                { SHARED_STATE_PENDING, "INTEGER" }, { PINNED_STATE_PENDING, "INTEGER" },
                 { LIKED_STATE_PENDING, "INTEGER" }, { FRIENDS_SHARED_STATE, "INTEGER" }, { SHARED_BY_FRIEND, "TEXT" },
                 { UPDATED_UTC, "INTEGER" }, { DOWNLOADED, "INTEGER" }, { ERROR, "TEXT" }, { AUTHOR, "TEXT" },
                 { INSERTED_AT, "INTEGER" }, { TYPE, "TEXT" }, { NOTE_SUBMITTED_STATE, "INTEGER" }, { NOTE, "TEXT" },
@@ -204,8 +202,8 @@ public class DB extends SQLiteOpenHelper {
             "CREATE INDEX e3 ON entries (atom_id);", "CREATE INDEX e4 ON entries (read_state, starred_state);",
             "CREATE INDEX e5 ON entries (read_state, friends_shared_state);",
             "CREATE INDEX e6 ON entries (type, read_state asc, updated_utc desc);",
-            "CREATE INDEX l1 ON labels (name);", "CREATE INDEX f2 ON feeds (_id);",
-            "CREATE INDEX ela3 ON entry_label_associations (entry_id);" };
+            "CREATE INDEX e7 ON entries (entry_hash);", "CREATE INDEX l1 ON labels (name);",
+            "CREATE INDEX f2 ON feeds (_id);", "CREATE INDEX ela3 ON entry_label_associations (entry_id);" };
 
     private Context context;
 
@@ -606,6 +604,16 @@ public class DB extends SQLiteOpenHelper {
         return entry;
     }
 
+    Entry findEntryByHash(String hash) {
+        Cursor c = getReadOnlyDb().rawQuery("SELECT * FROM " + ENTRIES_VIEW + " where ENTRY_HASH=?",
+                new String[] { hash });
+        Entry entry = null;
+        if (c.moveToFirst())
+            entry = createEntryFromCursor(c);
+        c.close();
+        return entry;
+    }
+
     List<Long> findAllArticleIdsToDownload() {
         Timing t = new Timing("findAllArticleIdsToDownload", context);
         List<Long> rv = null;
@@ -853,6 +861,8 @@ public class DB extends SQLiteOpenHelper {
             cv.put(Entries.__ID, entry.getId());
 
         cv.put(Entries.ATOM_ID, entry.getAtomId());
+
+        cv.put(Entries.ENTRY_HASH, entry.getHash());
 
         cv.put(Entries.ALTERNATE_URL, entry.getAlternateHRef());
 
@@ -1506,7 +1516,8 @@ public class DB extends SQLiteOpenHelper {
                 throw new IllegalArgumentException("state invalid: " + stateChange.getState());
             }
             try {
-                String newValue = stateChange.getOperation() == BackendProvider.StateChange.OPERATION_REMOVE ? "0" : "1";
+                String newValue = stateChange.getOperation() == BackendProvider.StateChange.OPERATION_REMOVE ? "0"
+                        : "1";
                 c = getDb().query(
                         Entries.TABLE_NAME,
                         Entries.FIELD_NAMES,
@@ -1597,6 +1608,161 @@ public class DB extends SQLiteOpenHelper {
 
     public int getPendingReadStateArticleCount() {
         return getRowCount(Entries.TABLE_NAME, "read_state_pending = ?", new String[] { "1" });
+    }
+
+    public void populateTempHashes(TempTable tempTableType, List<String> articleIds) {
+        SQLiteDatabase dbase = getDb();
+        final String createTableDDL = expandTempTableName(CREATE_TABLE_TEMP_IDS_SQL, tempTableType);
+        PL.log("Executing sql=" + createTableDDL, context);
+        dbase.execSQL(createTableDDL);
+
+        clearTempTable(tempTableType);
+
+        Timing t = new Timing("DB.populateTempIds " + tempTableType + " count=" + articleIds.size(), context);
+
+        PL.log("DB.populateTempIds(" + tempTableType + "): number of article ids=" + articleIds.size(), context);
+
+        // offset points at the current element, 0 meaning the first element
+        int offset = 0;
+        while (offset < articleIds.size()) {
+
+            int nextPackSize = Math.min(articleIds.size() - offset, 30);
+            // if (nextPackSize == 0)
+            // break;
+
+            SQLiteStatement stmt = null;
+            try {
+                dbase.beginTransaction();
+                stmt = dbase.compileStatement(expandTempTableName("INSERT INTO temp_ids values(?);", tempTableType));
+
+                for (int j = offset; j < offset + nextPackSize && j < articleIds.size(); j++) {
+
+                    String id = articleIds.get(j);
+
+                    stmt.bindString(1, id);
+                    stmt.execute();
+                }
+                offset += nextPackSize;
+
+            } finally {
+                if (stmt != null)
+                    stmt.close();
+                dbase.setTransactionSuccessful();
+                dbase.endTransaction();
+            }
+            Thread.yield();
+        }
+        t.stop();
+    }
+
+    public void updateStatesFromTempTableHash(TempTable tempTableType, ArticleDbState state) {
+
+        Timing t = new Timing("DB.updateStatesFromTempTable state=" + state, context);
+        PL.log("DB.updateStatesFromTempTable state=" + state, context);
+        String stateColumn = null;
+        String statePendingColumn = null;
+        int targetValueOn = 1;
+        int targetValueOff = 0;
+        boolean mergePinned = false;
+
+        if (state == ArticleDbState.READ) {
+            stateColumn = Entries.READ_STATE;
+            statePendingColumn = Entries.READ_STATE_PENDING;
+            targetValueOn = 0;
+            targetValueOff = 1;
+            mergePinned = true;
+
+        } else if (state == ArticleDbState.STARRED) {
+            stateColumn = Entries.STARRED_STATE;
+            statePendingColumn = Entries.STARRED_STATE_PENDING;
+
+        }
+        // PINNED STATE ISSUE
+        else if (state == ArticleDbState.PINNED) {
+            throw new RuntimeException("Boy, this was unexpected!");
+            /*
+             * stateColumn = Entries.READ_STATE; statePendingColumn =
+             * Entries.PINNED_STATE_PENDING;
+             */
+        }
+
+        if (stateColumn == null)
+            throw new IllegalStateException("stateColumn must not be null here.");
+
+        SQLiteDatabase dbase = getDb();
+        try {
+            dbase.beginTransaction();
+
+            // Mark all articles as read where the read_state is not pending
+            // and they were not read before
+            Timing t3 = new Timing("DB.updateStatesFromTempTable - mark existing read", context);
+            final String markExistingSQL = "UPDATE " + Entries.TABLE_NAME + " SET " + stateColumn + " = "
+                    + targetValueOff + " WHERE " + stateColumn + " = " + targetValueOn + " AND " + statePendingColumn
+                    + " = 0;";
+            dbase.execSQL(markExistingSQL);
+            t3.stop();
+
+            // Mark all articles unread that exists in the temp table and are
+            // not
+            // read state pending
+
+            Timing t4 = new Timing("DB.updateStatesFromTempTable - mark as x", context);
+
+            String sql = context.getString(R.string.sql_mark_as_x_hash);
+            sql = sql.replaceAll("-STATE-", stateColumn);
+            sql = sql.replaceAll("-STATE_PENDING-", statePendingColumn);
+            sql = sql.replaceAll("-SET-", targetValueOn + "");
+            sql = sql.replaceAll("-CLEAR-", targetValueOff + "");
+
+            dbase.execSQL(expandTempTableName(sql, tempTableType));
+            t4.stop();
+
+            if (state == ArticleDbState.READ) {
+                Timing t5 = new Timing("DB.updateReadStates - mark as read even when pinned", context);
+
+                dbase.execSQL(expandTempTableName(context.getString(R.string.sql_mark_as_read_even_when_pinned_hash),
+                        tempTableType));
+                t5.stop();
+            }
+
+            // I think this throws exceptions due to the table not existing, but
+            // since we aren't supporting pinned states on Newsblur yet and
+            // that's where this is being called from, disable it for now.
+            /*
+             * if (false && mergePinned) { Timing t6 = new
+             * Timing("DB.updateReadStates - mark pinned as pinned", context);
+             * 
+             * sql =
+             * expandTempTableName(context.getString(R.string.sql_mark_as_x_hash
+             * ), TempTable.PINNED); sql = sql.replaceAll("-STATE-",
+             * stateColumn); // READ STATE sql =
+             * sql.replaceAll("-STATE_PENDING-", Entries.READ_STATE_PENDING +
+             * " = 0 AND " + Entries.PINNED_STATE_PENDING); sql =
+             * sql.replaceAll("-SET-", "-1"); sql = sql.replaceAll("-CLEAR-",
+             * "0"); PL.log("DB.updateStatesFromTempTable Executing sql=" + sql,
+             * context); // -- Setting Pinned state for all articles that are
+             * unread // and for which in temp_ids_pinned a record exists // and
+             * for which neither a read_state_pending nor a //
+             * pinned_state_pending is set.
+             * 
+             * dbase.execSQL(sql); sql = sql.replaceAll("EXISTS",
+             * "NOT EXISTS").replaceAll("-1", "0")
+             * .replaceAll("entries.READ_STATE = 0", "entries.READ_STATE = -1");
+             * PL.log("DB.updateStatesFromTempTable Executing sql2=" + sql,
+             * context);
+             * 
+             * // -- Setting Unread state for all articles that are pinned //
+             * and for which in temp_ids_pinned no record exists // and for
+             * which neither a read_state_pending nor a // pinned_state_pending
+             * is set. dbase.execSQL(sql);
+             * 
+             * t6.stop(); }
+             */
+        } finally {
+            dbase.setTransactionSuccessful();
+            dbase.endTransaction();
+            t.stop();
+        }
     }
 
     public void populateTempIds(TempTable tempTableType, long[] articleIds) {

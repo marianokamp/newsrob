@@ -27,7 +27,6 @@ import android.widget.TextView;
 import com.newsrob.EntryManager;
 import com.newsrob.LoginWithCaptchaRequiredException;
 import com.newsrob.R;
-import com.newsrob.SyncInterfaceFactory;
 import com.newsrob.auth.AccountManagementUtils;
 import com.newsrob.auth.IAccountManagementUtils;
 import com.newsrob.util.U;
@@ -85,13 +84,20 @@ public class LoginActivity extends Activity implements OnClickListener {
             captchaImageView = (WebView) findViewById(R.id.captcha_image);
             descriptionTextView = (TextView) findViewById(R.id.enter_email_password_text);
 
-            String email_password_text = getResources().getString(R.string.enter_email_password);
-            email_password_text = email_password_text.replaceAll("\\$SERVICE\\$", SyncInterfaceFactory
-                    .getSyncInterface(getApplicationContext()).getServiceName());
-            email_password_text = email_password_text.replaceAll("\\$SERVICE_URL\\$", SyncInterfaceFactory
-                    .getSyncInterface(getApplicationContext()).getServiceUrl());
-            descriptionTextView.setText("wtf");
-
+            /*
+             * TODO: This doesn't work, figure it out later. String
+             * email_password_text =
+             * getResources().getString(R.string.enter_email_password);
+             * email_password_text =
+             * email_password_text.replaceAll("\\$SERVICE\\$",
+             * SyncInterfaceFactory
+             * .getSyncInterface(getApplicationContext()).getServiceName());
+             * email_password_text =
+             * email_password_text.replaceAll("\\$SERVICE_URL\\$",
+             * SyncInterfaceFactory
+             * .getSyncInterface(getApplicationContext()).getServiceUrl());
+             * descriptionTextView.setText("wtf");
+             */
             captchaAnswerEditText = (EditText) findViewById(R.id.captcha_answer);
 
             loginButton = (Button) findViewById(R.id.login);

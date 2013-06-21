@@ -340,14 +340,13 @@ CREATE VIEW
 AS
   SELECT
      entries._id AS _id,
+     ENTRY_HASH,
      entries.ATOM_ID as ATOM_ID,
      ALTERNATE_URL,
      CONTENT,
      CONTENT_TYPE,
      CONTENT_URL,
      entries.TITLE AS TITLE,
-     TITLE_TYPE,
-     FEED_TITLE_TYPE,
      FEED_ID,
      READ_STATE,
      READ_STATE_PENDING,
@@ -514,6 +513,23 @@ WHERE
   )
   AND read_state_pending = 0
 </string>
+<string name="sql_mark_as_read_even_when_pinned_hash">
+UPDATE 
+  entries
+SET
+  read_state = 1
+WHERE
+  entries.read_state = -1 AND
+  NOT EXISTS(
+  	SELECT
+      1 
+    FROM
+      temp_ids
+    WHERE
+      entries.entry_hash = temp_ids.atom_id
+  )
+  AND read_state_pending = 0
+</string>
 <!-- 0 && 1 -->
 <string name="sql_mark_as_x">
 UPDATE 
@@ -529,6 +545,23 @@ WHERE
       temp_ids
     WHERE
       entries.atom_id = temp_ids.atom_id
+  )
+  AND -STATE_PENDING- = 0
+</string>
+<string name="sql_mark_as_x_hash">
+UPDATE 
+  entries
+SET
+  -STATE- = -SET-
+WHERE
+  entries.-STATE- = -CLEAR- AND
+  EXISTS(
+  	SELECT
+      1 
+    FROM
+      temp_ids
+    WHERE
+      entries.entry_hash = temp_ids.atom_id
   )
   AND -STATE_PENDING- = 0
 </string>

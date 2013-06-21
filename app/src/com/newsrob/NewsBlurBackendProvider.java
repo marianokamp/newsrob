@@ -26,8 +26,10 @@ import com.newsblur.network.APIManager;
 import com.newsblur.network.domain.FeedFolderResponse;
 import com.newsblur.network.domain.LoginResponse;
 import com.newsblur.network.domain.StoriesResponse;
+import com.newsblur.network.domain.UnreadHashResponse;
 import com.newsblur.util.ReadFilter;
 import com.newsblur.util.StoryOrder;
+import com.newsrob.DB.TempTable;
 import com.newsrob.jobs.Job;
 import com.newsrob.util.Timing;
 
@@ -80,6 +82,13 @@ public class NewsBlurBackendProvider implements BackendProvider {
         return login.authenticated;
     }
 
+    private void syncServerReadStates(EntryManager entryManager, SyncJob job) {
+        UnreadHashResponse hashes = apiManager.getUnreadStoryHashes();
+
+        entryManager.populateTempTableHashes(TempTable.READ_HASHES, hashes.flatHashList);
+        entryManager.updateStatesFromTempTableHash(TempTable.READ_HASHES, ArticleDbState.READ);
+    }
+
     @Override
     public int fetchNewEntries(EntryManager entryManager, SyncJob job, boolean manualSync)
             throws ClientProtocolException, IOException, NeedsSessionException, SAXException, IllegalStateException,
@@ -94,6 +103,8 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
         if (handleAuthenticate(entryManager) == false)
             return 0;
+
+        syncServerReadStates(entryManager, job);
 
         // Update the feed list, make sure we have feed records for
         // everything...
@@ -121,6 +132,8 @@ public class NewsBlurBackendProvider implements BackendProvider {
                 newFeed.setAtomId(nbFeed.feedId);
                 newFeed.setTitle(nbFeed.title);
                 newFeed.setUrl(nbFeed.address);
+                newFeed.setDownloadPref(Feed.DOWNLOAD_PREF_DEFAULT);
+                newFeed.setDisplayPref(Feed.DISPLAY_PREF_DEFAULT);
 
                 long id = entryManager.insert(newFeed);
 
@@ -169,6 +182,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
                 newEntry.setFeedAtomId(story.feedId);
                 newEntry.setAuthor(story.authors);
                 newEntry.setAlternateHRef(story.permalink);
+                newEntry.setHash(story.storyHash);
 
                 // Fill in some data from the feed record....
                 Feed nrFeed = getFeedFromAtomId(feeds, feedAtomIdToId, story.feedId);

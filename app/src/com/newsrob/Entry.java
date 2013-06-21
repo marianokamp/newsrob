@@ -23,6 +23,15 @@ public class Entry {
 
     private String atomId;
     private long id = -1;
+    private String hash;
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
 
     private String title;
 
