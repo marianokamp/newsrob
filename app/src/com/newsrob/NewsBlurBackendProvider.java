@@ -83,10 +83,12 @@ public class NewsBlurBackendProvider implements BackendProvider {
     }
 
     private void syncServerReadStates(EntryManager entryManager, SyncJob job) {
+        job.setJobDescription("Syncing server read states");
         UnreadHashResponse hashes = apiManager.getUnreadStoryHashes();
 
         entryManager.populateTempTableHashes(TempTable.READ_HASHES, hashes.flatHashList);
         entryManager.updateStatesFromTempTableHash(TempTable.READ_HASHES, ArticleDbState.READ);
+        job.setJobDescription("Server read states synced");
     }
 
     @Override
@@ -104,7 +106,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
         if (handleAuthenticate(entryManager) == false)
             return 0;
 
-        syncServerReadStates(entryManager, job);
+        job.setJobDescription("Fetching new articles");
 
         // Update the feed list, make sure we have feed records for
         // everything...
@@ -144,7 +146,6 @@ public class NewsBlurBackendProvider implements BackendProvider {
         // Here we start getting stories.
         int maxCapacity = entryManager.getNewsRobSettings().getStorageCapacity();
         int seenArticlesCount = 0;
-        job.setJobDescription("Fetching new articles");
         job.target = nbUnreadCount;
         job.actual = 0;
         entryManager.fireStatusUpdated();
@@ -312,6 +313,8 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
         if (handleAuthenticate(entryManager) == false)
             return 0;
+
+        syncServerReadStates(entryManager, syncJob);
 
         int noOfUpdated = 0;
 

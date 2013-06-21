@@ -24,7 +24,7 @@ public class SyncInterfaceFactory {
             return obj;
         } catch (Exception e) {
             Log.wtf(TAG, e);
-            return new EntriesRetriever(context);
+            return new NewsBlurBackendProvider(context);
         }
     }
 }
