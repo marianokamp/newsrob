@@ -62,7 +62,7 @@
 	<string name="no_articles">No articles yet.\n\nSync to load content.</string>
 	<string name="show_article">Show Article</string>
 	<string name="login">Login</string>
-	<string name="email">Email</string>
+	<string name="email">UserID</string>
 	<string name="password">Password</string>
 	<string name="menu_mark_as_read">Mark Read</string>
 	<string name="menu_mark_as_unread">Mark Unread</string>
