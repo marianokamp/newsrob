@@ -1725,4 +1725,14 @@ public class EntriesRetriever implements BackendProvider {
         entryManager.updateLastSyncedSubscriptions(System.currentTimeMillis());
     }
 
+    @Override
+    public String getServiceName() {
+        return "Google Reader";
+    }
+
+    @Override
+    public String getServiceUrl() {
+        return "http://www.google.com/reader";
+    }
+
 }

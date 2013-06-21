@@ -119,6 +119,10 @@ public interface BackendProvider {
         }
     }
 
+    public String getServiceName();
+
+    public String getServiceUrl();
+
     public List<DiscoveredFeed> discoverFeeds(final String query) throws SyncAPIException, IOException,
             ServerBadRequestException, ParserConfigurationException, SAXException, ServerBadRequestException,
             AuthenticationExpiredException;

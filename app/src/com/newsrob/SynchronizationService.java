@@ -700,7 +700,8 @@ class FetchUnreadArticlesJob extends SyncJob {
     private boolean manualSync;
 
     public FetchUnreadArticlesJob(Context context, EntryManager entryManager, SyncJobStatus status, boolean manualSync) {
-        super(context, entryManager, status, "Fetching new articles from Google Reader");
+        super(context, entryManager, status, "Fetching new articles from "
+                + SyncInterfaceFactory.getSyncInterface(context).getServiceName());
         this.manualSync = manualSync;
     }
 

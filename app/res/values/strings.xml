@@ -67,37 +67,37 @@
 	<string name="menu_mark_as_read">Mark Read</string>
 	<string name="menu_mark_as_unread">Mark Unread</string>
 	<string name="enter_email_password">
-<b>Login to Google needed</b>
+<b>Login to NewsBlur needed</b>
 \n\n
-NewsRob will connect to the Google Reader online service. Therefore your username and password is needed.\n\n
+NewsRob will connect to the NewsBlur online service. Therefore your username and password is needed.\n\n
 You can decide if your password should be stored on this device.
-Otherwise you will be asked again for your credentials every two weeks.\n\n
-If you haven\'t used Google Reader before, please visit:
-http://google.com/reader
+Otherwise you will be asked again for your credentials every sync.\n\n
+If you haven\'t used NewsBlur before, please visit:\n
+http://www.newsblur.com
 	</string>
 	<string name="enter_email_password_captcha">
-<b>Login to Google with CAPTCHA needed</b>
+<b>Login to NewsBlur with CAPTCHA needed</b>
 </string>
 	<string name="enter_email_password_expired">
-<b>Login to Google needed</b>
+<b>Login to NewsBlur needed</b>
 \n\n
 Your session expired and you need to login again!\n\n
 You can decide if your password should be stored on this device.
 Otherwise you will be asked again for your credentials every two weeks.
 	</string>
-	<string name="login_to_google_needed">"Login to Google needed."</string>
+	<string name="login_to_google_needed">"Login to NewsBlur needed."</string>
 	<string name="progressbar_message_refreshing">Synchronizing ...</string>
 
 	<string name="settings_title">Settings</string>
 
 	<string name="settings_always_use_ssl_title">Always use SSL with Reader</string>
-	<string name="settings_always_use_ssl_summary">Not only for login, but for all communications with the Google server. Not for the websites though.</string>
+	<string name="settings_always_use_ssl_summary">Not only for login, but for all communications with the NewsBlur server. Not for the websites though.</string>
 
 	<string name="settings_automatic_refreshing_category_title">Synchronization</string>
 	<string name="settings_automatic_refreshing_title">Auto Synchronization</string>
-	<string name="settings_automatic_refreshing_summary">Enable automatic synchronization with Google Reader.</string>
+	<string name="settings_automatic_refreshing_summary">Enable automatic synchronization with NewsBlur.</string>
 	<string name="settings_automatic_refresh_interval_title">Synchronization Interval</string>
-	<string name="settings_automatic_refresh_interval_summary">How often should NewsRob sync with Google Reader and download content?</string>
+	<string name="settings_automatic_refresh_interval_summary">How often should NewsRob sync with NewsBlur and download content?</string>
 
     <string name="settings_capacities">Capacities</string>
 	<string name="settings_global_download_pref_title">Download Content Default</string>
@@ -203,9 +203,9 @@ Otherwise you will be asked again for your credentials every two weeks.
 	<string name="storage_provider_summary">The storage provider for the downloaded content.</string>
 	
 	
-	<string name="google_error_label">Google has sent a response that NewsRob
+	<string name="google_error_label">NewsBlur has sent a response that NewsRob
 		cannot parse (yet).</string>
-	<string name="show_google_error_activity_label">Show Google Error</string>
+	<string name="show_google_error_activity_label">Show NewsBlur Error</string>
 	<string name="synchronization_is_scheduled">Next synchronization\n starts in three minutes.
 	</string>
 	<string name="check_market_for_new_version">A new version of NewsRob is available!</string>
@@ -237,8 +237,8 @@ Otherwise you will be asked again for your credentials every two weeks.
 	<string name="download_type_prompt">Select the download preference:</string>
 	<string name="display_type_prompt">Select the display preference:</string>
 	<string name="dialog_title_mark_all_read">Mark All Articles Read</string>
-	<string name="google_account">Google Account</string>
-	<string name="google_account_email_title">Google Account</string>
+	<string name="google_account">NewsBlur Account</string>
+	<string name="google_account_email_title">NewsBlur Account</string>
 	<string name="google_account_email_summary">Change by logging out You will be prompted for the new account when refreshing.</string>
 	<string name="dialog_n_articles_will_be_marked_as_read">%s unread articles will be marked as read.</string>
 	<string name="new_version_available_title">Update available</string>

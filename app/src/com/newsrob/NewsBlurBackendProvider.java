@@ -72,14 +72,11 @@ public class NewsBlurBackendProvider implements BackendProvider {
     }
 
     @Override
-    public boolean authenticate(Context context, String email, String password, String captchaToken,
+    public boolean authenticate(Context context, String userId, String password, String captchaToken,
             String captchaAnswer) throws ClientProtocolException, IOException, AuthenticationFailedException {
 
-        String userId = NewsRob.getDebugProperties(context).getProperty("syncUserId", null);
-        String pass = NewsRob.getDebugProperties(context).getProperty("syncPassword", null);
-
-        apiManager = new APIManager(this.context);
-        LoginResponse login = apiManager.login(userId, pass);
+        apiManager = new APIManager(context);
+        LoginResponse login = apiManager.login(userId, password);
         return login.authenticated;
     }
 
@@ -95,7 +92,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
         int currentUnreadArticlesCount = entryManager.getUnreadArticleCountExcludingPinned();
         List<Entry> entriesToBeInserted = new ArrayList<Entry>(20);
 
-        if (handleAuthenticate() == false)
+        if (handleAuthenticate(entryManager) == false)
             return 0;
 
         // Update the feed list, make sure we have feed records for
@@ -228,9 +225,10 @@ public class NewsBlurBackendProvider implements BackendProvider {
         return null;
     }
 
-    private boolean handleAuthenticate() {
+    private boolean handleAuthenticate(EntryManager entryManager) {
         try {
-            return authenticate(null, null, null, null, null);
+            return authenticate(this.context, entryManager.getEmail(), entryManager.getAuthToken().getAuthToken(),
+                    null, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -242,7 +240,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
     public void updateSubscriptionList(EntryManager entryManager, Job job) throws IOException,
             ParserConfigurationException, SAXException, ServerBadRequestException, AuthenticationExpiredException {
 
-        if (handleAuthenticate() == false)
+        if (handleAuthenticate(entryManager) == false)
             return;
 
         if (job.isCancelled())
@@ -279,6 +277,8 @@ public class NewsBlurBackendProvider implements BackendProvider {
     @Override
     public void logout() {
         apiManager = null;
+        getEntryManager().clearAuthToken();
+        getEntryManager().setGoogleUserId(null);
     }
 
     @Override
@@ -286,7 +286,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             IOException, ParserConfigurationException, FactoryConfigurationError, SAXException, ParseException,
             NeedsSessionException, ParseException {
 
-        if (handleAuthenticate() == false)
+        if (handleAuthenticate(entryManager) == false)
             return 0;
 
         int noOfUpdated = 0;
@@ -382,5 +382,15 @@ public class NewsBlurBackendProvider implements BackendProvider {
         }
 
         return 0;
+    }
+
+    @Override
+    public String getServiceName() {
+        return "NewsBlur";
+    }
+
+    @Override
+    public String getServiceUrl() {
+        return "http://www.newsblur.com";
     }
 }

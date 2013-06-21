@@ -534,10 +534,17 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
 
     public void doLogin(final Context context, final String email, final String password, String captchaToken,
             String captchaAnswer) throws ClientProtocolException, IOException, AuthenticationFailedException {
-        getSyncInterface().authenticate(context, email, password, captchaToken, captchaAnswer);
+        boolean success = getSyncInterface().authenticate(context, email, password, captchaToken, captchaAnswer);
         proVersion = null; // reset pro version, so that it is evaluated again
                            // after a login. This is necessary to detect the
                            // special accounts.
+
+        if (success) {
+            AuthToken authToken = new AuthToken(AuthType.AUTH_STANDALONE, password);
+            saveAuthToken(authToken);
+        } else {
+            throw new AuthenticationFailedException("");
+        }
     }
 
     public void doLogin(String googleUserId, String authToken) {
@@ -617,7 +624,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
                     e.printStackTrace();
                     return null;
                 }
-                token = new EntriesRetriever.AuthToken(BackendProvider.AuthToken.AuthType.valueOf(authType), authToken);
+                token = new BackendProvider.AuthToken(BackendProvider.AuthToken.AuthType.valueOf(authType), authToken);
             }
             return token;
         }
@@ -1914,8 +1921,8 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
 
             if (!proVersion) {
                 if ("mariano.kamp@gmail.com".equals(getEmail())
-                        || "androidnewsreader@googlemail.com".equals(getEmail())
-                        || "ttabbal@gmail.com".equals(getEmail()) || "androidnewsreader@gmail.com".equals(getEmail()))
+                        || "androidnewsreader@googlemail.com".equals(getEmail()) || "ttabbal".equals(getEmail())
+                        || "androidnewsreader@gmail.com".equals(getEmail()))
                     proVersion = true;
             }
         }
