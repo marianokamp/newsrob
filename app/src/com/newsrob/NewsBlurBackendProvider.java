@@ -17,7 +17,6 @@ import org.xml.sax.SAXException;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.util.Log;
 
 import com.newsblur.domain.Story;
 import com.newsblur.domain.ValueMultimap;
@@ -34,8 +33,6 @@ import com.newsrob.jobs.Job;
 import com.newsrob.util.Timing;
 
 public class NewsBlurBackendProvider implements BackendProvider {
-    private static final String TAG = NewsBlurBackendProvider.class.getName();
-
     private APIManager apiManager = null;
     private Context context;
     private EntryManager entryManager = null;
@@ -82,7 +79,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             return login.authenticated;
         } catch (Exception e) {
             String message = "Problem during authenticate: " + e.getMessage();
-            Log.e(TAG, message, e);
+            PL.log(message, context);
         }
 
         return false;
@@ -98,7 +95,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             job.setJobDescription("Server read states synced");
         } catch (Exception e) {
             String message = "Problem during syncServerReadStates: " + e.getMessage();
-            Log.e(TAG, message, e);
+            PL.log(message, context);
         }
     }
 
@@ -162,69 +159,95 @@ public class NewsBlurBackendProvider implements BackendProvider {
             job.actual = 0;
             entryManager.fireStatusUpdated();
 
-            for (Integer page = 1; articlesFetchedCount + currentArticlesCount <= maxCapacity
-                    && seenArticlesCount < nbUnreadCount; page++) {
+            List<String> seenHashes = new ArrayList<String>(200);
+            int offset = 0;
 
-                job.actual = seenArticlesCount;
-                entryManager.fireStatusUpdated();
-
-                // If what we have downloaded plus what we already had is >=
-                // what
-                // the server says we should have, get out.
-                if (articlesFetchedCount + currentUnreadArticlesCount >= nbUnreadCount)
+            while (offset < feedIds.size()) {
+                int nextPackSize = Math.min(feedIds.size() - offset, 25);
+                if (nextPackSize == 0)
                     break;
 
-                if (job.isCancelled())
-                    break;
+                List<String> currentPack = new ArrayList<String>(feedIds.subList(offset, offset + nextPackSize));
+                offset += nextPackSize;
 
-                StoriesResponse storiesResp = apiManager.getStoriesForFeeds(
-                        feedIds.toArray(new String[feedIds.size()]), page.toString(), StoryOrder.NEWEST,
-                        ReadFilter.UNREAD);
+                syncLoop: for (Integer page = 1; articlesFetchedCount + currentArticlesCount <= maxCapacity
+                        && seenArticlesCount < nbUnreadCount; page++) {
 
-                for (Story story : storiesResp.stories) {
-                    seenArticlesCount++;
+                    job.actual = seenArticlesCount;
+                    entryManager.fireStatusUpdated();
 
-                    // Don't save ones we already have.
-                    if (entryManager.entryExists(story.id))
-                        continue;
+                    // If what we have downloaded plus what we already had is >=
+                    // what the server says we should have, get out.
+                    if (articlesFetchedCount + currentUnreadArticlesCount >= nbUnreadCount)
+                        break;
 
-                    Entry newEntry = new Entry();
-                    newEntry.setAtomId(story.id);
-                    newEntry.setContentURL(story.permalink);
-                    newEntry.setContent(story.content);
-                    newEntry.setTitle(story.title);
-                    newEntry.setReadState(story.read ? ReadState.READ : ReadState.UNREAD);
-                    newEntry.setFeedAtomId(story.feedId);
-                    newEntry.setAuthor(story.authors);
-                    newEntry.setAlternateHRef(story.permalink);
-                    newEntry.setHash(story.storyHash);
+                    if (job.isCancelled())
+                        break;
 
-                    // Fill in some data from the feed record....
-                    Feed nrFeed = getFeedFromAtomId(feeds, feedAtomIdToId, story.feedId);
+                    StoriesResponse storiesResp = apiManager.getStoriesForFeeds(
+                            currentPack.toArray(new String[currentPack.size()]), page.toString(), StoryOrder.NEWEST,
+                            ReadFilter.UNREAD);
 
-                    if (nrFeed != null) {
-                        newEntry.setFeedId(nrFeed.getId());
-                        newEntry.setDownloadPref(nrFeed.getDownloadPref());
-                        newEntry.setDisplayPref(nrFeed.getDisplayPref());
-
-                        List<String> labelNames = getFolderNamesForFeed(feedResponse, nrFeed.getAtomId());
-
-                        if (labelNames != null) {
-                            for (String labelName : labelNames) {
-                                Label l = new Label();
-                                l.setName(labelName);
-                                newEntry.addLabel(l);
-                            }
-                        }
+                    if (storiesResp == null) {
+                        throw new SyncAPIException("Newsblur API returned a null response.");
                     }
 
-                    entriesToBeInserted.add(newEntry);
-                    articlesFetchedCount++;
+                    // No stories? Just stop. The server does this sometimes....
+                    if (storiesResp.stories.length == 0)
+                        break;
 
-                    if (entriesToBeInserted.size() == 10) {
-                        entryManager.insert(entriesToBeInserted);
-                        entriesToBeInserted.clear();
-                        entryManager.fireModelUpdated();
+                    for (Story story : storiesResp.stories) {
+                        seenArticlesCount++;
+
+                        // If they send us a repeat from this same session,
+                        // stop.
+                        if (seenHashes.contains(story.storyHash))
+                            break syncLoop;
+
+                        seenHashes.add(story.storyHash);
+
+                        // Don't save ones we already have.
+                        if (entryManager.entryExists(story.id))
+                            continue;
+
+                        Entry newEntry = new Entry();
+                        newEntry.setAtomId(story.id);
+                        newEntry.setContentURL(story.permalink);
+                        newEntry.setContent(story.content);
+                        newEntry.setTitle(story.title);
+                        newEntry.setReadState(story.read ? ReadState.READ : ReadState.UNREAD);
+                        newEntry.setFeedAtomId(story.feedId);
+                        newEntry.setAuthor(story.authors);
+                        newEntry.setAlternateHRef(story.permalink);
+                        newEntry.setHash(story.storyHash);
+
+                        // Fill in some data from the feed record....
+                        Feed nrFeed = getFeedFromAtomId(feeds, feedAtomIdToId, story.feedId);
+
+                        if (nrFeed != null) {
+                            newEntry.setFeedId(nrFeed.getId());
+                            newEntry.setDownloadPref(nrFeed.getDownloadPref());
+                            newEntry.setDisplayPref(nrFeed.getDisplayPref());
+
+                            List<String> labelNames = getFolderNamesForFeed(feedResponse, nrFeed.getAtomId());
+
+                            if (labelNames != null) {
+                                for (String labelName : labelNames) {
+                                    Label l = new Label();
+                                    l.setName(labelName);
+                                    newEntry.addLabel(l);
+                                }
+                            }
+                        }
+
+                        entriesToBeInserted.add(newEntry);
+                        articlesFetchedCount++;
+
+                        if (entriesToBeInserted.size() == 10) {
+                            entryManager.insert(entriesToBeInserted);
+                            entriesToBeInserted.clear();
+                            entryManager.fireModelUpdated();
+                        }
                     }
                 }
             }
@@ -242,7 +265,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             return articlesFetchedCount;
         } catch (Exception e) {
             String message = "Problem during fetchNewEntries: " + e.getMessage();
-            Log.e(TAG, message, e);
+            PL.log(message, context);
         }
 
         return 0;
@@ -263,7 +286,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             return folderList;
         } catch (Exception e) {
             String message = "Problem during getFolderNameForFeed: " + e.getMessage();
-            Log.e(TAG, message, e);
+            PL.log(message, context);
         }
 
         return null;
@@ -280,7 +303,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             }
         } catch (Exception e) {
             String message = "Problem during getFeedFromAtomId: " + e.getMessage();
-            Log.e(TAG, message, e);
+            PL.log(message, context);
         }
 
         return null;
@@ -292,7 +315,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
                     null, null);
         } catch (Exception e) {
             String message = "Problem during handleAuthenticate: " + e.getMessage();
-            Log.e(TAG, message, e);
+            PL.log(message, context);
         }
 
         return false;
@@ -334,7 +357,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             entryManager.updateLastSyncedSubscriptions(System.currentTimeMillis());
         } catch (NullPointerException e) {
             String message = "Problem during updateSubscriptionList: " + e.getMessage();
-            Log.e(TAG, message, e);
+            PL.log(message, context);
         } finally {
             if (t != null)
                 t.stop();
@@ -410,7 +433,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             return noOfUpdated;
         } catch (NullPointerException e) {
             String message = "Problem during syncArticles: " + e.getMessage();
-            Log.e(TAG, message, e);
+            PL.log(message, context);
         }
         return 0;
     }
@@ -444,11 +467,11 @@ public class NewsBlurBackendProvider implements BackendProvider {
                 return entries.size();
             } else {
                 String message = "Problem during marking entry as un-/read: ";
-                Log.e(TAG, message);
+                PL.log(message, context);
             }
         } catch (Exception e) {
             String message = "Problem during marking entry as un-/read: " + e.getMessage();
-            Log.e(TAG, message, e);
+            PL.log(message, context);
         } finally {
         }
 
