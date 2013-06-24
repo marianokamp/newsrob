@@ -2,11 +2,15 @@ package com.newsrob;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.parsers.FactoryConfigurationError;
@@ -220,6 +224,16 @@ public class NewsBlurBackendProvider implements BackendProvider {
                         newEntry.setAuthor(story.authors);
                         newEntry.setAlternateHRef(story.permalink);
                         newEntry.setHash(story.storyHash);
+
+                        // Try to parse the "short date". Unfortunately, this is
+                        // just the most common format. Default to right now.
+                        try {
+                            DateFormat df = new SimpleDateFormat("dd MMM yyyy, hh:mma", Locale.US);
+                            Date date = df.parse(story.shortDate);
+                            newEntry.setUpdated(date.getTime());
+                        } catch (ParseException e) {
+                            newEntry.setUpdated(new Date().getTime());
+                        }
 
                         // Fill in some data from the feed record....
                         Feed nrFeed = getFeedFromAtomId(feeds, feedAtomIdToId, story.feedId);
