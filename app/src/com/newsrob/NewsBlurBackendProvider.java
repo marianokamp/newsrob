@@ -125,7 +125,6 @@ public class NewsBlurBackendProvider implements BackendProvider {
             // everything...
             List<Feed> feeds = entryManager.findAllFeeds();
             List<String> feedIds = new ArrayList<String>();
-            Map<String, Long> feedAtomIdToId = new HashMap<String, Long>();
             FeedFolderResponse feedResponse = apiManager.getFolderFeedMapping(true);
 
             for (com.newsblur.domain.Feed nbFeed : feedResponse.feeds.values()) {
@@ -137,7 +136,6 @@ public class NewsBlurBackendProvider implements BackendProvider {
                 for (Feed nrFeed : feeds) {
                     if (nrFeed != null && nrFeed.getAtomId().equals(nbFeed.feedId)) {
                         found = true;
-                        feedAtomIdToId.put(nrFeed.getAtomId(), nrFeed.getId());
                         break;
                     }
                 }
@@ -151,8 +149,9 @@ public class NewsBlurBackendProvider implements BackendProvider {
                     newFeed.setDisplayPref(Feed.DISPLAY_PREF_DEFAULT);
 
                     long id = entryManager.insert(newFeed);
+                    newFeed.setId(id);
 
-                    feedAtomIdToId.put(newFeed.getAtomId(), id);
+                    feeds.add(newFeed);
                 }
             }
 
@@ -236,7 +235,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
                         }
 
                         // Fill in some data from the feed record....
-                        Feed nrFeed = getFeedFromAtomId(feeds, feedAtomIdToId, story.feedId);
+                        Feed nrFeed = getFeedFromAtomId(feeds, story.feedId);
 
                         if (nrFeed != null) {
                             newEntry.setFeedId(nrFeed.getId());
@@ -306,14 +305,11 @@ public class NewsBlurBackendProvider implements BackendProvider {
         return null;
     }
 
-    private Feed getFeedFromAtomId(List<Feed> feeds, Map<String, Long> feedAtomIdToId, String atomId) {
+    private Feed getFeedFromAtomId(List<Feed> feeds, String atomId) {
         try {
-            Long id = feedAtomIdToId.get(atomId);
-            if (id != null) {
-                for (Feed feed : feeds) {
-                    if (id.equals(feed.getId()))
-                        return feed;
-                }
+            for (Feed feed : feeds) {
+                if (atomId.equals(feed.getAtomId()))
+                    return feed;
             }
         } catch (Exception e) {
             String message = "Problem during getFeedFromAtomId: " + e.getMessage();
