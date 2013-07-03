@@ -127,6 +127,7 @@ public class APIClient {
         } catch (IOException e) {
             Log.e(this.getClass().getName(), "Error opening POST connection to " + urlString + ": " + e.getCause(),
                     e.getCause());
+            e.printStackTrace();
             return new APIResponse();
         } finally {
             if (connection != null) {
