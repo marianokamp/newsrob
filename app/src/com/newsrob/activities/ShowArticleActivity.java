@@ -981,7 +981,7 @@ public class ShowArticleActivity extends Activity implements IEntryModelUpdateLi
             savedContentCursoCurrentId = null;
         }
 
-        if (entryManager.isProVersion() && entryManager.getDaysInstalled() > 0)
+        if (entryManager.getDaysInstalled() > 0)
             MessageHelper.showMessage(this, R.string.explain_fullscreen_toggle_title,
                     R.string.explain_fullscreen_toggle_message, "explain_fullscreen_toggle");
 

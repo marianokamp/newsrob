@@ -804,8 +804,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
             updateReadState(entry, ReadState.UNREAD);
             break;
         case UNREAD:
-            if (isProVersion())
-                updateReadState(entry, ReadState.PINNED);
+            updateReadState(entry, ReadState.PINNED);
             break;
         default:
             // stay pinned
@@ -1159,8 +1158,6 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     private int getNoOfArticlesToKeep(final String setting, final int def) {
-        if (!isProVersion())
-            return 0;
         return Integer.parseInt(getSharedPreferences().getString(setting, String.valueOf(def)));
     }
 
@@ -1935,7 +1932,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
 
             if (!proVersion) {
                 if ("mariano.kamp@gmail.com".equals(getEmail())
-                        || "androidnewsreader@googlemail.com".equals(getEmail()) || "ttabbal".equals(getEmail())
+                        || "androidnewsreader@googlemail.com".equals(getEmail())
                         || "androidnewsreader@gmail.com".equals(getEmail()))
                     proVersion = true;
             }
@@ -2158,7 +2155,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     public boolean isNewsRobOnlySyncingEnabled() {
-        return isProVersion() && getSharedPreferences().getBoolean(SETTINGS_SYNC_NEWSROB_ONLY_ENABLED, false);
+        return getSharedPreferences().getBoolean(SETTINGS_SYNC_NEWSROB_ONLY_ENABLED, false);
     }
 
     public boolean isFriendsArticlesSyncingEnabled() {

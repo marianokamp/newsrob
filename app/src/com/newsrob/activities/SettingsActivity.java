@@ -36,14 +36,6 @@ public class SettingsActivity extends PreferenceActivity implements IEntryModelU
             disableSetting(em, EntryManager.SETTINGS_HW_ACCEL_ADV_ENABLED, "HC+ only");
         }
 
-        if (!em.isProVersion()) {
-            disableSetting(em, EntryManager.SETTINGS_KEEP_STARRED);
-            disableSetting(em, EntryManager.SETTINGS_KEEP_SHARED);
-            disableSetting(em, EntryManager.SETTINGS_KEEP_NOTES);
-            disableSetting(em, EntryManager.SETTINGS_UI_THEME);
-            disableSetting(em, EntryManager.SETTINGS_SYNC_NEWSROB_ONLY_ENABLED);
-        }
-
         if (em.shouldHWZoomControlsBeDisabled()) {
             Preference pref = getPreferenceScreen()
                     .findPreference(EntryManager.SETTINGS_HOVERING_ZOOM_CONTROLS_ENABLED);

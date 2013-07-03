@@ -437,7 +437,6 @@ public class NewsBlurBackendProvider implements BackendProvider {
                         noOfUpdated += remotelyAlterState(currentPack, f, desiredState);
                         syncJob.actual = noOfUpdated;
                         entryManager.fireStatusUpdated();
-
                     }
                 }
             }

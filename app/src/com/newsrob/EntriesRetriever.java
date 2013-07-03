@@ -1407,9 +1407,8 @@ public class EntriesRetriever implements BackendProvider {
             this.job = job;
             this.entryManager = entryManager;
             this.googleUserId = entryManager.getGoogleUserId();
-            this.filterOutNewsRobIgnore = entryManager.isProVersion()
-                    && "1".equals(NewsRob.getDebugProperties(entryManager.getContext()).getProperty(
-                            "filterOutNewsRobIgnore", "0"));
+            this.filterOutNewsRobIgnore = "1".equals(NewsRob.getDebugProperties(entryManager.getContext()).getProperty(
+                    "filterOutNewsRobIgnore", "0"));
 
         }
 

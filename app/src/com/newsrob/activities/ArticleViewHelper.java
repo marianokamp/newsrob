@@ -201,9 +201,7 @@ class ArticleViewHelper {
             return;
         }
 
-        final boolean isProVersion = entryManager.isProVersion();
-
-        if (isProVersion && entryManager.isGoogleTv()
+        if (entryManager.isGoogleTv()
                 && (selectedEntry.getReadState() == ReadState.READ || selectedEntry.getReadState() == ReadState.UNREAD))
             menu.add(0, MENU_ITEM_PIN_ARTICLE_ID, 1, "Pin").setIcon(android.R.drawable.btn_star);
 

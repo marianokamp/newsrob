@@ -197,11 +197,7 @@ public class ArticleListActivity extends AbstractNewsRobListActivity implements 
         final Entry entry = findEntryByPosition(position);
         if (entry != null) {
             ArticleViewHelper.createArticleMenu(menu, this, entry);
-            if (getEntryManager().isProVersion())
-                menu.add(0, MENU_ITEM_MARK_READ_UNTIL_HERE_ID, 3, "Mark Read Until Here");
-            else {
-                menu.add(0, MENU_ITEM_MARK_READ_UNTIL_HERE_ID, 99, "Mark Read Until Here").setEnabled(false);
-            }
+            menu.add(0, MENU_ITEM_MARK_READ_UNTIL_HERE_ID, 3, "Mark Read Until Here");
 
             boolean feedCanBeUnsubscribed = false;
             Feed f = getEntryManager().findFeedById(entry.getFeedId());

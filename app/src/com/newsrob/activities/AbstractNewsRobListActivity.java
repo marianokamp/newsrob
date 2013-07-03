@@ -494,10 +494,8 @@ public abstract class AbstractNewsRobListActivity extends ListActivity implement
         menu.add(0, MENU_ITEM_SUBSCRIBE_FEED_ID, 0, "Subscribe Feed").setIcon(android.R.drawable.ic_menu_add)
                 .setShortcut('4', 'f').setIntent(intent);
 
-        boolean isProVersion = getEntryManager().isProVersion();
-        if (isProVersion)
-            menu.add(0, MENU_ITEM_TOGGLE_THEME_ID, 0, R.string.menu_toggle_theme)
-                    .setIcon(android.R.drawable.ic_menu_slideshow).setShortcut('6', 't');
+        menu.add(0, MENU_ITEM_TOGGLE_THEME_ID, 0, R.string.menu_toggle_theme)
+                .setIcon(android.R.drawable.ic_menu_slideshow).setShortcut('6', 't');
 
         menu.add(0, MENU_ITEM_SETTINGS_ID, 0, R.string.menu_settings).setIcon(android.R.drawable.ic_menu_preferences)
                 .setShortcut('7', 's');

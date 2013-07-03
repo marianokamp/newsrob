@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.newsrob.DBQuery;
 import com.newsrob.DashboardListActivity;
@@ -35,17 +34,6 @@ public class UnreadWidgetPrefActivity extends Activity {
             appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
         setResult(RESULT_CANCELED);
-
-        EntryManager entryManager = EntryManager.getInstance(this);
-        if (!entryManager.isProVersion()) {
-            Toast.makeText(this, "Simple Launcher Widget created.\nWidget configurable in the Pro version.",
-                    Toast.LENGTH_LONG).show();
-            // finish();
-            WidgetPreferences widgetPrefs = new WidgetPreferences();
-            widgetPrefs.setLabel("NewsRob");
-            widgetPrefs.setStartingActivityName(DashboardListActivity.class.getName());
-            doCreateWidget(widgetPrefs, entryManager, null, null);
-        }
 
         wizard = new UnreadWidgetPrefWizard(this) {
 
