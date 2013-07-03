@@ -247,6 +247,10 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
                             if (labelNames != null) {
                                 for (String labelName : labelNames) {
+                                    // Skip label from NB client
+                                    if (labelName.contains("0000_top_level"))
+                                        continue;
+
                                     Label l = new Label();
                                     l.setName(labelName);
                                     newEntry.addLabel(l);
