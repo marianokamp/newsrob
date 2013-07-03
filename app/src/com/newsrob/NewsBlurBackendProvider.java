@@ -33,6 +33,7 @@ import com.newsblur.network.domain.UnreadHashResponse;
 import com.newsblur.util.ReadFilter;
 import com.newsblur.util.StoryOrder;
 import com.newsrob.DB.TempTable;
+import com.newsrob.download.HtmlEntitiesDecoder;
 import com.newsrob.jobs.Job;
 import com.newsrob.util.Timing;
 
@@ -217,7 +218,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
                         newEntry.setAtomId(story.id);
                         newEntry.setContentURL(story.permalink);
                         newEntry.setContent(story.content);
-                        newEntry.setTitle(story.title);
+                        newEntry.setTitle(HtmlEntitiesDecoder.decodeString(story.title));
                         newEntry.setReadState(story.read ? ReadState.READ : ReadState.UNREAD);
                         newEntry.setFeedAtomId(story.feedId);
                         newEntry.setAuthor(story.authors);
