@@ -24,10 +24,12 @@ public class APIConstants {
     public static final String URL_MARK_FEED_AS_READ = "http://newsblur.com/reader/mark_feed_as_read/";
     public static final String URL_MARK_ALL_AS_READ = "http://newsblur.com/reader/mark_all_as_read/";
     public static final String URL_MARK_STORY_AS_READ = "http://newsblur.com/reader/mark_story_as_read/";
+    public static final String URL_MARK_STORY_AS_UNREAD = "http://newsblur.com/reader/mark_story_as_unread/";
     public static final String URL_MARK_FEED_STORIES_AS_READ = "http://newsblur.com/reader/mark_feed_stories_as_read/";
     public static final String URL_MARK_SOCIALSTORY_AS_READ = "http://newsblur.com/reader/mark_social_stories_as_read/";
     public static final String URL_SHARE_STORY = "http://newsblur.com/social/share_story";
     public static final String URL_MARK_STORY_AS_STARRED = "http://newsblur.com/reader/mark_story_as_starred/";
+    public static final String URL_MARK_STORY_AS_UNSTARRED = "http://newsblur.com/reader/mark_story_as_unstarred/";
     public static final String URL_STARRED_STORIES = "http://newsblur.com/reader/starred_stories";
 
     public static final String URL_FEED_AUTOCOMPLETE = "http://newsblur.com/rss_feeds/feed_autocomplete";

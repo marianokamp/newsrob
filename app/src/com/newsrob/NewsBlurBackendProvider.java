@@ -115,12 +115,11 @@ public class NewsBlurBackendProvider implements BackendProvider {
             int nbUnreadCount = 0;
             int currentArticlesCount = entryManager.getArticleCount();
             int currentUnreadArticlesCount = entryManager.getUnreadArticleCountExcludingPinned();
-            List<Entry> entriesToBeInserted = new ArrayList<Entry>(20);
 
             if (handleAuthenticate(entryManager) == false)
                 return 0;
 
-            job.setJobDescription("Fetching new articles");
+            job.setJobDescription("Fetching feed information");
 
             // Update the feed list, make sure we have feed records for
             // everything...
@@ -156,7 +155,11 @@ public class NewsBlurBackendProvider implements BackendProvider {
                 }
             }
 
+            job.setJobDescription("Fetching starred articles");
+            fetchStarredStories(feeds, feedResponse);
+
             // Here we start getting stories.
+            job.setJobDescription("Fetching new articles");
             int maxCapacity = entryManager.getNewsRobSettings().getStorageCapacity();
             int seenArticlesCount = 0;
             job.target = nbUnreadCount;
@@ -174,7 +177,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
                 List<String> currentPack = new ArrayList<String>(feedIds.subList(offset, offset + nextPackSize));
                 offset += nextPackSize;
 
-                syncLoop: for (Integer page = 1; articlesFetchedCount + currentArticlesCount <= maxCapacity
+                for (Integer page = 1; articlesFetchedCount + currentArticlesCount <= maxCapacity
                         && seenArticlesCount < nbUnreadCount; page++) {
 
                     job.actual = seenArticlesCount;
@@ -200,81 +203,9 @@ public class NewsBlurBackendProvider implements BackendProvider {
                     if (storiesResp.stories.length == 0)
                         break;
 
-                    for (Story story : storiesResp.stories) {
-                        seenArticlesCount++;
-
-                        // If they send us a repeat from this same session,
-                        // stop.
-                        if (seenHashes.contains(story.storyHash))
-                            break syncLoop;
-
-                        seenHashes.add(story.storyHash);
-
-                        // Don't save ones we already have.
-                        if (entryManager.entryExists(story.id))
-                            continue;
-
-                        Entry newEntry = new Entry();
-                        newEntry.setAtomId(story.id);
-                        newEntry.setContentURL(story.permalink);
-                        newEntry.setContent(story.content);
-                        newEntry.setTitle(HtmlEntitiesDecoder.decodeString(story.title));
-                        newEntry.setReadState(story.read ? ReadState.READ : ReadState.UNREAD);
-                        newEntry.setFeedAtomId(story.feedId);
-                        newEntry.setAuthor(story.authors);
-                        newEntry.setAlternateHRef(story.permalink);
-                        newEntry.setHash(story.storyHash);
-
-                        // Try to parse the "short date". Unfortunately, this is
-                        // just the most common format. Default to right now.
-                        try {
-                            DateFormat df = new SimpleDateFormat("dd MMM yyyy, hh:mma", Locale.US);
-                            Date date = df.parse(story.shortDate);
-                            newEntry.setUpdated(date.getTime());
-                        } catch (ParseException e) {
-                            newEntry.setUpdated(new Date().getTime());
-                        }
-
-                        // Fill in some data from the feed record....
-                        Feed nrFeed = getFeedFromAtomId(feeds, story.feedId);
-
-                        if (nrFeed != null) {
-                            newEntry.setFeedId(nrFeed.getId());
-                            newEntry.setDownloadPref(nrFeed.getDownloadPref());
-                            newEntry.setDisplayPref(nrFeed.getDisplayPref());
-
-                            List<String> labelNames = getFolderNamesForFeed(feedResponse, nrFeed.getAtomId());
-
-                            if (labelNames != null) {
-                                for (String labelName : labelNames) {
-                                    // Skip label from NB client
-                                    if (labelName.contains("0000_top_level"))
-                                        continue;
-
-                                    Label l = new Label();
-                                    l.setName(labelName);
-                                    newEntry.addLabel(l);
-                                }
-                            }
-                        }
-
-                        entriesToBeInserted.add(newEntry);
-                        articlesFetchedCount++;
-
-                        if (entriesToBeInserted.size() == 10) {
-                            entryManager.insert(entriesToBeInserted);
-                            entriesToBeInserted.clear();
-                            entryManager.fireModelUpdated();
-                        }
-                    }
+                    seenArticlesCount += storiesResp.stories.length;
+                    articlesFetchedCount += parseStoriesResponse(storiesResp, seenHashes, feeds, feedResponse, false);
                 }
-            }
-
-            // Handle leftovers from the 10 at a time insert block
-            if (entriesToBeInserted.size() > 0) {
-                entryManager.insert(entriesToBeInserted);
-                entriesToBeInserted.clear();
-                entryManager.fireModelUpdated();
             }
 
             job.actual = job.target;
@@ -287,6 +218,112 @@ public class NewsBlurBackendProvider implements BackendProvider {
         }
 
         return 0;
+    }
+
+    private int fetchStarredStories(List<Feed> feeds, FeedFolderResponse feedResponse) throws SyncAPIException {
+        int fetchedArticlesCount = 0;
+        int maxStarredArticles = getEntryManager().getNoOfStarredArticlesToKeep();
+
+        for (Integer pageNumber = 1; fetchedArticlesCount <= maxStarredArticles; pageNumber++) {
+            StoriesResponse storiesResp = apiManager.getStarredStories(pageNumber.toString());
+
+            if (storiesResp == null) {
+                throw new SyncAPIException("Newsblur API returned a null response.");
+            }
+
+            // No stories? Just stop. The server does this sometimes....
+            if (storiesResp.stories.length == 0)
+                break;
+
+            fetchedArticlesCount += parseStoriesResponse(storiesResp, new ArrayList<String>(), feeds, feedResponse,
+                    true);
+        }
+
+        return fetchedArticlesCount;
+    }
+
+    private int parseStoriesResponse(StoriesResponse storiesResp, List<String> seenHashes, List<Feed> feeds,
+            FeedFolderResponse feedResponse, boolean starred) {
+        List<Entry> entriesToBeInserted = new ArrayList<Entry>(20);
+        int articlesFetchedCount = 0;
+
+        for (Story story : storiesResp.stories) {
+            // If they send us a repeat from this same session,
+            // stop.
+            if (seenHashes.contains(story.storyHash))
+                break;
+
+            seenHashes.add(story.storyHash);
+
+            // Don't save ones we already have.
+            if (getEntryManager().entryExists(story.id))
+                continue;
+
+            Entry newEntry = new Entry();
+            newEntry.setAtomId(story.id);
+            newEntry.setContentURL(story.permalink);
+            newEntry.setContent(story.content);
+            newEntry.setTitle(HtmlEntitiesDecoder.decodeString(story.title));
+            newEntry.setReadState(story.read ? ReadState.READ : ReadState.UNREAD);
+            newEntry.setFeedAtomId(story.feedId);
+            newEntry.setAuthor(story.authors);
+            newEntry.setAlternateHRef(story.permalink);
+            newEntry.setHash(story.storyHash);
+            newEntry.setStarred(starred);
+
+            if (starred) {
+                newEntry.addLabel(new Label("Starred"));
+            }
+
+            // Try to parse the "short date". Unfortunately, this is
+            // just the most common format. Default to right now.
+            try {
+                DateFormat df = new SimpleDateFormat("dd MMM yyyy, hh:mma", Locale.US);
+                Date date = df.parse(story.shortDate);
+                newEntry.setUpdated(date.getTime());
+            } catch (ParseException e) {
+                newEntry.setUpdated(new Date().getTime());
+            }
+
+            // Fill in some data from the feed record....
+            Feed nrFeed = getFeedFromAtomId(feeds, story.feedId);
+
+            if (nrFeed != null) {
+                newEntry.setFeedId(nrFeed.getId());
+                newEntry.setDownloadPref(nrFeed.getDownloadPref());
+                newEntry.setDisplayPref(nrFeed.getDisplayPref());
+
+                List<String> labelNames = getFolderNamesForFeed(feedResponse, nrFeed.getAtomId());
+
+                if (labelNames != null) {
+                    for (String labelName : labelNames) {
+                        // Skip label from NB client
+                        if (labelName.contains("0000_top_level"))
+                            continue;
+
+                        newEntry.addLabel(new Label(labelName));
+                    }
+                }
+            }
+
+            entriesToBeInserted.add(newEntry);
+            articlesFetchedCount++;
+
+            if (entriesToBeInserted.size() == 10) {
+                entryManager.insert(entriesToBeInserted);
+                entriesToBeInserted.clear();
+                entryManager.fireModelUpdated();
+            }
+        }
+
+        // Handle leftovers from the 10 at a time insert block
+        if (entriesToBeInserted.size() > 0) {
+            entryManager.insert(entriesToBeInserted);
+            entriesToBeInserted.clear();
+            entryManager.fireModelUpdated();
+        }
+
+        return articlesFetchedCount;
     }
 
     private List<String> getFolderNamesForFeed(FeedFolderResponse folders, String feedId) {
@@ -472,11 +509,22 @@ public class NewsBlurBackendProvider implements BackendProvider {
         List<String> ids = new ArrayList<String>(1);
 
         for (Entry entry : entries) {
-            if (apiManager.markStoryAsStarred(entry.getFeedAtomId(), entry.getAtomId())) {
-                ids.clear();
-                ids.add(entry.getAtomId());
-                getEntryManager().removePendingStateMarkers(ids, column);
-                numMarked++;
+            if (desiredState.equals("1")) {
+                if (apiManager.markStoryAsStarred(entry.getFeedAtomId(), entry.getAtomId())) {
+                    ids.clear();
+                    ids.add(entry.getAtomId());
+                    getEntryManager().removePendingStateMarkers(ids, column);
+                    numMarked++;
+                }
+            }
+
+            if (desiredState.equals("0")) {
+                if (apiManager.markStoryAsUnStarred(entry.getFeedAtomId(), entry.getAtomId())) {
+                    ids.clear();
+                    ids.add(entry.getAtomId());
+                    getEntryManager().removePendingStateMarkers(ids, column);
+                    numMarked++;
+                }
             }
         }
 
@@ -485,28 +533,45 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
     private int remotelyAlterReadState(Collection<Entry> entries, final String column, String desiredState) {
         try {
-            ValueMultimap list = new ValueMultimap();
+            if (desiredState.equals("1")) {
+                ValueMultimap list = new ValueMultimap();
 
-            for (Entry e : entries) {
-                list.put(e.getFeedAtomId(), e.getAtomId());
-            }
-
-            ContentValues values = new ContentValues();
-            values.put(APIConstants.PARAMETER_FEEDS_STORIES, list.getJsonString());
-
-            if (apiManager.markMultipleStoriesAsRead(values)) {
-                List<String> atomIds = new ArrayList<String>(entries.size());
-
-                for (Entry entry : entries) {
-                    atomIds.add(entry.getAtomId());
+                for (Entry e : entries) {
+                    list.put(e.getFeedAtomId(), e.getAtomId());
                 }
 
-                getEntryManager().removePendingStateMarkers(atomIds, column);
+                ContentValues values = new ContentValues();
+                values.put(APIConstants.PARAMETER_FEEDS_STORIES, list.getJsonString());
 
-                return entries.size();
-            } else {
-                String message = "Problem during marking entry as un-/read: ";
-                PL.log(message, context);
+                if (apiManager.markMultipleStoriesAsRead(values)) {
+                    List<String> atomIds = new ArrayList<String>(entries.size());
+
+                    for (Entry entry : entries) {
+                        atomIds.add(entry.getAtomId());
+                    }
+
+                    getEntryManager().removePendingStateMarkers(atomIds, column);
+
+                    return entries.size();
+                } else {
+                    String message = "Problem during marking entry as un-/read: ";
+                    PL.log(message, context);
+                }
+            }
+            
+            if (desiredState.equals("0")) {
+                int numMarked = 0;
+                List<String> ids = new ArrayList<String>(1);
+                for (Entry entry : entries) {
+                    if (apiManager.markStoryAsUnRead(entry.getFeedAtomId(), entry.getAtomId())) {
+                        ids.clear();
+                        ids.add(entry.getAtomId());
+                        getEntryManager().removePendingStateMarkers(ids, column);
+                        numMarked++;
+                    }
+                }  
+                
+                return numMarked;
             }
         } catch (Exception e) {
             String message = "Problem during marking entry as un-/read: " + e.getMessage();
