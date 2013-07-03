@@ -831,8 +831,10 @@ class WebPageDownloadTask implements Callable<Void> {
                     }
 
                     final long downloadStartedAt = System.currentTimeMillis();
-                    WebPageDownloadDirector.downloadWebPage(entryShortAtomId, new URL(pageUrl), fileContextAdapter,
-                            job, summary, downloadCompleteWebPage, entryManager, manualSync);
+                    URL url = new URL(pageUrl);
+                    PL.log("NewsRob Downloader: pageUrl: " + pageUrl + " URL: " + url.toString(), ctx);
+                    WebPageDownloadDirector.downloadWebPage(entryShortAtomId, url, fileContextAdapter, job, summary,
+                            downloadCompleteWebPage, entryManager, manualSync);
 
                     generatePreview(ctx);
 
