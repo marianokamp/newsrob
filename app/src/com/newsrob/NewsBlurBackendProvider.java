@@ -398,8 +398,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
             int noOfUpdated = 0;
 
-            String[] fields = { DB.Entries.READ_STATE_PENDING // ,
-            // DB.Entries.STARRED_STATE_PENDING,
+            String[] fields = { DB.Entries.READ_STATE_PENDING, DB.Entries.STARRED_STATE_PENDING
             // DB.Entries.PINNED_STATE_PENDING
             };
             for (String f : fields) {
@@ -459,6 +458,32 @@ public class NewsBlurBackendProvider implements BackendProvider {
     }
 
     private int remotelyAlterState(Collection<Entry> entries, final String column, String desiredState) {
+        if (column.equals(DB.Entries.READ_STATE_PENDING)) {
+            return remotelyAlterReadState(entries, column, desiredState);
+        } else if (column.equals(DB.Entries.STARRED_STATE_PENDING)) {
+            return remotelyAlterStarredState(entries, column, desiredState);
+        }
+
+        return 0;
+    }
+
+    private int remotelyAlterStarredState(Collection<Entry> entries, final String column, String desiredState) {
+        int numMarked = 0;
+        List<String> ids = new ArrayList<String>(1);
+
+        for (Entry entry : entries) {
+            if (apiManager.markStoryAsStarred(entry.getFeedAtomId(), entry.getAtomId())) {
+                ids.clear();
+                ids.add(entry.getAtomId());
+                getEntryManager().removePendingStateMarkers(ids, column);
+                numMarked++;
+            }
+        }
+
+        return numMarked;
+    }
+
+    private int remotelyAlterReadState(Collection<Entry> entries, final String column, String desiredState) {
         try {
             ValueMultimap list = new ValueMultimap();
 
