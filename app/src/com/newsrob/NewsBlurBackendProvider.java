@@ -9,6 +9,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -108,10 +113,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
             AuthenticationExpiredException {
 
         try {
-            int articlesFetchedCount = 0;
             int nbUnreadCount = 0;
-            int currentArticlesCount = entryManager.getArticleCount();
-            int currentUnreadArticlesCount = entryManager.getUnreadArticleCountExcludingPinned();
 
             if (handleAuthenticate(entryManager) == false)
                 return 0;
@@ -157,64 +159,102 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
             // Here we start getting stories.
             job.setJobDescription("Fetching new articles");
-            int maxCapacity = entryManager.getNewsRobSettings().getStorageCapacity();
-            int seenArticlesCount = 0;
             job.target = nbUnreadCount;
             job.actual = 0;
             entryManager.fireStatusUpdated();
 
-            List<String> seenHashes = new ArrayList<String>(200);
-            int offset = 0;
-
-            while (offset < feedIds.size()) {
-                int nextPackSize = Math.min(feedIds.size() - offset, 25);
-                if (nextPackSize == 0)
-                    break;
-
-                List<String> currentPack = new ArrayList<String>(feedIds.subList(offset, offset + nextPackSize));
-                offset += nextPackSize;
-
-                for (Integer page = 1; articlesFetchedCount + currentArticlesCount <= maxCapacity
-                        && seenArticlesCount < nbUnreadCount; page++) {
-
-                    job.actual = seenArticlesCount;
-                    entryManager.fireStatusUpdated();
-
-                    // If what we have downloaded plus what we already had is >=
-                    // what the server says we should have, get out.
-                    if (articlesFetchedCount + currentUnreadArticlesCount >= nbUnreadCount)
-                        break;
-
-                    if (job.isCancelled())
-                        break;
-
-                    StoriesResponse storiesResp = apiManager.getStoriesForFeeds(
-                            currentPack.toArray(new String[currentPack.size()]), page.toString(), StoryOrder.NEWEST,
-                            ReadFilter.UNREAD);
-
-                    if (storiesResp == null) {
-                        throw new SyncAPIException("Newsblur API returned a null response.");
-                    }
-
-                    // No stories? Just stop. The server does this sometimes....
-                    if (storiesResp.stories.length == 0)
-                        break;
-
-                    seenArticlesCount += storiesResp.stories.length;
-                    articlesFetchedCount += parseStoriesResponse(storiesResp, seenHashes, feeds, feedResponse, false);
-                }
-            }
-
+            int count = threadedFetch(entryManager, feedIds, nbUnreadCount, feeds, feedResponse, job);
             job.actual = job.target;
             entryManager.fireStatusUpdated();
 
-            return articlesFetchedCount;
+            return count;
         } catch (Exception e) {
             String message = "Problem during fetchNewEntries: " + e.getMessage();
             PL.log(message, context);
         }
 
         return 0;
+    }
+
+    private int threadedFetch(EntryManager entryManager, List<String> feedIds, int nbUnreadCount, List<Feed> feeds,
+            FeedFolderResponse feedResponse, SyncJob job) throws InterruptedException, ExecutionException {
+
+        int offset = 0;
+        int potentialFetchSize = 0;
+        int fetchedStoryCount = 0;
+
+        int maxCapacity = entryManager.getNewsRobSettings().getStorageCapacity();
+        int currentUnreadArticlesCount = entryManager.getUnreadArticleCountExcludingPinned();
+
+        final int PAGE_SIZE = 12;
+
+        ExecutorService pool = Executors.newFixedThreadPool(10);
+        List<Callable<Integer>> taskList = new ArrayList<Callable<Integer>>();
+
+        syncLoop: while (offset < feedIds.size()) {
+            int nextPackSize = Math.min(feedIds.size() - offset, 25);
+            if (nextPackSize == 0)
+                break;
+
+            List<String> currentPack = new ArrayList<String>(feedIds.subList(offset, offset + nextPackSize));
+            offset += nextPackSize;
+            boolean fetchComplete = false;
+
+            for (Integer page = 1; nbUnreadCount >= potentialFetchSize && fetchComplete == false; page++, potentialFetchSize += PAGE_SIZE) {
+                StoryFetchTask task = new StoryFetchTask(currentPack, page, feeds, feedResponse);
+                taskList.add(task);
+
+                if (taskList.size() == 4 || potentialFetchSize + PAGE_SIZE > nbUnreadCount) {
+                    List<Future<Integer>> completed = pool.invokeAll(taskList);
+                    taskList.clear();
+
+                    for (Future<Integer> c : completed) {
+                        Integer count = c.get();
+
+                        if (count == -1) {
+                            fetchComplete = true;
+                        } else {
+                            fetchedStoryCount += count;
+                            job.actual = fetchedStoryCount;
+                            entryManager.fireStatusUpdated();
+                        }
+                    }
+
+                    if (fetchedStoryCount + currentUnreadArticlesCount >= maxCapacity) {
+                        break syncLoop;
+                    }
+                }
+            }
+        }
+
+        return fetchedStoryCount;
+    }
+
+    private class StoryFetchTask implements Callable<Integer> {
+        private List<String> currentPack;
+        private Integer page;
+        private List<Feed> feeds;
+        private FeedFolderResponse feedResponse;
+
+        public StoryFetchTask(List<String> currentPack, Integer page, List<Feed> feeds, FeedFolderResponse feedResponse) {
+            this.currentPack = currentPack;
+            this.page = page;
+            this.feeds = feeds;
+            this.feedResponse = feedResponse;
+        }
+
+        @Override
+        public Integer call() throws Exception {
+            StoriesResponse storiesResp = apiManager.getStoriesForFeeds(
+                    currentPack.toArray(new String[currentPack.size()]), page.toString(), StoryOrder.NEWEST,
+                    ReadFilter.UNREAD);
+
+            if (storiesResp.stories.length == 0) {
+                return -1;
+            }
+
+            return parseStoriesResponse(storiesResp, feeds, feedResponse, false);
+        }
     }
 
     private int fetchStarredStories(List<Feed> feeds, FeedFolderResponse feedResponse) throws SyncAPIException {
@@ -232,26 +272,18 @@ public class NewsBlurBackendProvider implements BackendProvider {
             if (storiesResp.stories.length == 0)
                 break;
 
-            fetchedArticlesCount += parseStoriesResponse(storiesResp, new ArrayList<String>(), feeds, feedResponse,
-                    true);
+            fetchedArticlesCount += parseStoriesResponse(storiesResp, feeds, feedResponse, true);
         }
 
         return fetchedArticlesCount;
     }
 
-    private int parseStoriesResponse(StoriesResponse storiesResp, List<String> seenHashes, List<Feed> feeds,
-            FeedFolderResponse feedResponse, boolean starred) {
+    private int parseStoriesResponse(StoriesResponse storiesResp, List<Feed> feeds, FeedFolderResponse feedResponse,
+            boolean starred) {
         List<Entry> entriesToBeInserted = new ArrayList<Entry>(20);
         int articlesFetchedCount = 0;
 
         for (Story story : storiesResp.stories) {
-            // If they send us a repeat from this same session,
-            // stop.
-            if (seenHashes.contains(story.storyHash))
-                break;
-
-            seenHashes.add(story.storyHash);
-
             // Don't save ones we already have.
             if (getEntryManager().entryExists(story.id))
                 continue;
@@ -296,20 +328,11 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
             entriesToBeInserted.add(newEntry);
             articlesFetchedCount++;
-
-            if (entriesToBeInserted.size() == 10) {
-                entryManager.insert(entriesToBeInserted);
-                entriesToBeInserted.clear();
-                entryManager.fireModelUpdated();
-            }
         }
 
-        // Handle leftovers from the 10 at a time insert block
-        if (entriesToBeInserted.size() > 0) {
-            entryManager.insert(entriesToBeInserted);
-            entriesToBeInserted.clear();
-            entryManager.fireModelUpdated();
-        }
+        entryManager.insert(entriesToBeInserted);
+        entriesToBeInserted.clear();
+        entryManager.fireModelUpdated();
 
         return articlesFetchedCount;
     }
