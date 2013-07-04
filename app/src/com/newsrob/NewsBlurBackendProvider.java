@@ -2,15 +2,12 @@ package com.newsrob;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.parsers.FactoryConfigurationError;
@@ -270,19 +267,10 @@ public class NewsBlurBackendProvider implements BackendProvider {
             newEntry.setAlternateHRef(story.permalink);
             newEntry.setHash(story.storyHash);
             newEntry.setStarred(starred);
+            newEntry.setUpdated(story.date == null ? new Date().getTime() : story.date.getTime());
 
             if (starred) {
                 newEntry.addLabel(new Label("Starred"));
-            }
-
-            // Try to parse the "short date". Unfortunately, this is
-            // just the most common format. Default to right now.
-            try {
-                DateFormat df = new SimpleDateFormat("dd MMM yyyy, hh:mma", Locale.US);
-                Date date = df.parse(story.shortDate);
-                newEntry.setUpdated(date.getTime());
-            } catch (ParseException e) {
-                newEntry.setUpdated(new Date().getTime());
             }
 
             // Fill in some data from the feed record....
@@ -558,7 +546,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
                     PL.log(message, context);
                 }
             }
-            
+
             if (desiredState.equals("0")) {
                 int numMarked = 0;
                 List<String> ids = new ArrayList<String>(1);
@@ -569,8 +557,8 @@ public class NewsBlurBackendProvider implements BackendProvider {
                         getEntryManager().removePendingStateMarkers(ids, column);
                         numMarked++;
                     }
-                }  
-                
+                }
+
                 return numMarked;
             }
         } catch (Exception e) {
