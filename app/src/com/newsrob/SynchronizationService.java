@@ -379,7 +379,7 @@ public class SynchronizationService extends Service {
                                     + " pages or well, the ones that were downloaded", SynchronizationService.this);
 
                             // shouldDownloadArticlesInParallel = true;
-                            final int numberOfThreads = shouldDownloadArticlesInParallel && !U.isScreenOn(ctx) ? 3 : 1;
+                            final int numberOfThreads = shouldDownloadArticlesInParallel && !U.isScreenOn(ctx) ? 10 : 5;
 
                             PL.log("Instantiating Download Articles ScheduledExecutorService for " + numberOfThreads
                                     + " threads.", ctx);
