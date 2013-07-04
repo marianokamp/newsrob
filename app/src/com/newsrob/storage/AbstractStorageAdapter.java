@@ -10,6 +10,8 @@ import java.security.NoSuchAlgorithmException;
 
 import android.content.Context;
 
+import com.newsrob.PL;
+
 public abstract class AbstractStorageAdapter implements IStorageAdapter {
     private Context ctx;
 
@@ -55,6 +57,11 @@ public abstract class AbstractStorageAdapter implements IStorageAdapter {
 
     public OutputStream openFileOutput(String fileName) throws FileNotFoundException {
         File f = new File(getBaseDir(), fileName);
+
+        if (f.exists()) {
+            PL.log("Filename: " + f.getAbsolutePath() + " is being overwritten. This is probably not good.", ctx);
+        }
+
         File parent = f.getParentFile();
         if (!parent.exists())
             parent.mkdirs();
