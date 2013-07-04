@@ -78,6 +78,7 @@ public class Entry {
         mobilizersMap.put("instapaper", "http://www.instapaper.com/m?u=");
         mobilizersMap.put("gwt", "http://www.google.com/gwt/n?u=");
         mobilizersMap.put("readability", "https://www.readability.com/read?url=");
+        mobilizersMap.put("viewtext", "http://viewtext.org/api/text?url=");
     }
 
     public Entry() {

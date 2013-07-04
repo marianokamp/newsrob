@@ -198,6 +198,7 @@
     <item>gwt</item>
     <item>instapaper</item>
     <item>readability</item>
+    <item>viewtext</item>
   </string-array>
   <string-array
     name="settings_mobilizer_labels">
@@ -205,6 +206,7 @@
     <item>Instapaper</item>
 <!--     <item>Instapaper\n(Integration Provided \"As Is\". \nPlease don\'t report bugs.\nThanks.)</item> -->
     <item>Readability</item>
+    <item>ViewText</item>
   </string-array>
   
    <string-array
