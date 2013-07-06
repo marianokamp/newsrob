@@ -180,16 +180,14 @@ public class NewsBlurBackendProvider implements BackendProvider {
             FeedFolderResponse feedResponse, SyncJob job) throws InterruptedException, ExecutionException {
 
         int offset = 0;
-        int potentialFetchSize = 0;
         int fetchedStoryCount = 0;
+        int seenStoryCount = 0;
 
         int maxCapacity = entryManager.getNewsRobSettings().getStorageCapacity();
         int currentUnreadArticlesCount = entryManager.getUnreadArticleCountExcludingPinned();
 
-        final int PAGE_SIZE = 12;
-
         ExecutorService pool = Executors.newFixedThreadPool(10);
-        List<Callable<Integer>> taskList = new ArrayList<Callable<Integer>>();
+        List<Callable<StoriesResponse>> taskList = new ArrayList<Callable<StoriesResponse>>();
 
         syncLoop: while (offset < feedIds.size()) {
             int nextPackSize = Math.min(feedIds.size() - offset, 25);
@@ -200,27 +198,31 @@ public class NewsBlurBackendProvider implements BackendProvider {
             offset += nextPackSize;
             boolean fetchComplete = false;
 
-            for (Integer page = 1; nbUnreadCount >= potentialFetchSize && fetchComplete == false; page++, potentialFetchSize += PAGE_SIZE) {
+            for (Integer page = 1; fetchComplete == false; page++) {
                 StoryFetchTask task = new StoryFetchTask(currentPack, page, feeds, feedResponse);
                 taskList.add(task);
 
-                if (taskList.size() == 4 || potentialFetchSize + PAGE_SIZE > nbUnreadCount) {
-                    List<Future<Integer>> completed = pool.invokeAll(taskList);
+                if (taskList.size() == 4) {
+                    List<Future<StoriesResponse>> completed = pool.invokeAll(taskList);
                     taskList.clear();
 
-                    for (Future<Integer> c : completed) {
-                        Integer count = c.get();
+                    for (Future<StoriesResponse> c : completed) {
+                        StoriesResponse storiesResp = c.get();
 
-                        if (count == -1) {
+                        if (storiesResp.stories.length == 0) {
                             fetchComplete = true;
                         } else {
-                            fetchedStoryCount += count;
-                            job.actual = fetchedStoryCount;
+                            seenStoryCount += storiesResp.stories.length;
+                            fetchedStoryCount += parseStoriesResponse(storiesResp, feeds, feedResponse, false);
+                            job.actual = seenStoryCount;
                             entryManager.fireStatusUpdated();
                         }
                     }
 
                     if (fetchedStoryCount + currentUnreadArticlesCount >= maxCapacity) {
+                        PL.log("*** Max capacity, breaking sync loop. Capacity: " + maxCapacity + " Fetched: "
+                                + fetchedStoryCount + " Current: " + currentUnreadArticlesCount, context);
+
                         break syncLoop;
                     }
                 }
@@ -230,7 +232,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
         return fetchedStoryCount;
     }
 
-    private class StoryFetchTask implements Callable<Integer> {
+    private class StoryFetchTask implements Callable<StoriesResponse> {
         private List<String> currentPack;
         private Integer page;
         private List<Feed> feeds;
@@ -244,16 +246,9 @@ public class NewsBlurBackendProvider implements BackendProvider {
         }
 
         @Override
-        public Integer call() throws Exception {
-            StoriesResponse storiesResp = apiManager.getStoriesForFeeds(
-                    currentPack.toArray(new String[currentPack.size()]), page.toString(), StoryOrder.NEWEST,
-                    ReadFilter.UNREAD);
-
-            if (storiesResp.stories.length == 0) {
-                return -1;
-            }
-
-            return parseStoriesResponse(storiesResp, feeds, feedResponse, false);
+        public StoriesResponse call() throws Exception {
+            return apiManager.getStoriesForFeeds(currentPack.toArray(new String[currentPack.size()]), page.toString(),
+                    StoryOrder.NEWEST, ReadFilter.UNREAD);
         }
     }
 
@@ -318,7 +313,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
                 if (labelNames != null) {
                     for (String labelName : labelNames) {
                         // Skip label from NB client
-                        if (labelName.contains("0000_top_level"))
+                        if (labelName.contains("top_level"))
                             continue;
 
                         newEntry.addLabel(new Label(labelName));
