@@ -43,6 +43,7 @@ public class APIConstants {
     public static final String URL_CLASSIFIER_SAVE = "http://newsblur.com/classifier/save";
 
     public static final String PARAMETER_FEEDS = "feeds";
+    public static final String PARAMETER_HASHES = "h";
     public static final String PARAMETER_PASSWORD = "password";
     public static final String PARAMETER_USER_ID = "user_id";
     public static final String PARAMETER_USERNAME = "username";

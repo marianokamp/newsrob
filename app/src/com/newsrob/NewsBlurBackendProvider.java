@@ -9,11 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,8 +28,6 @@ import com.newsblur.network.domain.FeedFolderResponse;
 import com.newsblur.network.domain.LoginResponse;
 import com.newsblur.network.domain.StoriesResponse;
 import com.newsblur.network.domain.UnreadHashResponse;
-import com.newsblur.util.ReadFilter;
-import com.newsblur.util.StoryOrder;
 import com.newsrob.DB.TempTable;
 import com.newsrob.download.HtmlEntitiesDecoder;
 import com.newsrob.jobs.Job;
@@ -113,8 +107,6 @@ public class NewsBlurBackendProvider implements BackendProvider {
             AuthenticationExpiredException {
 
         try {
-            int nbUnreadCount = 0;
-
             if (handleAuthenticate(entryManager) == false)
                 return 0;
 
@@ -124,11 +116,10 @@ public class NewsBlurBackendProvider implements BackendProvider {
             // everything...
             List<Feed> feeds = entryManager.findAllFeeds();
             List<String> feedIds = new ArrayList<String>();
-            FeedFolderResponse feedResponse = apiManager.getFolderFeedMapping(true);
+            FeedFolderResponse feedResponse = apiManager.getFolderFeedMapping(false);
 
             for (com.newsblur.domain.Feed nbFeed : feedResponse.feeds.values()) {
                 feedIds.add(nbFeed.feedId);
-                nbUnreadCount += nbFeed.neutralCount += nbFeed.positiveCount += nbFeed.negativeCount;
 
                 boolean found = false;
 
@@ -159,11 +150,10 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
             // Here we start getting stories.
             job.setJobDescription("Fetching new articles");
-            job.target = nbUnreadCount;
             job.actual = 0;
             entryManager.fireStatusUpdated();
 
-            int count = threadedFetch(entryManager, feedIds, nbUnreadCount, feeds, feedResponse, job);
+            int count = fetchAndStoreArticles(entryManager, feedIds, feeds, feedResponse, job);
             job.actual = job.target;
             entryManager.fireStatusUpdated();
 
@@ -176,80 +166,45 @@ public class NewsBlurBackendProvider implements BackendProvider {
         return 0;
     }
 
-    private int threadedFetch(EntryManager entryManager, List<String> feedIds, int nbUnreadCount, List<Feed> feeds,
-            FeedFolderResponse feedResponse, SyncJob job) throws InterruptedException, ExecutionException {
+    private int fetchAndStoreArticles(EntryManager entryManager, List<String> feedIds, List<Feed> feeds,
+            FeedFolderResponse feedResponse, SyncJob job) throws InterruptedException, ExecutionException,
+            MalformedURLException, IOException, ParserConfigurationException, FactoryConfigurationError, SAXException,
+            ParseException {
 
         int offset = 0;
         int fetchedStoryCount = 0;
-        int seenStoryCount = 0;
 
         int maxCapacity = entryManager.getNewsRobSettings().getStorageCapacity();
         int currentUnreadArticlesCount = entryManager.getUnreadArticleCountExcludingPinned();
 
-        ExecutorService pool = Executors.newFixedThreadPool(10);
-        List<Callable<StoriesResponse>> taskList = new ArrayList<Callable<StoriesResponse>>();
+        // Store the unread hashes in the temp table, remove the ones we have,
+        // then get a new list
+        UnreadHashResponse hashes = apiManager.getUnreadStoryHashes();
+        List<String> unreadHashes = hashes.flatHashList;
+        entryManager.populateTempTableHashes(TempTable.READ_HASHES, unreadHashes);
+        entryManager.removeLocallyExistingHashesFromTempTable();
+        List<String> hashesToFetch = entryManager.getNewHashesToFetch(maxCapacity - currentUnreadArticlesCount);
 
-        syncLoop: while (offset < feedIds.size()) {
-            int nextPackSize = Math.min(feedIds.size() - offset, 25);
+        job.target = hashesToFetch.size();
+        job.setJobDescription("Fetching Unread Articles");
+
+        // Download and parse/store up to 100 articles at a time
+        while (offset < hashesToFetch.size()) {
+            int nextPackSize = Math.min(hashesToFetch.size() - offset, 100);
             if (nextPackSize == 0)
                 break;
 
-            List<String> currentPack = new ArrayList<String>(feedIds.subList(offset, offset + nextPackSize));
+            List<String> currentPack = new ArrayList<String>(hashesToFetch.subList(offset, offset + nextPackSize));
             offset += nextPackSize;
-            boolean fetchComplete = false;
 
-            for (Integer page = 1; fetchComplete == false; page++) {
-                StoryFetchTask task = new StoryFetchTask(currentPack, page, feeds, feedResponse);
-                taskList.add(task);
+            StoriesResponse stories = apiManager.getStoriesByHash(currentPack.toArray(new String[currentPack.size()]));
+            fetchedStoryCount += parseStoriesResponse(stories, feeds, feedResponse, false);
 
-                if (taskList.size() == 4) {
-                    List<Future<StoriesResponse>> completed = pool.invokeAll(taskList);
-                    taskList.clear();
-
-                    for (Future<StoriesResponse> c : completed) {
-                        StoriesResponse storiesResp = c.get();
-
-                        if (storiesResp.stories.length == 0) {
-                            fetchComplete = true;
-                        } else {
-                            seenStoryCount += storiesResp.stories.length;
-                            fetchedStoryCount += parseStoriesResponse(storiesResp, feeds, feedResponse, false);
-                            job.actual = seenStoryCount;
-                            entryManager.fireStatusUpdated();
-                        }
-                    }
-
-                    if (fetchedStoryCount + currentUnreadArticlesCount >= maxCapacity) {
-                        PL.log("*** Max capacity, breaking sync loop. Capacity: " + maxCapacity + " Fetched: "
-                                + fetchedStoryCount + " Current: " + currentUnreadArticlesCount, context);
-
-                        break syncLoop;
-                    }
-                }
-            }
+            job.actual = fetchedStoryCount;
         }
 
+        job.actual = job.target;
         return fetchedStoryCount;
-    }
-
-    private class StoryFetchTask implements Callable<StoriesResponse> {
-        private List<String> currentPack;
-        private Integer page;
-        private List<Feed> feeds;
-        private FeedFolderResponse feedResponse;
-
-        public StoryFetchTask(List<String> currentPack, Integer page, List<Feed> feeds, FeedFolderResponse feedResponse) {
-            this.currentPack = currentPack;
-            this.page = page;
-            this.feeds = feeds;
-            this.feedResponse = feedResponse;
-        }
-
-        @Override
-        public StoriesResponse call() throws Exception {
-            return apiManager.getStoriesForFeeds(currentPack.toArray(new String[currentPack.size()]), page.toString(),
-                    StoryOrder.NEWEST, ReadFilter.UNREAD);
-        }
     }
 
     private int fetchStarredStories(List<Feed> feeds, FeedFolderResponse feedResponse) throws SyncAPIException {
@@ -279,12 +234,12 @@ public class NewsBlurBackendProvider implements BackendProvider {
         int articlesFetchedCount = 0;
 
         for (Story story : storiesResp.stories) {
-            // Don't save ones we already have.
-            if (getEntryManager().entryExists(story.id))
+            // Don't save one we already have.
+            if (entryManager.findEntryByHash(story.storyHash) != null)
                 continue;
 
             Entry newEntry = new Entry();
-            newEntry.setAtomId(story.id);
+            newEntry.setAtomId(story.storyHash);
             newEntry.setContentURL(story.permalink);
             newEntry.setContent(story.content);
             newEntry.setTitle(HtmlEntitiesDecoder.decodeString(story.title));
@@ -313,7 +268,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
                 if (labelNames != null) {
                     for (String labelName : labelNames) {
                         // Skip label from NB client
-                        if (labelName.contains("top_level"))
+                        if (labelName.contains("0000"))
                             continue;
 
                         newEntry.addLabel(new Label(labelName));
