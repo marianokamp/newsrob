@@ -284,6 +284,24 @@ public class APIManager {
         }
     }
 
+    public StoriesResponse getStoriesByHash(String[] storyHashes) {
+        final APIClient client = new APIClient(context, cookie);
+        final ValueMultimap values = new ValueMultimap();
+
+        for (String hash : storyHashes) {
+            values.put(APIConstants.PARAMETER_HASHES, hash);
+        }
+
+        final APIResponse response = client.get(APIConstants.URL_RIVER_STORIES, values);
+
+        StoriesResponse storiesResponse = gson.fromJson(response.responseString, StoriesResponse.class);
+        if (response.responseCode == HttpStatus.SC_OK && !response.hasRedirected) {
+            return storiesResponse;
+        } else {
+            return null;
+        }
+    }
+
     public UnreadHashResponse getUnreadStoryHashes() {
         final APIClient client = new APIClient(context, cookie);
         final APIResponse response = client.get(APIConstants.URL_UNREAD_STORY_HASHES);

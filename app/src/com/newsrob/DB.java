@@ -1956,6 +1956,19 @@ public class DB extends SQLiteOpenHelper {
         }
     }
 
+    public void removeLocallyExistingHashesFromTempTable() {
+        SQLiteDatabase dbase = getDb();
+        dbase.beginTransaction();
+
+        try {
+            dbase.execSQL(expandTempTableName(context.getString(R.string.sql_delete_existing_hashes_from_temp_table),
+                    TempTable.READ_HASHES));
+        } finally {
+            dbase.setTransactionSuccessful();
+            dbase.endTransaction();
+        }
+    }
+
     public int getTempIdsCount(TempTable tempTableType) {
         int result = -1;
         try {
@@ -1969,6 +1982,24 @@ public class DB extends SQLiteOpenHelper {
 
     public List<String> getNewArticleAtomIdsToFetch(int noOfArticles2Fetch) {
         final String sql = context.getString(R.string.sql_select_next_articles_to_fetch) + " " + noOfArticles2Fetch;
+
+        List<String> rv = new ArrayList<String>();
+
+        Cursor c = getReadOnlyDb().rawQuery(sql, null);
+
+        if (c.moveToFirst()) {
+            do {
+                rv.add(c.getString(0));
+            } while (c.moveToNext());
+        }
+
+        c.close();
+
+        return rv;
+    }
+
+    public List<String> getNewHashesToFetch(int noOfArticles2Fetch) {
+        final String sql = context.getString(R.string.sql_select_next_hashes_to_fetch) + " " + noOfArticles2Fetch;
 
         List<String> rv = new ArrayList<String>();
 

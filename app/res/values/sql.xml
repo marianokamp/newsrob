@@ -577,11 +577,32 @@ WHERE
       entries.atom_id = temp_ids.atom_id
   )
 </string>
+<string name="sql_delete_existing_hashes_from_temp_table">
+DELETE 
+FROM
+  temp_ids
+WHERE
+  EXISTS(
+  	SELECT
+      1 
+    FROM
+      entries
+    WHERE
+      entries.entry_hash = temp_ids.atom_id
+  )
+</string>
 <string name="sql_select_next_articles_to_fetch">
 SELECT
   ATOM_ID 
 FROM
   temp_ids_READ
+LIMIT 
+</string>
+<string name="sql_select_next_hashes_to_fetch">
+SELECT
+  ATOM_ID 
+FROM
+  temp_ids_READ_HASHES
 LIMIT 
 </string>
 <string name="sql_get_ids_to_delete">

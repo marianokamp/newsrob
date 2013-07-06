@@ -1772,8 +1772,16 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         databaseHelper.removeLocallyExistingArticlesFromTempTable();
     }
 
+    public void removeLocallyExistingHashesFromTempTable() {
+        databaseHelper.removeLocallyExistingHashesFromTempTable();
+    }
+
     public List<String> getNewArticleIdsToFetch(final int noOfArticles2Fetch) {
         return databaseHelper.getNewArticleAtomIdsToFetch(noOfArticles2Fetch);
+    }
+
+    public List<String> getNewHashesToFetch(int noOfArticles2Fetch) {
+        return databaseHelper.getNewHashesToFetch(noOfArticles2Fetch);
     }
 
     public int getTempIdsCount(TempTable tempTableType) {
