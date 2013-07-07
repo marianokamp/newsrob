@@ -20,10 +20,12 @@ import org.xml.sax.SAXException;
 import android.content.ContentValues;
 import android.content.Context;
 
+import com.newsblur.domain.FeedResult;
 import com.newsblur.domain.Story;
 import com.newsblur.domain.ValueMultimap;
 import com.newsblur.network.APIConstants;
 import com.newsblur.network.APIManager;
+import com.newsblur.network.ServerErrorException;
 import com.newsblur.network.domain.FeedFolderResponse;
 import com.newsblur.network.domain.LoginResponse;
 import com.newsblur.network.domain.StoriesResponse;
@@ -46,14 +48,38 @@ public class NewsBlurBackendProvider implements BackendProvider {
     public List<DiscoveredFeed> discoverFeeds(String query) throws SyncAPIException, IOException,
             ServerBadRequestException, ParserConfigurationException, SAXException, ServerBadRequestException,
             AuthenticationExpiredException {
-        // TODO Auto-generated method stub
+
+        if (handleAuthenticate(getEntryManager()) == false)
+            return null;
+
+        try {
+            FeedResult[] result = apiManager.searchForFeed(query);
+
+            if (result != null) {
+                List<DiscoveredFeed> ret = new ArrayList<DiscoveredFeed>();
+
+                for (FeedResult f : result) {
+                    DiscoveredFeed df = new DiscoveredFeed();
+                    df.title = f.label;
+                    df.feedUrl = f.url;
+                    df.alternateUrl = f.url;
+                    ret.add(df);
+                }
+
+                return ret;
+            }
+        } catch (ServerErrorException e) {
+            PL.log("Error searching feeds", e, context);
+        }
         return null;
     }
 
     @Override
     public boolean submitSubscribe(String url2subscribe) throws SyncAPIException {
-        // TODO Auto-generated method stub
-        return false;
+        if (handleAuthenticate(entryManager) == false)
+            return false;
+
+        return apiManager.addFeed(url2subscribe, "");
     }
 
     @Override
@@ -131,10 +157,6 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
             for (com.newsblur.domain.Feed nbFeed : feedResponse.feeds.values()) {
                 feedIds.add(nbFeed.feedId);
-
-                if (nbFeed.title.toLowerCase().contains("aeon")) {
-                    System.out.println("ID: " + nbFeed.feedId);
-                }
 
                 boolean found = false;
 
