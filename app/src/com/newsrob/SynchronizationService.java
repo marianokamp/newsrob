@@ -775,7 +775,7 @@ class WebPageDownloadTask implements Callable<Void> {
         this.entryManager = entryManager;
         this.fileContextAdapter = fileContextAdapter;
         this.job = job;
-        this.entryShortAtomId = entry.getShortAtomId();
+        this.entryShortAtomId = entry.getHash();
         this.entry = entry;
         this.pageUrl = entry.getBaseUrl(entryManager);
         this.summary = summary;

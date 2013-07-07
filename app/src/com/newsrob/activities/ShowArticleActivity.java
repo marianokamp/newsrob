@@ -695,8 +695,8 @@ public class ShowArticleActivity extends Activity implements IEntryModelUpdateLi
         this.atomIdOfCurrentlyShowingArticle = selectedEntry.getAtomId();
 
         boolean feedContentAvailableLocal = false;
-        String localUrl = AssetContentProvider.CONTENT_URI + "/a" + getSelectedEntry().getShortAtomId() + "/a"
-                + getSelectedEntry().getShortAtomId() + "_s.html";
+        String localUrl = AssetContentProvider.CONTENT_URI + "/a" + getSelectedEntry().getHash() + "/a"
+                + getSelectedEntry().getHash() + "_s.html";
         try {
             feedContentAvailableLocal = (selectedEntry.getDownloaded() == Entry.STATE_DOWNLOADED_FEED_CONTENT || selectedEntry
                     .getDownloaded() == Entry.STATE_DOWNLOADED_FULL_PAGE)
@@ -798,8 +798,8 @@ public class ShowArticleActivity extends Activity implements IEntryModelUpdateLi
 
         if (isFullPageDownloaded()) {
 
-            String localUrl = AssetContentProvider.CONTENT_URI + "/a" + getSelectedEntry().getShortAtomId() + "/a"
-                    + getSelectedEntry().getShortAtomId() + "_x.html";
+            String localUrl = AssetContentProvider.CONTENT_URI + "/a" + getSelectedEntry().getHash() + "/a"
+                    + getSelectedEntry().getHash() + "_x.html";
             String content = loadContent(localUrl);
             if (isShowingSimplifiedPage(selectedEntry)) {
 

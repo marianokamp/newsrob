@@ -239,7 +239,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
                 continue;
 
             Entry newEntry = new Entry();
-            newEntry.setAtomId(story.storyHash);
+            newEntry.setAtomId(story.id);
             newEntry.setContentURL(story.permalink);
             newEntry.setContent(story.content);
             newEntry.setTitle(HtmlEntitiesDecoder.decodeString(story.title));
