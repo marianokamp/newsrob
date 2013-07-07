@@ -1,25 +1,31 @@
 package com.newsrob.activities;
 
+import java.util.List;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.newsrob.DBQuery;
+import com.newsrob.Entry;
 import com.newsrob.Feed;
 import com.newsrob.R;
+import com.newsrob.ReadState;
 
 public class FeedListActivity extends AbstractNewsRobListActivity {
 
     static final String TAG = FeedListActivity.class.getSimpleName();
     protected static final int MENU_ITEM_UNSUBSCRIBE_FEED_ID = 122;
+    protected static final int MENU_ITEM_REFRESH_CONTENT_ID = 113;
 
     DBQuery dbQuery;
 
@@ -194,8 +200,8 @@ public class FeedListActivity extends AbstractNewsRobListActivity {
             startActivity(new Intent(this, ManageFeedActivity.class).putExtra(ManageFeedActivity.EXTRA_FEED_ID, feedId));
         } else if (item.getItemId() == MENU_ITEM_MARK_ALL_READ_ID) {
             DBQuery dbq = getDbQuery();
-            instantiateMarkAllReadDialog(dbq.getFilterLabel(), feedId, dbq.getStartDate(), dbq.getDateLimit(), dbq
-                    .isSortOrderAscending(), dbq.getLimit());
+            instantiateMarkAllReadDialog(dbq.getFilterLabel(), feedId, dbq.getStartDate(), dbq.getDateLimit(),
+                    dbq.isSortOrderAscending(), dbq.getLimit());
         }
 
         if (item.getItemId() == MENU_ITEM_UNSUBSCRIBE_FEED_ID) {
@@ -214,6 +220,26 @@ public class FeedListActivity extends AbstractNewsRobListActivity {
             };
             showConfirmationDialog("Unsubscribe from \'" + f.getTitle()
                     + "\' during the next sync and mark all remaining articles read?", r);
+            return true;
+        }
+
+        if (item.getItemId() == MENU_ITEM_REFRESH_CONTENT_ID) {
+            Toast.makeText(getApplicationContext(),
+                    "The article's content is being removed. NewsRob will try to re-download it during the next sync.",
+                    Toast.LENGTH_LONG).show();
+
+            final List<Entry> entries = getEntryManager().findArticlesForFeedId(feedId);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (Entry entry : entries) {
+                        if (entry.isRead())
+                            entryManager.updateReadState(entry, ReadState.UNREAD);
+                        entryManager.removeArticleContent(entry);
+                    }
+                }
+            }).start();
             return true;
         }
 
@@ -261,6 +287,7 @@ public class FeedListActivity extends AbstractNewsRobListActivity {
 
         menu.add(0, MENU_ITEM_UNSUBSCRIBE_FEED_ID, 10, "Unsubscribe Feed").setEnabled(feedCanBeUnsubscribed);
 
+        menu.add(0, MENU_ITEM_REFRESH_CONTENT_ID, 10, "Refresh Content For All Articles");
     }
 
     public void modelUpdated(String atomId) {

@@ -669,6 +669,10 @@ public class DB extends SQLiteOpenHelper {
 
     }
 
+    public List<Entry> findArticlesForFeedId(long feedId) {
+        return findAllByQueryString(Entries.FEED_ID + " = " + feedId);
+    }
+
     private Entry createEntryFromCursor(Cursor cursor) {
 
         Entry entry = new Entry(cursor.getLong(cursor.getColumnIndex(Entries.__ID)));

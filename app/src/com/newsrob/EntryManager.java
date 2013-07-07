@@ -2243,6 +2243,10 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         fireModelUpdated(entry.getAtomId());
     }
 
+    public List<Entry> findArticlesForFeedId(long feedId) {
+        return databaseHelper.findArticlesForFeedId(feedId);
+    }
+
     public Object getFeeds2UnsubscribeCount() {
         return databaseHelper.getFeeds2UnsubscribeCount();
     }

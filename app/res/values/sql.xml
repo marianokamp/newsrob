@@ -458,6 +458,7 @@ SELECT \n
   entries.UPDATED_UTC,\n
   entries.DOWNLOADED,\n
   entries.ERROR\n,
+  entries.ENTRY_HASH,\n
   feeds.JS_ENABLED\n,
   feeds.FTW_ENABLED\n,
   entries.SHARED_BY_FRIEND\n,
