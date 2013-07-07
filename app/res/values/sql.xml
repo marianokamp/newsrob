@@ -608,7 +608,7 @@ LIMIT
 <string name="sql_get_ids_to_delete">
 SELECT\n
   _id\n,
-  atom_id\n
+  entry_hash\n
 FROM\n
   entries\n
 WHERE\n
@@ -623,9 +623,9 @@ WHERE\n
   -- MARK END \n 
 \n
  -- Starred Articles\n
-  AND (entries.atom_id NOT IN ( \n
+  AND (entries.entry_hash NOT IN ( \n
     SELECT \n
-      e2.atom_id  \n
+      e2.entry_hash  \n
     FROM \n
       entries e2 \n
     WHERE \n
@@ -636,9 +636,9 @@ WHERE\n
     LIMIT ?1) \n
 \n
 -- Shared Articles\n
-  AND entries.atom_id NOT IN (\n
+  AND entries.entry_hash NOT IN (\n
     SELECT \n
-      e2.atom_id  \n
+      e2.entry_hash  \n
     FROM \n
       entries e2 \n
     WHERE \n
@@ -649,9 +649,9 @@ WHERE\n
     LIMIT ?2) \n
 \n    
 -- Notes\n
-  AND entries.atom_id NOT IN (\n
+  AND entries.entry_hash NOT IN (\n
     SELECT \n
-      e2.atom_id  \n
+      e2.entry_hash  \n
     FROM \n
       entries e2 \n
     WHERE \n
@@ -661,9 +661,9 @@ WHERE\n
       e2.UPDATED_UTC DESC  \n    
     LIMIT ?3) \n
 
-  AND entries.atom_id NOT IN (\n
+  AND entries.entry_hash NOT IN (\n
     SELECT \n
-      e2.atom_id  \n
+      e2.entry_hash  \n
     FROM \n
       entries e2 \n
     ORDER BY \n

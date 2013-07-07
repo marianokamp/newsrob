@@ -103,7 +103,7 @@ public class ShowArticleActivity extends Activity implements IEntryModelUpdateLi
     private Runnable refreshUIRunnable;
     private RelativeLayout container;
     private TextView viewModeTextView;
-    private String atomIdOfCurrentlyShowingArticle;
+    private String hashOfCurrentlyShowingArticle;
     private UIHelper uiHelper;
 
     private boolean leavingThisActivity;
@@ -518,7 +518,7 @@ public class ShowArticleActivity extends Activity implements IEntryModelUpdateLi
         updateViewModeTextView();
         // webView.loadData("", "", "");
         // webView.clearView();
-        atomIdOfCurrentlyShowingArticle = null; // NOPMD
+        hashOfCurrentlyShowingArticle = null; // NOPMD
     }
 
     private void newPosition() {
@@ -526,7 +526,7 @@ public class ShowArticleActivity extends Activity implements IEntryModelUpdateLi
         Timing t = new Timing("ShowArticleActivity.newPosition()", this);
         try {
             // webView.clearView();
-            atomIdOfCurrentlyShowingArticle = null; // NOPMD
+            hashOfCurrentlyShowingArticle = null; // NOPMD
             latestOrientation = -99;
 
             selectedEntry = null; // NOPMD
@@ -548,7 +548,7 @@ public class ShowArticleActivity extends Activity implements IEntryModelUpdateLi
             if (webView.getSettings() != null)
                 webView.getSettings().setJavaScriptEnabled(selectedEntry.isJavaScriptEnabled());
 
-            getEntryManager().setMostRecentArticleAtomId(selectedEntry.getAtomId());
+            getEntryManager().setMostRecentArticleHash(selectedEntry.getHash());
             adjustScale(selectedEntry); // TODO I tested it quickly, this is not
             // needed, let's remove it in the next
             // release
@@ -692,7 +692,7 @@ public class ShowArticleActivity extends Activity implements IEntryModelUpdateLi
             return;
 
         webView.getSettings().setUseWideViewPort(false);
-        this.atomIdOfCurrentlyShowingArticle = selectedEntry.getAtomId();
+        this.hashOfCurrentlyShowingArticle = selectedEntry.getHash();
 
         boolean feedContentAvailableLocal = false;
         String localUrl = AssetContentProvider.CONTENT_URI + "/a" + getSelectedEntry().getHash() + "/a"
@@ -770,7 +770,7 @@ public class ShowArticleActivity extends Activity implements IEntryModelUpdateLi
         if (newArticle == null || newArticle.getAtomId() == null)
             return false;
 
-        boolean shouldSkipReloading = (newArticle.getAtomId().equals(atomIdOfCurrentlyShowingArticle) && (latestOrientation == currentOrientation || scrolled != 0));
+        boolean shouldSkipReloading = (newArticle.getAtomId().equals(hashOfCurrentlyShowingArticle) && (latestOrientation == currentOrientation || scrolled != 0));
 
         latestOrientation = currentOrientation;
         return shouldSkipReloading;
@@ -790,10 +790,10 @@ public class ShowArticleActivity extends Activity implements IEntryModelUpdateLi
         if (debug)
             PL.log("ADV: viewAlternativeContent " + selectedEntry.getTitle(), this);
 
-        if (getSelectedEntry().getAtomId().equals(atomIdOfCurrentlyShowingArticle))
+        if (getSelectedEntry().getHash().equals(hashOfCurrentlyShowingArticle))
             return;
 
-        atomIdOfCurrentlyShowingArticle = getSelectedEntry().getAtomId();
+        hashOfCurrentlyShowingArticle = getSelectedEntry().getHash();
         // webView.getSettings().setUseWideViewPort(showFullWebPage); LATER
 
         if (isFullPageDownloaded()) {
@@ -1491,7 +1491,7 @@ public class ShowArticleActivity extends Activity implements IEntryModelUpdateLi
         if (selectedEntry != null && selectedEntry.getAtomId().equals(atomId)) {
             selectedEntry = null; // NOPMD
             selectedEntry = getSelectedEntry();
-            atomIdOfCurrentlyShowingArticle = null; // NOPMD
+            hashOfCurrentlyShowingArticle = null; // NOPMD
             view();
             refreshUI();
         }

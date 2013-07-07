@@ -673,6 +673,7 @@ public class DB extends SQLiteOpenHelper {
 
         Entry entry = new Entry(cursor.getLong(cursor.getColumnIndex(Entries.__ID)));
         entry.setAtomId(getStringValueFromCursor(cursor, Entries.ATOM_ID));
+        entry.setHash(getStringValueFromCursor(cursor, Entries.ENTRY_HASH));
 
         entry.setAlternateHRef(getStringValueFromCursor(cursor, Entries.ALTERNATE_URL));
 

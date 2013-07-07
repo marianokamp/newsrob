@@ -292,7 +292,7 @@ public class Entry {
     }
 
     public String getShortAtomId() {
-        return getShortAtomId(atomId);
+        return getShortAtomId(hash);
     }
 
     public static String getShortAtomId(String fullAtomId) {

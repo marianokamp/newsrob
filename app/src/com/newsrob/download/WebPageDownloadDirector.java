@@ -113,18 +113,18 @@ public class WebPageDownloadDirector {
     }
 
     // LATER move out to IStorage...
-    public static int removeAssetsForId(String atomId, IStorageAdapter fileContext, Context context) {
-        Timing t = new Timing("RemoveAssetsForId " + atomId, context);
+    public static int removeAssetsForHash(String hash, IStorageAdapter fileContext, Context context) {
+        Timing t = new Timing("RemoveAssetsForId " + hash, context);
         int noOfDeletedAssets = 0;
         try {
 
             if (fileContext == null)
                 throw new IllegalStateException("fileContext cannot be null.");
 
-            noOfDeletedAssets = fileContext.removeAllAssets(atomId);
+            noOfDeletedAssets = fileContext.removeAllAssets(hash);
             return noOfDeletedAssets;
         } finally {
-            t.stop("RemoveAssetsForId " + atomId + " (" + noOfDeletedAssets + " assets)");
+            t.stop("RemoveAssetsForId " + hash + " (" + noOfDeletedAssets + " assets)");
         }
     }
 

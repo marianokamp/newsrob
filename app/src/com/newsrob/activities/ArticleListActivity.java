@@ -528,8 +528,8 @@ public class ArticleListActivity extends AbstractNewsRobListActivity implements 
 
                     // image
                     holder.thumbnailImageView.setVisibility(View.GONE);
-                    String atomId = cursor.getString(columnIndices.atomIdIndex);
-                    File f = Entry.getThumbnailFile(entryManager, Entry.getShortAtomId(atomId));
+                    String hash = cursor.getString(columnIndices.hashIndex);
+                    File f = Entry.getThumbnailFile(entryManager, Entry.getShortAtomId(hash));
                     if (f == null)
                         holder.thumbnailImageView.setImageURI(null);
                     else {
@@ -559,6 +559,7 @@ public class ArticleListActivity extends AbstractNewsRobListActivity implements 
         int atomIdIndex;
         int snippetIndex;
         int pinnedStatePendingIndex;
+        int hashIndex;
 
         DBColumnIndices(final Cursor c) {
 
@@ -573,6 +574,7 @@ public class ArticleListActivity extends AbstractNewsRobListActivity implements 
             atomIdIndex = c.getColumnIndex(DB.Entries.ATOM_ID);
             snippetIndex = c.getColumnIndex(DB.Entries.SNIPPET);
             pinnedStatePendingIndex = c.getColumnIndex(DB.Entries.PINNED_STATE_PENDING);
+            hashIndex = c.getColumnIndex(DB.Entries.ENTRY_HASH);
         }
 
     }

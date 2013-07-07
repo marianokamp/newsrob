@@ -1089,7 +1089,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         if (!fileContextAdapter.canWrite())
             return false;
 
-        final int noOfAssetsDeleted = WebPageDownloadDirector.removeAssetsForId(entry.getAtomId(), fileContextAdapter,
+        final int noOfAssetsDeleted = WebPageDownloadDirector.removeAssetsForHash(entry.getHash(), fileContextAdapter,
                 ctx);
         Log.d(TAG, noOfAssetsDeleted + " assets deleted for entry " + entry.getAtomId() + ".");
 
@@ -1194,13 +1194,13 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
                     // this step. don't load an entry first
                     // to delete it LATER
 
-                    String mostRecentArticleAtomId = getMostRecentArticleAtomId();
+                    String mostRecentArticleHash = getMostRecentArticleHash();
 
-                    String atomId = idsOfEntriesToDeleteCursor.getString(1);
+                    String hash = idsOfEntriesToDeleteCursor.getString(1);
 
                     // don't delete the article currently viewed by the user
-                    if (mostRecentArticleAtomId == null || !atomId.endsWith(mostRecentArticleAtomId)) {
-                        WebPageDownloadDirector.removeAssetsForId(atomId, fileContextAdapter, ctx);
+                    if (mostRecentArticleHash == null || !hash.endsWith(mostRecentArticleHash)) {
+                        WebPageDownloadDirector.removeAssetsForHash(hash, fileContextAdapter, ctx);
                         articleIdsToDeleteInDatabase.add(idsOfEntriesToDeleteCursor.getString(0));
                         noOfEntriesDeleted++;
                     }
@@ -1756,13 +1756,13 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         databaseHelper.clearTempTable(tempTableType);
     }
 
-    public String getMostRecentArticleAtomId() {
-        return singleValueStore.getString("current_article");
+    public String getMostRecentArticleHash() {
+        return singleValueStore.getString("current_article_hash");
     }
 
-    public void setMostRecentArticleAtomId(final String atomId) {
+    public void setMostRecentArticleHash(final String hash) {
         try {
-            singleValueStore.putString("current_article", atomId.substring(33));
+            singleValueStore.putString("current_article_hash", hash);
         } catch (RuntimeException re) {
             re.printStackTrace();
         }
@@ -2234,7 +2234,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         if (!fileContextAdapter.canWrite())
             return;
 
-        final int noOfAssetsDeleted = WebPageDownloadDirector.removeAssetsForId(entry.getAtomId(), fileContextAdapter,
+        final int noOfAssetsDeleted = WebPageDownloadDirector.removeAssetsForHash(entry.getHash(), fileContextAdapter,
                 ctx);
         Log.d(TAG, noOfAssetsDeleted + " assets deleted for entry " + entry.getAtomId() + ".");
         entry.setDownloaded(0);
