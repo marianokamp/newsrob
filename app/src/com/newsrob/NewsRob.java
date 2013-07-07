@@ -224,7 +224,7 @@ public class NewsRob extends Application {
             // Android HTTP Client
             ignorePatterns.add("CharArrayBuffer.java:125");
 
-            // 
+            //
             ignorePatterns.add("WebViewDatabase.java:736");
 
             // http://code.google.com/p/android/issues/detail?id=11977
@@ -259,9 +259,9 @@ public class NewsRob extends Application {
                 final Intent sendIntent = new Intent(Intent.ACTION_SEND);
                 sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 sendIntent.setType("message/rfc822");
-                sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "bugs.newsrob@gmail.com" });
-                sendIntent.putExtra(Intent.EXTRA_SUBJECT, "BugReport: " + e.getClass().getSimpleName() + ": "
-                        + e.getMessage());
+                sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "travis@tabbal.net" });
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT,
+                        "BugReport: " + e.getClass().getSimpleName() + ": " + e.getMessage());
                 sendIntent.putExtra(Intent.EXTRA_TEXT, messageBody);
                 Log.d(TAG, "Message Body: " + messageBody);
 

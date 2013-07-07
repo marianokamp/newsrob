@@ -172,7 +172,7 @@ Otherwise you will be asked again for your credentials every two weeks.
    	<string name="ui_theme_title">Theme</string>
    	<string name="ui_theme_summary">Theme</string>
    	
-   	<string name="oom_message"><b>Sorry!</b>\n\nThere was not enough memory to complete the operation.\n\nYou already closed the app (force closed), now press OK and NewsRob will be restarted. Please try again then what you just did.\nIt should work now.\n\nSorry for the inconvenience.\n\nIf this should happen on a regular basis and you can reproduce it, I would like to hear about it: mariano.kamp@gmail.com.\n</string>
+   	<string name="oom_message"><b>Sorry!</b>\n\nThere was not enough memory to complete the operation.\n\nYou already closed the app (force closed), now press OK and NewsRob will be restarted. Please try again then what you just did.\nIt should work now.\n\nSorry for the inconvenience.\n\nIf this should happen on a regular basis and you can reproduce it, I would like to hear about it: travis@tabbal.net.\n</string>
    	 
     <string name="advise_sdcard_read_only_title">SD card inaccessible</string>
     <string name="advise_sdcard_read_only">
