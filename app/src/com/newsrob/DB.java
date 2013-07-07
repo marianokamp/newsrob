@@ -1596,8 +1596,7 @@ public class DB extends SQLiteOpenHelper {
     }
 
     Cursor getFeeds2UnsubscribeCursor() {
-        Cursor c = getReadOnlyDb().rawQuery("SELECT _ID, SUBSTR(FEED_ATOM_ID,28) FROM " + UnsubscribeFeeds.TABLE_NAME,
-                null);
+        Cursor c = getReadOnlyDb().rawQuery("SELECT _ID, FEED_ATOM_ID FROM " + UnsubscribeFeeds.TABLE_NAME, null);
         return c;
     }
 

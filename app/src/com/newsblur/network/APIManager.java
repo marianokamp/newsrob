@@ -795,10 +795,10 @@ public class APIManager {
         }
     }
 
-    public boolean deleteFeed(long feedId, String folderName) {
+    public boolean deleteFeed(String feedId, String folderName) {
         final APIClient client = new APIClient(context, cookie);
         ContentValues values = new ContentValues();
-        values.put(APIConstants.PARAMETER_FEEDID, Long.toString(feedId));
+        values.put(APIConstants.PARAMETER_FEEDID, feedId);
         if (!TextUtils.isEmpty(folderName)) {
             values.put(APIConstants.PARAMETER_IN_FOLDER, folderName);
         }

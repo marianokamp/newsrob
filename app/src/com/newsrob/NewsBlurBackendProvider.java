@@ -67,8 +67,19 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
     @Override
     public void unsubscribeFeed(String feedAtomId) throws IOException, NeedsSessionException, SyncAPIException {
-        // TODO Auto-generated method stub
+        if (handleAuthenticate(entryManager) == false)
+            return;
 
+        // The API gets grumpy if we don't send the folder, even though it's an
+        // optional parameter
+        FeedFolderResponse feedResponse = apiManager.getFolderFeedMapping(false);
+        List<String> folders = getFolderNamesForFeed(feedResponse, feedAtomId);
+
+        for (String folder : folders) {
+            if (apiManager.deleteFeed(feedAtomId, folder)) {
+                entryManager.removeFeedFromFeeds2Unsubscribe(feedAtomId);
+            }
+        }
     }
 
     @Override
@@ -120,6 +131,10 @@ public class NewsBlurBackendProvider implements BackendProvider {
 
             for (com.newsblur.domain.Feed nbFeed : feedResponse.feeds.values()) {
                 feedIds.add(nbFeed.feedId);
+
+                if (nbFeed.title.toLowerCase().contains("aeon")) {
+                    System.out.println("ID: " + nbFeed.feedId);
+                }
 
                 boolean found = false;
 
