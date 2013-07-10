@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.newsrob"
     android:versionCode="489"
-    android:versionName="4.8.9-5">
+    android:versionName="4.8.9-Beta9.2">
 
     <supports-screens
         android:smallScreens="true"
@@ -187,10 +187,10 @@
                     android:name="android.intent.category.DEFAULT" />
                 <data
                     android:mimeType="text/plain"
-                    scheme="http" />
+                    android:scheme="http" />
                 <data
                     android:mimeType="text/plain"
-                    scheme="https" />
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
