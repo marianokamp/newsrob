@@ -288,10 +288,6 @@ public class NewsBlurBackendProvider implements BackendProvider {
             newEntry.setStarred(starred);
             newEntry.setUpdated(story.date == null ? new Date().getTime() : story.date.getTime());
 
-            if (starred) {
-                newEntry.addLabel(new Label("Starred"));
-            }
-
             // Fill in some data from the feed record....
             Feed nrFeed = getFeedFromAtomId(feeds, story.feedId);
 
