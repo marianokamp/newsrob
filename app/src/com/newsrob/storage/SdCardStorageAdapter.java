@@ -35,7 +35,8 @@ public class SdCardStorageAdapter extends AbstractStorageAdapter {
         // April 2012
 
         if (!BASE_DIR.exists())
-            BASE_DIR = ctx.getExternalFilesDir(null);
+            if (ctx.getExternalFilesDir(null) != null)
+                BASE_DIR = ctx.getExternalFilesDir(null);
 
         setupMedium();
 
@@ -120,9 +121,19 @@ public class SdCardStorageAdapter extends AbstractStorageAdapter {
     }
 
     private void setupDirs() {
-
         // create Dir
         File f = BASE_DIR;
+
+        if (f == null) {
+            BASE_DIR = new File(BASE_EXTERNAL_OLD);
+            f = BASE_DIR;
+        }
+
+        if (f == null) {
+            PL.log("Problem getting storage directory.", getContext());
+            return;
+        }
+
         if (!f.exists())
             f.mkdirs();
 
