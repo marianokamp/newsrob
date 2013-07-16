@@ -8,8 +8,8 @@ import com.newsrob.EntryManager;
 
 public class FlurryUtil {
 
-    public static final String FLURRY_KEY = "KBKPW9QGCSM919DGE41Z";
-    public static final String FLURRY_KEY_PRO = "EU7NCBGHKXESJ8HEQILR";
+    public static final String FLURRY_KEY = "KV4YCWYG3HW34D652GSC";
+    public static final String FLURRY_KEY_PRO = "KV4YCWYG3HW34D652GSC";
 
     private static EntryManager entryManager;
 
