@@ -217,7 +217,7 @@ public class NewsBlurBackendProvider implements BackendProvider {
         // Store the unread hashes in the temp table, remove the ones we have,
         // then get a new list
         UnreadHashResponse hashes = apiManager.getUnreadStoryHashes();
-        List<String> unreadHashes = hashes.flatHashList;
+        Map<String, Long> unreadHashes = hashes.flatHashList;
         entryManager.populateTempTableHashes(TempTable.READ_HASHES, unreadHashes);
         entryManager.removeLocallyExistingHashesFromTempTable();
         List<String> hashesToFetch = entryManager.getNewHashesToFetch(maxCapacity - currentUnreadArticlesCount);

@@ -30,8 +30,8 @@ public class DB extends SQLiteOpenHelper {
 
     private static final String ENTRIES_VIEW = "entries_view";
     private static final String DATABASE_NAME = "newsrob.db";
-    private static final int DATABASE_VERSION = 31;
-    private static final String CREATE_TABLE_TEMP_IDS_SQL = "CREATE TABLE IF NOT EXISTS temp_ids (atom_id TEXT PRIMARY KEY);";
+    private static final int DATABASE_VERSION = 32;
+    private static final String CREATE_TABLE_TEMP_IDS_SQL = "CREATE TABLE IF NOT EXISTS temp_ids (atom_id TEXT PRIMARY KEY, timestamp INTEGER);";
     private static final String CLEAR_TEMP_TABLE_SQL = "DELETE FROM temp_ids;";
 
     public enum TempTable {
@@ -567,6 +567,9 @@ public class DB extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS temp_ids;");
             db.execSQL("UPDATE entries SET " + Entries.PINNED_STATE_PENDING + " = 0 WHERE "
                     + Entries.PINNED_STATE_PENDING + " IS NULL;");
+        }
+        if (oldVersion < 32) {
+            db.execSQL("DROP TABLE IF EXISTS temp_ids_READ_HASHES;");
         }
 
     }
@@ -1614,7 +1617,7 @@ public class DB extends SQLiteOpenHelper {
         return getRowCount(Entries.TABLE_NAME, "read_state_pending = ?", new String[] { "1" });
     }
 
-    public void populateTempHashes(TempTable tempTableType, List<String> articleIds) {
+    public void populateTempHashes(TempTable tempTableType, Map<String, Long> flatHashList) {
         SQLiteDatabase dbase = getDb();
         final String createTableDDL = expandTempTableName(CREATE_TABLE_TEMP_IDS_SQL, tempTableType);
         PL.log("Executing sql=" + createTableDDL, context);
@@ -1622,28 +1625,33 @@ public class DB extends SQLiteOpenHelper {
 
         clearTempTable(tempTableType);
 
-        Timing t = new Timing("DB.populateTempIds " + tempTableType + " count=" + articleIds.size(), context);
+        Timing t = new Timing("DB.populateTempIds " + tempTableType + " count=" + flatHashList.size(), context);
 
-        PL.log("DB.populateTempIds(" + tempTableType + "): number of article ids=" + articleIds.size(), context);
+        PL.log("DB.populateTempIds(" + tempTableType + "): number of article ids=" + flatHashList.size(), context);
+
+        String[] keys = flatHashList.keySet().toArray(new String[flatHashList.size()]);
 
         // offset points at the current element, 0 meaning the first element
         int offset = 0;
-        while (offset < articleIds.size()) {
+        while (offset < flatHashList.size()) {
 
-            int nextPackSize = Math.min(articleIds.size() - offset, 30);
+            int nextPackSize = Math.min(flatHashList.size() - offset, 30);
             // if (nextPackSize == 0)
             // break;
 
             SQLiteStatement stmt = null;
             try {
+
                 dbase.beginTransaction();
-                stmt = dbase.compileStatement(expandTempTableName("INSERT INTO temp_ids values(?);", tempTableType));
+                stmt = dbase.compileStatement(expandTempTableName("INSERT INTO temp_ids values(?, ?);", tempTableType));
 
-                for (int j = offset; j < offset + nextPackSize && j < articleIds.size(); j++) {
+                for (int j = offset; j < offset + nextPackSize && j < flatHashList.size(); j++) {
 
-                    String id = articleIds.get(j);
+                    String id = keys[j];
+                    Long timeStamp = flatHashList.get(id);
 
                     stmt.bindString(1, id);
+                    stmt.bindLong(2, timeStamp);
                     stmt.execute();
                 }
                 offset += nextPackSize;

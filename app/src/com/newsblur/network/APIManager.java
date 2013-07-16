@@ -304,7 +304,11 @@ public class APIManager {
 
     public UnreadHashResponse getUnreadStoryHashes() {
         final APIClient client = new APIClient(context, cookie);
-        final APIResponse response = client.get(APIConstants.URL_UNREAD_STORY_HASHES);
+        final ValueMultimap values = new ValueMultimap();
+
+        values.put("include_timestamps", "true");
+
+        final APIResponse response = client.get(APIConstants.URL_UNREAD_STORY_HASHES, values);
 
         UnreadHashResponse unreadResponse = new UnreadHashResponse(response.responseString, gson);
 

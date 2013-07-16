@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -18,7 +19,7 @@ public class UnreadHashResponse {
     @SerializedName("unread_feed_story_hashes")
     public Map<String, List<String>> unreadHashes;
 
-    public List<String> flatHashList = new ArrayList<String>();
+    public Map<String, Long> flatHashList = new HashMap<String, Long>();
 
     public boolean authenticated;
 
@@ -38,8 +39,9 @@ public class UnreadHashResponse {
             List<String> strings = new ArrayList<String>();
 
             for (JsonElement e : entry.getValue().getAsJsonArray()) {
-                strings.add(e.getAsString());
-                flatHashList.add(e.getAsString());
+                JsonArray arr = e.getAsJsonArray();
+                strings.add(arr.get(0).getAsString());
+                flatHashList.put(arr.get(0).getAsString(), (long) arr.get(1).getAsBigDecimal().intValue());
             }
 
             unreadHashes.put(key, strings);

@@ -1743,8 +1743,8 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         databaseHelper.populateTempIds(tempTableType, articleIds);
     }
 
-    public void populateTempTableHashes(TempTable tempTableType, final List<String> hashes) {
-        databaseHelper.populateTempHashes(tempTableType, hashes);
+    public void populateTempTableHashes(TempTable tempTableType, final Map<String, Long> flatHashList) {
+        databaseHelper.populateTempHashes(tempTableType, flatHashList);
     }
 
     public void updateStatesFromTempTableHash(TempTable tempTableType, ArticleDbState state) {
