@@ -604,6 +604,7 @@ SELECT
   ATOM_ID 
 FROM
   temp_ids_READ_HASHES
+ORDER BY RANDOM() 
 LIMIT 
 </string>
 <string name="sql_get_ids_to_delete">

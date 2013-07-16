@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.newsrob"
     android:versionCode="489"
-    android:versionName="4.8.9-Beta10">
+    android:versionName="4.8.9-Beta10.1">
 
     <supports-screens
         android:smallScreens="true"
