@@ -1089,7 +1089,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         if (!fileContextAdapter.canWrite())
             return false;
 
-        final int noOfAssetsDeleted = WebPageDownloadDirector.removeAssetsForHash(entry.getHash(), fileContextAdapter,
+        final int noOfAssetsDeleted = WebPageDownloadDirector.removeAssetsForId(entry.getAtomId(), fileContextAdapter,
                 ctx);
         Log.d(TAG, noOfAssetsDeleted + " assets deleted for entry " + entry.getAtomId() + ".");
 
@@ -1200,7 +1200,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
 
                     // don't delete the article currently viewed by the user
                     if (mostRecentArticleHash == null || !hash.endsWith(mostRecentArticleHash)) {
-                        WebPageDownloadDirector.removeAssetsForHash(hash, fileContextAdapter, ctx);
+                        WebPageDownloadDirector.removeAssetsForId(hash, fileContextAdapter, ctx);
                         articleIdsToDeleteInDatabase.add(idsOfEntriesToDeleteCursor.getString(0));
                         noOfEntriesDeleted++;
                     }
@@ -2234,7 +2234,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
         if (!fileContextAdapter.canWrite())
             return;
 
-        final int noOfAssetsDeleted = WebPageDownloadDirector.removeAssetsForHash(entry.getHash(), fileContextAdapter,
+        final int noOfAssetsDeleted = WebPageDownloadDirector.removeAssetsForId(entry.getAtomId(), fileContextAdapter,
                 ctx);
         Log.d(TAG, noOfAssetsDeleted + " assets deleted for entry " + entry.getAtomId() + ".");
         entry.setDownloaded(0);

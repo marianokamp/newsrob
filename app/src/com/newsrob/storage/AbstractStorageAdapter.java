@@ -26,7 +26,7 @@ public abstract class AbstractStorageAdapter implements IStorageAdapter {
     abstract File getBaseDir();
 
     private File[] getAllAssetFiles(String longAtomId) {
-        final String atomId = longAtomIdToShortAtomId(longAtomId);
+        final String atomId = "a" + longAtomIdToShortAtomId(longAtomId);
 
         return getBaseDir().listFiles(new FilenameFilter() {
             public boolean accept(File dir, String filename) {
