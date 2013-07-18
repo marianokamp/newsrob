@@ -1781,7 +1781,7 @@ public class EntryManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     public List<String> getNewHashesToFetch(int noOfArticles2Fetch) {
-        return databaseHelper.getNewHashesToFetch(noOfArticles2Fetch);
+        return databaseHelper.getNewHashesToFetch(noOfArticles2Fetch, shouldShowNewestArticlesFirst());
     }
 
     public int getTempIdsCount(TempTable tempTableType) {

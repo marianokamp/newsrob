@@ -2010,8 +2010,10 @@ public class DB extends SQLiteOpenHelper {
         return rv;
     }
 
-    public List<String> getNewHashesToFetch(int noOfArticles2Fetch) {
-        final String sql = context.getString(R.string.sql_select_next_hashes_to_fetch) + " " + noOfArticles2Fetch;
+    public List<String> getNewHashesToFetch(int noOfArticles2Fetch, boolean newArticlesFirst) {
+        final String sort = newArticlesFirst ? " DESC " : " ASC ";
+        final String sql = context.getString(R.string.sql_select_next_hashes_to_fetch) + sort + " LIMIT "
+                + noOfArticles2Fetch;
 
         List<String> rv = new ArrayList<String>();
 
